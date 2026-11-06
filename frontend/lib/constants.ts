@@ -13,3 +13,9 @@ export const navbarData = [
   {title: "About", link: "/about-us", children: null},
   {title: "Contact", link: "/contact-us", children: null},
 ]
+
+export const loopData = [
+  { title: "3-4 days delivery for instock products" },
+  { title: "1 week for delivery of no stock products",  },
+  { title: "uk import products",  },
+];
