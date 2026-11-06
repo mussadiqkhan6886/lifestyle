@@ -1,0 +1,44 @@
+**/node_modules/
+
+backend/.env
+frontend/.env
+
+frontend/.next/
+
+.env.test
+.env*.local
+*.env
+
+frontend/.pnp
+frontend/.pnp.*
+frontend/.yarn/*
+frontend/!.yarn/patches
+frontend/!.yarn/plugins
+frontend/!.yarn/releases
+frontend/!.yarn/versions
+
+# testing
+**/coverage/
+
+# next.js
+frontend/out/
+
+# production
+frontend/build/
+frontend/dist/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+frontend/.vercel
+
+# typescript
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+.vscode/
+.idea/
