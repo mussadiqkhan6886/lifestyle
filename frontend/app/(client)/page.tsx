@@ -1,8 +1,11 @@
+import Hero from '@/components/client/Hero'
 import React from 'react'
 
 const HomePage = () => {
   return (
-    <main></main>
+    <main>
+      <Hero />
+    </main>
   )
 }
 
