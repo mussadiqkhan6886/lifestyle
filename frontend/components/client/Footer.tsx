@@ -28,7 +28,7 @@ const Footer = () => {
 
           <div className="relative grid lg:grid-cols-12 gap-12 items-end">
             <div className="lg:col-span-8 space-y-6">
-              <p className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.4em] text-amber-500">
+              <p className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.4em] text-contrast-beige">
                 Lifestyle Shopping UK
               </p>
               <h2
@@ -43,7 +43,7 @@ const Footer = () => {
             <div className="lg:col-span-4 flex lg:justify-end">
               <Link
                 href="/contact"
-                className="group relative inline-flex items-center gap-4 rounded-full bg-light-beige text-neutral-900 pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-amber-500"
+                className="group relative inline-flex items-center gap-4 rounded-full bg-light-beige text-neutral-900 pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-contrast-beige"
               >
                 <span>Contact support</span>
                 <span className="h-12 w-12 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">

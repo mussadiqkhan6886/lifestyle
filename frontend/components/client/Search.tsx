@@ -155,7 +155,7 @@ const SearchOverlay = ({ open, onClose }: Props) => {
               type="submit"
               aria-label="Submit search"
               disabled={!trimmed}
-              className="shrink-0 h-11 w-11 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center transition-all duration-300 hover:bg-amber-500 hover:text-neutral-900 disabled:opacity-30 disabled:pointer-events-none"
+              className="shrink-0 h-11 w-11 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center transition-all duration-300 hover:bg-contrast-beige hover:text-neutral-900 disabled:opacity-30 disabled:pointer-events-none"
             >
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -246,7 +246,7 @@ const SearchOverlay = ({ open, onClose }: Props) => {
                           >
                             {c.title}
                           </span>
-                          <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-amber-500 transition-colors" />
+                          <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-contrast-beige transition-colors" />
                         </Link>
                       </li>
                     ))}
@@ -260,7 +260,7 @@ const SearchOverlay = ({ open, onClose }: Props) => {
               >
                 <span className="text-sm">
                   Search all products for{' '}
-                  <span className="text-amber-500 font-medium">&ldquo;{trimmed}&rdquo;</span>
+                  <span className="text-contrast-beige font-medium">&ldquo;{trimmed}&rdquo;</span>
                 </span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
