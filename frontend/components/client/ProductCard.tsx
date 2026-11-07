@@ -25,7 +25,7 @@ const ProductCard = ({
   const salePriceFormatted = firstVariant?.salePrice?.toLocaleString()
 
   const cardContent = (
-    <div className={`group relative flex flex-col w-full mb-6 ${isSoldOut ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'} `}>
+    <div className={`group rounded-lg relative flex flex-col w-full mb-6 ${isSoldOut ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'} `}>
       {/* Image Container */}
       <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-neutral-100">
         <Image

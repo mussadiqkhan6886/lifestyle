@@ -69,8 +69,8 @@ const [cartOpen, setCartOpen] = useState(false);
         }`}
       >
         <div
-          className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-full border px-3 sm:px-4 lg:px-6 flex md:grid md:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
-            scrolled || mobileMenuOpen
+          className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-xl border px-3 sm:px-4 lg:px-6 flex md:grid md:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
+            scrolled || mobileMenuOpen || pathname !== "/"
               ? 'bg-neutral-950/85 border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)]'
               : 'bg-white/5 border-white/15'
           }`}
@@ -126,14 +126,14 @@ const [cartOpen, setCartOpen] = useState(false);
                                 : 'opacity-0 translate-y-2 invisible pointer-events-none'
                             }`}
                           >
-                            <div className="w-64 rounded-2xl border border-white/10 bg-neutral-950/95 backdrop-blur-xl p-2 shadow-2xl">
+                            <div className="w-64 rounded-xl border border-white/10 bg-neutral-950/95 backdrop-blur-xl p-2 shadow-2xl">
                               <ul className="flex flex-col">
                                 {item.children.map((child, childIndex) => (
                                   <li key={childIndex}>
                                     <Link
                                       href={child.link || '#'}
                                       onClick={() => setActiveDropdown(null)}
-                                      className="group/item flex items-center justify-between rounded-xl px-4 py-3 text-sm font-light text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                                      className="group/item flex items-center justify-between rounded-lg px-4 py-3 text-sm font-light text-white/70 hover:bg-white/10 hover:text-white transition-colors"
                                     >
                                       <span className="transition-transform duration-300 group-hover/item:translate-x-1">
                                         {child.title}
@@ -175,7 +175,7 @@ const [cartOpen, setCartOpen] = useState(false);
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
-              className="group flex items-center gap-3 h-10 rounded-full px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+              className="group flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
             >
               <Search className="w-[18px] h-[18px]" />
               <span className="hidden sm:block text-xs text-white/50 group-hover:text-white/80 transition-colors">
@@ -189,7 +189,7 @@ const [cartOpen, setCartOpen] = useState(false);
            <button
                 onClick={() => setCartOpen(true)}
                 aria-label="Shopping cart"
-                className="relative h-10 w-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none"
+                className="relative h-10 w-10 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none"
                 >
                 <ShoppingBag className="w-[18px] h-[18px]" />
             </button>
