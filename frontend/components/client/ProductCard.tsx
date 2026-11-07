@@ -1,4 +1,4 @@
-import { serif } from '@/lib/fonts'
+import { aire } from '@/lib/fonts'
 import { ProductCardT } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,7 +24,7 @@ const ProductCard = ({
   const salePriceFormatted = firstVariant?.salePrice?.toLocaleString()
 
   const cardContent = (
-    <div className={`group relative flex flex-col w-full mb-6 ${isSoldOut ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}>
+    <div className={`group relative flex flex-col w-full mb-6 ${isSoldOut ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'} `}>
       {/* Image Container */}
       <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-neutral-100">
         <Image
@@ -64,7 +64,7 @@ const ProductCard = ({
 
       {/* Product Information */}
       <div className="mt-3 flex flex-col px-1">
-        <h2 className={`${serif.className} text-base tracking-wide text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-1`}>
+        <h2 className={`${aire.className} text-[17px] tracking-wider text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-1`}>
             {name}
         </h2>
 
@@ -73,15 +73,15 @@ const ProductCard = ({
                 <div className="flex items-center gap-2">
                 {onSale && firstVariant?.salePrice ? (
                     <>
-                    <span className="text-xs text-neutral-400 line-through">
+                    <span className="text-xs font-light text-neutral-400 line-through">
                         PKR {priceFormatted}
                     </span>
-                    <span className="text-sm font-semibold text-red-600 tracking-tight">
+                    <span className="text-sm font-light text-red-600 tracking-tight">
                         PKR {salePriceFormatted}
                     </span>
                     </>
                 ) : (
-                    <span className="text-sm font-medium text-neutral-900 tracking-tight">
+                    <span className="text-sm font-light text-neutral-900 tracking-tight">
                     PKR {priceFormatted}
                     </span>
                 )}
@@ -103,7 +103,7 @@ const ProductCard = ({
   }
 
   return (
-    <Link href={`/collections/${category}/${slug}`} className="block">
+    <Link href={`/collections/${category}/${slug}`} className="block rounded-lg">
       {cardContent}
     </Link>
   )

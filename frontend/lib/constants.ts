@@ -1,4 +1,9 @@
 import { productType } from "@/types";
+ import {
+  Truck,
+  Headset,
+  BadgeCheck,
+} from "lucide-react";
 
 export const collections = [
   { image: "/men-watches.jpg" ,title: "Men’s watches", link: "/collections/men-watches" },
@@ -331,5 +336,26 @@ export const products: productType[] = [
     ],
     createdAt: Date.now(),
     updatedAt: Date.now(),
+  },
+];
+
+export const trustBadges = [
+   {
+    id: 1,
+    icon: BadgeCheck,
+    heading: "Quality You Can Trust",
+    description: "Carefully selected products chosen for their style and quality.",
+  },
+  {
+    id: 2,
+    icon: Truck,
+    heading: "Reliable Delivery",
+    description: "Enjoy fast and reliable delivery right to your doorstep.",
+  },
+  {
+    id: 3,
+    icon: Headset,
+    heading: "Customer Support",
+    description: "We're here to help with your questions and concerns.",
   },
 ];

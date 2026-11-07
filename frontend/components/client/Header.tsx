@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { ChevronDown, Search, ShoppingBag, Menu, X } from 'lucide-react';
-import { serif } from '@/lib/fonts';
+import { aire } from '@/lib/fonts';
 
 const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
@@ -22,11 +22,11 @@ const Header = () => {
         <nav className="hidden md:flex items-center">
           <ul className="flex items-center space-x-6 lg:space-x-7">
             {navbarData.map((item, index) => (
-              <li key={index} className="relative">
+              <li key={index} className="tracking-wide relative">
                 {item.link ? (
                   <Link 
                     href={item.link} 
-                    className="text-sm py-2"
+                    className="text-xs py-2"
                   >
                     {item.title}
                   </Link>
@@ -34,7 +34,7 @@ const Header = () => {
                   <div className="relative">
                     <button 
                       onClick={() => toggleDropdown(index)}
-                      className="flex items-center gap-1 text-sm py-2 cursor-pointer focus:outline-none"
+                      className="flex items-center gap-1 text-xs py-2 cursor-pointer focus:outline-none"
                     >
                       {item.title} 
                       <ChevronDown 
@@ -70,23 +70,24 @@ const Header = () => {
 
         <div className="flex-shrink-0 flex items-center">
           <Link href="/" className="flex items-center gap-2">
-            <Image 
+            {/* <Image 
               src="/logo.jpg" 
               alt="header logo" 
               width={80} 
               height={80} 
               className="object-center object-cover"
-            />
-            <span className={`font-semibold text-md lg:text-lg tracking-wider hidden sm:inline-block ${serif.className}`}>Lifestyle Shopping.uk</span>
+            /> */}
+            <span className={` text-md lg:text-xl tracking-widest hidden sm:inline-block uppercase ${aire.className}`}>Lifestyle Shopping.uk</span>
           </Link>
         </div>
 
         <div className="flex items-center space-x-5">
           <button 
             aria-label="Search" 
-            className="p-2 hover:bg-white/10 rounded-full transition-colors focus:outline-none"
+            className="flex items-end gap-2 p-2 bg-white/10 rounded-full pr-4"
           >
             <Search className="w-5 h-5" />
+            <span className='text-xs text-white/50'>Search</span>
           </button>
           
           <Link 

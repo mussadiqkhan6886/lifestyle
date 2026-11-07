@@ -4,6 +4,8 @@ import CollectionsTwo from '@/sections/CollectionsTwo'
 import Hero from '@/sections/Hero'
 import LoopBelowHero from '@/components/ui/LoopBelowHero'
 import React from 'react'
+import WhyUs from '@/sections/WhyUs'
+import RegularSellers from '@/sections/RegularSellers'
 
 const HomePage = () => {
   return (
@@ -13,6 +15,8 @@ const HomePage = () => {
       <Collections />
       <BestSellers />
       <CollectionsTwo />
+      <WhyUs />
+      <RegularSellers />
     </main>
   )
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { serif } from '@/lib/fonts';
+import { aire } from '@/lib/fonts';
 import React, { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 export type LogoItem = {
@@ -1185,7 +1185,7 @@ export const LogoLoop = memo<LogoLoopProps>(
               const visual = renderItem ? (
                 renderItem(item, key)
               ) : (
-                <p className={`${serif.className} text-black/70 text-base capitalize`}>{item.title}</p>
+                <p className={`${aire.className} text-black/90 tracking-widest text-base capitalize`}>{item.title}</p>
               );
               const inner = (
                 <>
