@@ -65,7 +65,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
           {variant.images.map((img, i) => (
             <div
               key={`${variant.sku}-${i}`}
-              className="relative w-full shrink-0 snap-center aspect-[4/5] sm:aspect-[5/6] lg:aspect-auto lg:h-screen bg-contrast-beige"
+              className="relative w-full shrink-0 snap-center aspect-[4/5] sm:aspect-[5/6] lg:aspect-auto lg:h-screen max-h-screen bg-contrast-beige"
             >
               <Image
                 src={img}
@@ -97,7 +97,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
       </div>
 
       <div className="lg:col-span-5 lg:sticky lg:top-0 lg:self-start lg:h-screen lg:overflow-y-auto">
-        <div className="px-4 sm:px-8 lg:px-12 pt-8 lg:pt-24 pb-12 space-y-6">
+        <div className="px-4 sm:px-8 lg:px-8 xl:px-12 pt-8 lg:pt-24 pb-12 space-y-6">
           <BreadCrump collection={collectionTitle} product={product.name} />
 
           <div className="space-y-3">

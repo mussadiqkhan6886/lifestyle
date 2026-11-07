@@ -107,7 +107,7 @@ const SearchOverlay = ({ open, onClose }: Props) => {
 
       {/* Panel */}
       <div
-        className={`relative bg-light-beige text-neutral-900 max-h-[92vh] overflow-y-auto rounded-b-[1.75rem] sm:rounded-b-[2.5rem] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`relative bg-light-beige text-neutral-900 max-h-[95vh] overflow-y-auto rounded-b-[1.75rem] sm:rounded-b-[2.5rem] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           open ? 'translate-y-0' : '-translate-y-full'
         }`}
       >

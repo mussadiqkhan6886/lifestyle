@@ -69,14 +69,14 @@ const [cartOpen, setCartOpen] = useState(false);
         }`}
       >
         <div
-          className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-xl border px-3 sm:px-4 lg:px-6 flex md:grid md:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
+          className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-xl border px-3 sm:px-4 lg:px-6 flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
             scrolled || mobileMenuOpen || pathname !== "/"
               ? 'bg-neutral-950/85 border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)]'
               : 'bg-white/5 border-white/15'
           }`}
         >
           {/* ── Left: desktop navigation ── */}
-          <nav ref={navRef} className="hidden md:flex items-center">
+          <nav ref={navRef} className="hidden lg:flex items-center">
             <ul className="flex items-center gap-1 lg:gap-2">
               {navbarData.map((item, index) => {
                 const isOpen = activeDropdown === index
@@ -87,12 +87,12 @@ const [cartOpen, setCartOpen] = useState(false);
                 return (
                   <li
                     key={index}
-                    className="relative"
+                    className="relative text-xs"
                     onMouseEnter={() => !item.link && setActiveDropdown(index)}
                     onMouseLeave={() => !item.link && setActiveDropdown(null)}
                   >
                     {item.link ? (
-                      <Link href={item.link} className="group relative block px-3 lg:px-4 py-2 text-[13px] tracking-wide">
+                      <Link href={item.link} className="group relative block px-3 lg:px-4 py-2 text-[13px] tracking-wide text-nowrap">
                         <span className={isActive ? 'text-white' : 'text-white/75 group-hover:text-white transition-colors'}>
                           {item.title}
                         </span>
@@ -199,7 +199,7 @@ const [cartOpen, setCartOpen] = useState(false);
               onClick={() => setMobileMenuOpen((o) => !o)}
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
-              className="md:hidden relative h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none"
+              className="lg:hidden relative h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none"
             >
               <span
                 className={`absolute left-1/2 top-1/2 h-px w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
