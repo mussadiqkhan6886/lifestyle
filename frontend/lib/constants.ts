@@ -6,7 +6,7 @@ export const collections = [
   { image: "/clothing.jpg" ,title: "Clothing", link: "/collections/clothing" },
   { image: "/bags.jpg" ,title: "Bags", link: "/collections/bags" },
   { image: "/wallets-and-belts.jpg" ,title: "Wallets & belts", link: "/collections/wallet-and-belts" },
-  { image: "/women-footwear.jpg" ,title: "Women’s footwear", link: "/women-footwear" },
+  { image: "/women-footwear.jpg" ,title: "Women’s footwear", link: "/collections/women-footwear" },
 ];
 
 export const navbarData = [
