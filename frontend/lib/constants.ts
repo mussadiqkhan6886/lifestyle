@@ -410,3 +410,23 @@ export const reviewsData = [
       "Purchased casual footwear and was really happy with the overall quality and design. The product looks just like the pictures, and the fit is comfortable.",
   },
 ];
+
+export const helpLinks = [
+  { label: 'Contact support', href: '/contact' },
+  { label: 'Shipping & delivery', href: '/policies#shipping' },
+  { label: 'Returns & exchanges', href: '/policies#returns' },
+  { label: 'FAQs', href: '/policies#faq' },
+]
+
+export const companyLinks = [
+  { label: 'Our story', href: '/about' },
+  { label: 'All collections', href: '/collections' },
+  { label: 'Privacy policy', href: '/policy#privacy-policy' },
+  { label: 'Terms of service', href: '/policy#terms' },
+]
+
+export const socials = [
+  { label: 'Instagram', href: 'https://instagram.com' },
+  { label: 'Facebook', href: 'https://facebook.com' },
+  { label: 'TikTok', href: 'https://tiktok.com' },
+]

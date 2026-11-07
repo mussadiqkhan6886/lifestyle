@@ -1,3 +1,4 @@
+import Footer from "@/components/client/Footer";
 import Header from "@/components/client/Header";
 import { Metadata } from "next";
 
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

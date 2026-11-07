@@ -199,13 +199,6 @@ const Reviews = () => {
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-
-        <div className="text-center space-y-1">
-          <p className="text-sm text-neutral-600">Any Query? Our experts are here to help.</p>
-          <Link href="/contact" className="text-sm font-medium text-neutral-900 underline underline-offset-4">
-            Contact support
-          </Link>
-        </div>
       </div>
     </section>
   )
