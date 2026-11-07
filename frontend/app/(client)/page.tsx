@@ -1,3 +1,4 @@
+import BestSellers from '@/components/client/BestSellers'
 import Collections from '@/components/client/Collections'
 import Hero from '@/components/client/Hero'
 import LoopBelowHero from '@/components/ui/LoopBelowHero'
@@ -9,6 +10,7 @@ const HomePage = () => {
       <Hero />
       <LoopBelowHero />
       <Collections />
+      <BestSellers />
     </main>
   )
 }
