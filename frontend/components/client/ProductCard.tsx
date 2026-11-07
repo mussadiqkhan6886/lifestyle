@@ -27,13 +27,13 @@ const ProductCard = ({
   const cardContent = (
     <div className={`group rounded-lg relative flex flex-col w-full mb-6 ${isSoldOut ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'} `}>
       {/* Image Container */}
-      <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-neutral-100">
+      <div className="relative aspect-square sm:aspect-[3/4] w-full overflow-hidden bg-neutral-100 rounded-lg">
         <Image
           src={primaryImage}
           alt={name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className={`object-cover object-center transition-all duration-500 ease-out ${
+          className={`object-cover object-center transition-all duration-500 ease-out rounded-lg ${
             !isSoldOut && secondaryImage !== primaryImage ? 'group-hover:opacity-0' : ''
           } ${!isSoldOut ? 'group-hover:scale-105' : ''}`}
         />
@@ -45,18 +45,18 @@ const ProductCard = ({
             alt={`${name} hover view`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover object-center transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:scale-105"
+            className="object-cover object-center transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 group-hover:scale-105 rounded-lg"
           />
         )}
 
         {/* Status Badges */}
         <div className="absolute top-3 right-3 flex flex-col gap-1.5 z-10">
           {isSoldOut ? (
-            <span className="bg-black/80 backdrop-blur-md text-white text-[11px] uppercase tracking-wider font-medium px-3 py-1 rounded-full shadow-sm">
+            <span className="bg-black/80 backdrop-blur-md text-white text-[11px] uppercase tracking-wider font-medium px-3 py-1 rounded-md shadow-sm">
               Sold Out
             </span>
           ) : onSale ? (
-            <span className="bg-red-600 text-white text-[11px] uppercase tracking-wider font-medium px-3 py-1 rounded-full shadow-sm">
+            <span className="bg-red-600 text-white text-[11px] uppercase tracking-wider font-medium px-3 py-1 rounded-md shadow-sm">
               Sale
             </span>
           ) : null}

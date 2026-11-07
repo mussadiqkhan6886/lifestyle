@@ -14,8 +14,8 @@ const RegularSellers = () => {
                 <h3 className={`${aire.className} text-[28px] sm:text-5xl tracking-wide block sm:hidden`}>Regular Seller</h3>
             </div>
             <div>
-                <Link className='hidden sm:flex items-center gap-1.5 border border-black/50 rounded-full px-4 text-black/90 hover:bg-black hover:text-white transition-colors duration-300 text-sm py-1.5' href={"/collections/all"}>View More <ArrowUpRight size={16} /></Link>
-                <Link className='flex sm:hidden items-center gap-1.5 border border-black/50 rounded-full px-4 text-black/90 hover:bg-black hover:text-white transition-colors duration-300 text-sm py-1.5' href={"/collections/all"}>More <ArrowUpRight size={16} /></Link>
+                <Link className='hidden sm:flex items-center gap-1.5 border border-black/50 rounded-lg px-4 text-black/90 hover:bg-black hover:text-white transition-colors duration-300 text-sm py-1.5' href={"/collections/all"}>View More <ArrowUpRight size={16} /></Link>
+                <Link className='flex sm:hidden items-center gap-1.5 border border-black/50 rounded-lg px-4 text-black/90 hover:bg-black hover:text-white transition-colors duration-300 text-sm py-1.5' href={"/collections/all"}>More <ArrowUpRight size={16} /></Link>
             </div>
         </div>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 sm:gap-2 md:gap-4'>

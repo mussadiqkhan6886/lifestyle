@@ -43,7 +43,7 @@ const Footer = () => {
             <div className="lg:col-span-4 flex lg:justify-end">
               <Link
                 href="/contact-us"
-                className="group relative inline-flex items-center gap-4 rounded-full bg-light-beige text-neutral-900 pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-contrast-beige"
+                className="group relative inline-flex items-center gap-4 rounded-2xl bg-light-beige text-neutral-900 pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-contrast-beige"
               >
                 <span>Contact support</span>
                 <span className="h-12 w-12 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
@@ -86,11 +86,11 @@ const Footer = () => {
         </div>
 
         {/* ── Bottom bar ───────────────────────────────── */}
-        <div className="flex flex-col-reverse gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-black/10 mt-6 sm:mt-10 py-8 text-xs text-neutral-500">
+        <div className="flex flex-col-reverse gap-6 sm:flex-row items-center sm:justify-between border-t border-black/10 mt-6 sm:mt-10 py-8 text-xs text-neutral-500">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
             <span>© {year} Lifestyle Shopping UK. All rights reserved.</span>
             <span className="hidden sm:inline h-3 w-px bg-black/15" />
-            <span>
+            <span className='text-center'>
               Designed &amp; built with care by{' '}
               <Link
                 target="_blank"
@@ -106,7 +106,7 @@ const Footer = () => {
 
           <button
             onClick={scrollTop}
-            className="group inline-flex items-center gap-3 self-start sm:self-auto uppercase tracking-[0.3em] text-neutral-700 hover:text-neutral-900 transition-colors"
+            className="group inline-flex items-center gap-3 sm:self-auto uppercase tracking-[0.3em] text-neutral-700 hover:text-neutral-900 transition-colors"
           >
             Back to top
             <span className="h-10 w-10 rounded-full border border-black/20 flex items-center justify-center transition-all duration-500 group-hover:bg-neutral-900 group-hover:text-light-beige group-hover:-translate-y-1">
