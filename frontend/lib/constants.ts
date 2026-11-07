@@ -412,14 +412,14 @@ export const reviewsData = [
 ];
 
 export const helpLinks = [
-  { label: 'Contact support', href: '/contact' },
+  { label: 'Contact support', href: '/contact-us' },
   { label: 'Shipping & delivery', href: '/policies#shipping' },
   { label: 'Returns & exchanges', href: '/policies#returns' },
   { label: 'FAQs', href: '/policies#faq' },
 ]
 
 export const companyLinks = [
-  { label: 'Our story', href: '/about' },
+  { label: 'Our story', href: '/about-us' },
   { label: 'All collections', href: '/collections' },
   { label: 'Privacy policy', href: '/policy#privacy-policy' },
   { label: 'Terms of service', href: '/policy#terms' },

@@ -170,7 +170,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
           className={`mt-10 space-y-6 transition-all duration-700 ${revealClass}`}
         >
           <Link
-            href="/contact"
+            href="/contact-us"
             onClick={handleNavigate}
             className="flex items-center justify-between rounded-full bg-light-beige text-neutral-900 pl-6 pr-1.5 py-1.5 text-[11px] uppercase tracking-[0.25em] font-medium"
           >

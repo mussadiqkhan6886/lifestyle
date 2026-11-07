@@ -42,7 +42,7 @@ const Footer = () => {
 
             <div className="lg:col-span-4 flex lg:justify-end">
               <Link
-                href="/contact"
+                href="/contact-us"
                 className="group relative inline-flex items-center gap-4 rounded-full bg-light-beige text-neutral-900 pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-contrast-beige"
               >
                 <span>Contact support</span>
