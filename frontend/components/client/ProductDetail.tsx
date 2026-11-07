@@ -60,6 +60,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
         <div
           ref={scrollerRef}
           onScroll={onScroll}
+          style={{ scrollbarWidth: 'none' }}
           className="flex lg:flex-col overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {variant.images.map((img, i) => (
