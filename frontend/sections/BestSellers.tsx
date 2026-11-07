@@ -1,5 +1,5 @@
 import React from 'react'
-import HotSellersCorousal from './HotSellersCorousal'
+import HotSellersCorousal from '../components/client/HotSellersCorousal'
 import { products } from '@/lib/constants'
 import { serif } from '@/lib/fonts'
 
