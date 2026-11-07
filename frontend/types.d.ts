@@ -26,4 +26,5 @@ export interface ProductCardT {
   slug: string;
 //   collectionSlug: string;
   variants: Variant[];
+  tag: "row" | "col"
 }

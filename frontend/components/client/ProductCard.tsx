@@ -8,6 +8,7 @@ const ProductCard = ({
   slug,
   category,
   variants,
+  tag
 }: ProductCardT) => {
   const hasStock = variants.length > 1
     ? variants.some(v => v.stock > 0)
@@ -64,11 +65,11 @@ const ProductCard = ({
 
       {/* Product Information */}
       <div className="mt-3 flex flex-col px-1">
-        <h2 className={`${aire.className} text-[17px] tracking-wider text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-1`}>
+        <h2 className={`${aire.className} text-[16px] sm:text-[17px] tracking-wider text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-1`}>
             {name}
         </h2>
 
-        <div className="flex justify-between items-center mt-1">
+        <div className={`flex ${tag === "col" ? "flex-col sm:flex-row" : "flex-row"} justify-between sm:items-center mt-1`}>
                 {/* Price Container */}
                 <div className="flex items-center gap-2">
                 {onSale && firstVariant?.salePrice ? (
@@ -76,12 +77,12 @@ const ProductCard = ({
                     <span className="text-xs font-light text-neutral-400 line-through">
                         PKR {priceFormatted}
                     </span>
-                    <span className="text-sm font-light text-red-600 tracking-tight">
+                    <span className="text-xs sm:text-sm font-light text-red-600 tracking-tight">
                         PKR {salePriceFormatted}
                     </span>
                     </>
                 ) : (
-                    <span className="text-sm font-light text-neutral-900 tracking-tight">
+                    <span className="text-xs sm:text-sm font-light text-neutral-900 tracking-tight">
                     PKR {priceFormatted}
                     </span>
                 )}

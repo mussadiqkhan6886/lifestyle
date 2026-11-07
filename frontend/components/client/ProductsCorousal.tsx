@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import { productType } from '@/types';
 import ProductCard from './ProductCard';
 
-const HotSellersCorousal = ({products}: {products: productType[]}) => {
+const ProductsCorousal = ({tag, products}: {tag: "row" | "col",products: productType[]}) => {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const swiperRef = useRef<any>(null);
@@ -22,8 +22,6 @@ const HotSellersCorousal = ({products}: {products: productType[]}) => {
       swiperRef.current.navigation.update();
     }
   }, []);
-
-    const hotSellersProducts = products.filter(product => product.hotSeller);
 
 
   return (
@@ -58,10 +56,10 @@ const HotSellersCorousal = ({products}: {products: productType[]}) => {
             },
         }}
         >
-        {hotSellersProducts.map((item, index) => (
+        {products.map((item, index) => (
           <SwiperSlide key={index}>
             {/* <ProductCard collectionSlug='all' {...item} /> */}
-            <ProductCard {...item} />
+            <ProductCard tag={tag} {...item} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -87,5 +85,5 @@ const HotSellersCorousal = ({products}: {products: productType[]}) => {
   );
 }
 
-export default HotSellersCorousal
+export default ProductsCorousal
 

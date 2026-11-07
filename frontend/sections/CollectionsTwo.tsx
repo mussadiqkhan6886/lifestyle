@@ -7,7 +7,7 @@ import Link from 'next/link'
 const CollectionsTwo = () => {
   return (
     <section className='min-h-screen w-full overflow-hidden max-w-8xl mx-auto'>
-        <h3 className={`${aire.className} mb-5 text-2xl uppercase text-black/80 tracking-widest px-10`}>Collections</h3>
+        <h3 className={`${aire.className} mb-5 text-2xl uppercase text-black/80 tracking-widest px-3 sm:px-10`}>Collections</h3>
         <div className='grid grid-cols-1 md:grid-cols-2'>
 
       {collections.slice(4, 6).map((item) => (

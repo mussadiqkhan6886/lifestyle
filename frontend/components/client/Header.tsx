@@ -70,24 +70,24 @@ const Header = () => {
 
         <div className="flex-shrink-0 flex items-center">
           <Link href="/" className="flex items-center gap-2">
-            {/* <Image 
+            <Image 
               src="/logo.jpg" 
               alt="header logo" 
               width={80} 
               height={80} 
-              className="object-center object-cover"
-            /> */}
+              className="block sm:hidden object-center object-cover"
+            />
             <span className={` text-md lg:text-xl tracking-widest hidden sm:inline-block uppercase ${aire.className}`}>Lifestyle Shopping.uk</span>
           </Link>
         </div>
 
-        <div className="flex items-center space-x-5">
+        <div className="flex items-center space-x-2 sm:space-x-5">
           <button 
             aria-label="Search" 
-            className="flex items-end gap-2 p-2 bg-white/10 rounded-full pr-4"
+            className="flex items-end gap-2 p-2 sm:bg-white/10 rounded-full pr-4"
           >
             <Search className="w-5 h-5" />
-            <span className='text-xs text-white/50'>Search</span>
+            <span className='hidden sm:block text-xs text-white/50'>Search</span>
           </button>
           
           <Link 
