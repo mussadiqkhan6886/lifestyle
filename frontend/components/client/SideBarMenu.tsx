@@ -172,7 +172,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
           <Link
             href="/contact-us"
             onClick={handleNavigate}
-            className="flex items-center justify-between rounded-full bg-light-beige text-neutral-900 pl-6 pr-1.5 py-1.5 text-[11px] uppercase tracking-[0.25em] font-medium"
+            className="flex items-center justify-between rounded-xl bg-light-beige text-neutral-900 pl-6 pr-1.5 py-1.5 text-[11px] uppercase tracking-[0.25em] font-medium"
           >
             Contact support
             <span className="h-10 w-10 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center">

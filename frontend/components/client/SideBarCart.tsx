@@ -128,12 +128,12 @@ const SideBarCart = ({ open, onClose }: Props) => {
 
                     <div className="flex items-center justify-between">
                       {/* Quantity stepper */}
-                      <div className="inline-flex items-center rounded-full border border-black/15">
+                      <div className="inline-flex items-center rounded-lg border border-black/15">
                         <button
                           onClick={() => updateQty(item.id, -1)}
                           aria-label="Decrease quantity"
                           disabled={item.qty === 1}
-                          className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-neutral-900 hover:text-light-beige transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                          className="h-8 w-8 flex items-center justify-center rounded-l-md hover:bg-neutral-900 hover:text-light-beige transition-colors disabled:opacity-30 disabled:pointer-events-none"
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
@@ -141,7 +141,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
                         <button
                           onClick={() => updateQty(item.id, 1)}
                           aria-label="Increase quantity"
-                          className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-neutral-900 hover:text-light-beige transition-colors"
+                          className="h-8 w-8 flex items-center justify-center rounded-r-md hover:bg-neutral-900 hover:text-light-beige transition-colors"
                         >
                           <Plus className="w-3.5 h-3.5" />
                         </button>
@@ -165,10 +165,10 @@ const SideBarCart = ({ open, onClose }: Props) => {
               <Link
                 href="/checkout"
                 onClick={onClose}
-                className="group flex items-center justify-between rounded-full bg-neutral-900 text-light-beige pl-7 pr-1.5 py-1.5 text-xs uppercase tracking-[0.25em] font-medium transition-colors hover:bg-neutral-800"
+                className="group flex items-center justify-between rounded-xl bg-neutral-900 text-light-beige pl-7 pr-1.5 py-1.5 text-xs uppercase tracking-[0.25em] font-medium transition-colors hover:bg-neutral-800"
               >
                 Checkout
-                <span className="h-11 w-11 rounded-full bg-light-beige text-neutral-900 flex items-center justify-center transition-all duration-300 group-hover:bg-amber-500 group-hover:translate-x-0.5">
+                <span className="h-11 w-11 rounded-lg bg-light-beige text-neutral-900 flex items-center justify-center transition-all duration-300 group-hover:bg-contrast-beige group-hover:translate-x-0.5">
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
