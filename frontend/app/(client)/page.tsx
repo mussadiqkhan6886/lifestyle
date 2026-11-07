@@ -8,6 +8,8 @@ import WhyUs from '@/sections/WhyUs'
 import RegularSellers from '@/sections/RegularSellers'
 import NewArrivals from '@/sections/NewArrivals'
 import { loopData } from '@/lib/constants';
+import Reviews from '@/sections/Reviews'
+import ProductCardSkeleton from '@/components/client/LoadingSkeleton'
 
 const HomePage = () => {
   return (
@@ -17,11 +19,12 @@ const HomePage = () => {
       <Collections />
       <BestSellers />
       <CollectionsTwo />
-      <Suspense fallback={<div>Loading....</div>}>
+      <Suspense fallback={<ProductCardSkeleton />}>
         <NewArrivals />
       </Suspense>
       <WhyUs />
       <RegularSellers />
+      <Reviews />
     </main>
   )
 }

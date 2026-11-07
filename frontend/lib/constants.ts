@@ -359,3 +359,54 @@ export const trustBadges = [
     description: "We're here to help with your questions and concerns.",
   },
 ];
+
+export const reviewsData = [
+  {
+    id: 1,
+    name: "Ayesha Malik",
+    rating: 5,
+    title: "Absolutely loved the quality!",
+    comment:
+      "Ordered a beautiful wristwatch and was impressed by the elegant design and premium feel. The packaging was lovely, and the overall experience was excellent.",
+  },
+  {
+    id: 2,
+    name: "Hamza Ahmed",
+    rating: 5,
+    title: "Great quality and stylish design.",
+    comment:
+      "Bought a men's watch and it looks even better in person. The finishing is impressive, and it feels like a product worth every penny.",
+  },
+  {
+    id: 3,
+    name: "Fatima Khan",
+    rating: 5,
+    title: "My new favourite handbag!",
+    comment:
+      "The handbag is beautiful, spacious, and exactly what I was looking for. The quality exceeded my expectations, and I loved the attention to detail.",
+  },
+  {
+    id: 4,
+    name: "Usman Tariq",
+    rating: 5,
+    title: "Excellent shopping experience.",
+    comment:
+      "Ordered a wallet and leather belt. Both products look elegant and feel well-made. Everything arrived in great condition. Highly recommended!",
+  },
+  {
+    id: 5,
+    name: "Sana Iqbal",
+    rating: 5,
+    title: "Beautiful collection and lovely quality.",
+    comment:
+      "I ordered a women's watch and absolutely love its design. It looks elegant, feels comfortable, and adds a lovely touch to my everyday outfits.",
+  },
+  {
+    id: 6,
+    name: "Ali Raza",
+    rating: 5,
+    title: "Definitely worth shopping for!",
+    comment:
+      "Purchased casual footwear and was really happy with the overall quality and design. The product looks just like the pictures, and the fit is comfortable.",
+  },
+];
