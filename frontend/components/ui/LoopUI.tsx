@@ -1185,7 +1185,7 @@ export const LogoLoop = memo<LogoLoopProps>(
               const visual = renderItem ? (
                 renderItem(item, key)
               ) : (
-                <p className={`${serif.className} text-base sm:text-lg capitalize`}>{item.title}</p>
+                <p className={`${serif.className} text-black/70 text-base capitalize`}>{item.title}</p>
               );
               const inner = (
                 <>

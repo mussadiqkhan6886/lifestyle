@@ -1,3 +1,4 @@
+import Collections from '@/components/client/Collections'
 import Hero from '@/components/client/Hero'
 import LoopBelowHero from '@/components/ui/LoopBelowHero'
 import React from 'react'
@@ -7,6 +8,7 @@ const HomePage = () => {
     <main>
       <Hero />
       <LoopBelowHero />
+      <Collections />
     </main>
   )
 }

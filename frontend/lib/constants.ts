@@ -1,10 +1,10 @@
 export const collections = [
-  { title: "Men’s watches", link: "/collections/men-watches" },
-  { title: "Women’s watches", link: "/collections/women-watches" },
-  { title: "Clothing", link: "/collections/clothing" },
-  { title: "Bags", link: "/collections/bags" },
-  { title: "Wallets & belts", link: "/collections/wallet-and-belts" },
-  { title: "Women’s footwear", link: "/women-footwear" },
+  { image: "/men-watches.jpg" ,title: "Men’s watches", link: "/collections/men-watches" },
+  { image: "/women-watches.jpg" ,title: "Women’s watches", link: "/collections/women-watches" },
+  { image: "/clothing.jpg" ,title: "Clothing", link: "/collections/clothing" },
+  { image: "/bags.jpg" ,title: "Bags", link: "/collections/bags" },
+  { image: "/wallets-and-belts.jpg" ,title: "Wallets & belts", link: "/collections/wallet-and-belts" },
+  { image: "/women-footwear.jpg" ,title: "Women’s footwear", link: "/women-footwear" },
 ];
 
 export const navbarData = [

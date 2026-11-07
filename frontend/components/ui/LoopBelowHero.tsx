@@ -4,7 +4,7 @@ import React from 'react'
 
 const LoopBelowHero = () => {
   return (
-    <div style={{ height: '200px', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ height: '100px', position: 'relative', overflow: 'hidden' }}>
       <LogoLoop
         logos={loopData}
         speed={100}
