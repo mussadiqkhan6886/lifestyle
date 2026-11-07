@@ -103,7 +103,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
 
           <div className="space-y-3">
             {product.hotSeller && (
-              <span className="inline-block rounded-full bg-amber-500 text-neutral-950 px-3 py-1 text-[10px] uppercase tracking-[0.25em] font-semibold">
+              <span className="inline-block rounded-full bg-red-700 text-white px-3 py-1 text-[10px] uppercase tracking-[0.25em] font-semibold">
                 Hot seller
               </span>
             )}
