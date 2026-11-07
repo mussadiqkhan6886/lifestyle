@@ -37,7 +37,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
             <div className="flex items-end justify-between gap-6">
               <div className="space-y-3">
                 <p className="text-[11px] uppercase tracking-[0.4em] text-contrast-beige">You may also like</p>
-                <h2 className={`${aire.className} text-3xl sm:text-5xl tracking-tight`}>Recommended for you</h2>
+                <h2 className={`${aire.className} text-3xl sm:text-5xl tracking-tight italic`}>Recommended for you</h2>
               </div>
               <Link
                 href="/collections/all"
@@ -47,7 +47,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 sm:gap-x-6 sm:gap-y-12">
+            <div className="grid grid-cols-2 lg:grid-cols-4 sm:gap-x-4 sm:gap-y-10">
               {recommended.map((item) => (
                 <ProductCard key={item.id} tag="col" {...item} />
               ))}
