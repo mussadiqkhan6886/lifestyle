@@ -4,10 +4,15 @@ import { companyLinks, helpLinks, socials } from '@/lib/constants'
 import { aire } from '@/lib/fonts'
 import { ArrowUp, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Footer = () => {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   return (
     <footer className="relative bg-light-beige text-neutral-900 overflow-hidden px-3 sm:px-5 pt-16 sm:pt-24">
@@ -83,7 +88,7 @@ const Footer = () => {
         {/* ── Bottom bar ───────────────────────────────── */}
         <div className="flex flex-col-reverse gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-black/10 mt-6 sm:mt-10 py-8 text-xs text-neutral-500">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
-            <span>© {new Date().getFullYear()} Lifestyle Shopping UK. All rights reserved.</span>
+            <span>© {year} Lifestyle Shopping UK. All rights reserved.</span>
             <span className="hidden sm:inline h-3 w-px bg-black/15" />
             <span>
               Designed &amp; built with care by{' '}

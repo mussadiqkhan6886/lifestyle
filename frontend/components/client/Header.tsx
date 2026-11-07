@@ -7,10 +7,12 @@ import React, { useState } from 'react';
 import { ChevronDown, Search, ShoppingBag, Menu, X } from 'lucide-react';
 import { aire } from '@/lib/fonts';
 import SideBarMenu from './SideBarMenu';
+import SearchOverlay from './Search';
 
 const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+    const [searchOpen, setSearchOpen] = useState(false);
 
   const toggleDropdown = (index: number) => {
     setActiveDropdown(activeDropdown === index ? null : index);
@@ -83,9 +85,10 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-2 sm:space-x-5">
-          <button 
+          <button
+          onClick={() => setSearchOpen(true)} 
             aria-label="Search" 
-            className="flex items-end gap-2 p-2 sm:bg-white/10 rounded-full pr-4"
+            className="flex items-end gap-2 p-2 sm:bg-white/10 rounded-full pr-4 cursor-pointer"
           >
             <Search className="w-5 h-5" />
             <span className='hidden sm:block text-xs text-white/50'>Search</span>
@@ -112,6 +115,7 @@ const Header = () => {
       {mobileMenuOpen && (
         <SideBarMenu open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
       )}
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 };

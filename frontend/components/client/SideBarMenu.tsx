@@ -73,7 +73,6 @@ const SideBarMenu = ({ open, onClose }: Props) => {
             {navbarData.map((item, index) => {
               const isOpen = activeDropdown === index
               const hasChildren = !item.link && item.children
-              const number = String(index + 1).padStart(2, '0')
 
               return (
                 <li
