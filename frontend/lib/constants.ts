@@ -430,3 +430,53 @@ export const socials = [
   { label: 'Facebook', href: 'https://facebook.com' },
   { label: 'TikTok', href: 'https://tiktok.com' },
 ]
+export const orders = [
+  {
+    id: 1,
+    name: "Classic Chronograph Watch",
+    image: "/watch.jpg",
+    category: "Men's Watches",
+    variant: "Black",
+    price: 8500,
+  },
+  {
+    id: 2,
+    name: "Premium Gold Watch",
+    image: "/watch-2.jpg",
+    category: "Men's Watches",
+    variant: "Gold",
+    price: 12500,
+  },
+  {
+    id: 3,
+    name: "Elegant Women's Watch",
+    image: "/watch-3.jpg",
+    category: "Women's Watches",
+    variant: "Rose Gold",
+    price: 7500,
+  },
+  {
+    id: 4,
+    name: "Classic Leather Shoulder Bag",
+    image: "/bag.jpg",
+    category: "Bags",
+    variant: "Black",
+    price: 6500,
+  },
+  {
+    id: 5,
+    name: "Minimalist Leather Wallet",
+    image: "/wallets.jpg",
+    category: "Wallets & Belts",
+    variant: "Brown",
+    price: 2500,
+  },
+  {
+    id: 6,
+    name: "Classic Casual Sneakers",
+    image: "/sneakers.jpg",
+    category: "Women's Footwear",
+    variant: "Size 38",
+    price: 5500,
+  },
+];
