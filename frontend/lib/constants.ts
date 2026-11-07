@@ -6,17 +6,47 @@ import { productType } from "@/types";
 } from "lucide-react";
 
 export const collections = [
-  { image: "/men-watches.jpg" ,title: "Men’s watches", link: "/collections/men-watches" },
-  { image: "/women-watches.jpg" ,title: "Women’s watches", link: "/collections/women-watches" },
-  { image: "/clothing.jpg" ,title: "Clothing", link: "/collections/clothing" },
-  { image: "/bags.jpg" ,title: "Bags", link: "/collections/bags" },
-  { image: "/wallets-and-belts.jpg" ,title: "Wallets & belts", link: "/collections/wallet-and-belts" },
-  { image: "/women-footwear.jpg" ,title: "Women’s footwear", link: "/collections/women-footwear" },
+  {
+    image: "/men-watches.jpg",
+    title: "Men’s Watches",
+    description: "Explore premium men's watches featuring timeless designs, elegant finishes, and versatile styles for every occasion.",
+    link: "/collections/men-watches",
+  },
+  {
+    image: "/women-watches.jpg",
+    title: "Women’s Watches",
+    description: "Discover elegant women's watches with sophisticated designs that complement everyday outfits and special occasions.",
+    link: "/collections/women-watches",
+  },
+  {
+    image: "/clothing.jpg",
+    title: "Clothing",
+    description: "Shop stylish clothing with versatile designs, quality fabrics, and effortless everyday fashion for every wardrobe.",
+    link: "/collections/clothing",
+  },
+  {
+    image: "/bags.jpg",
+    title: "Bags",
+    description: "Discover stylish handbags and everyday bags that combine practical functionality with timeless fashion and elegance.",
+    link: "/collections/bags",
+  },
+  {
+    image: "/wallets-and-belts.jpg",
+    title: "Wallets & Belts",
+    description: "Explore premium wallets and belts with refined details, practical designs, and timeless everyday appeal.",
+    link: "/collections/wallet-and-belts",
+  },
+  {
+    image: "/women-footwear.jpg",
+    title: "Women’s Footwear",
+    description: "Step into stylish women's footwear featuring versatile designs, everyday comfort, and elegant finishing touches.",
+    link: "/collections/women-footwear",
+  },
 ];
 
 export const navbarData = [
   {title: "Collections", link: null, children: collections},
-  {title: "Hot Sellers", link: '/collections/hot-sellers', children: null},
+  {title: "All Products", link: '/collections/all', children: null},
   {title: "About", link: "/about-us", children: null},
   {title: "Contact", link: "/contact-us", children: null},
 ]
@@ -33,7 +63,7 @@ export const products: productType[] = [
     id: "1",
     name: "Classic Chronograph Watch",
     slug: "classic-chronograph-watch",
-    hotSeller: true,
+    hotSeller: false,
     category: "men-watches",
     description: "A classic chronograph watch with a timeless design, suitable for everyday wear and formal occasions.",
     variants: [
@@ -61,7 +91,7 @@ export const products: productType[] = [
     id: "2",
     name: "Premium Gold Watch",
     slug: "premium-gold-watch",
-    hotSeller: true,
+    hotSeller: false,
     category: "men-watches",
     description: "A premium gold-tone watch designed to add elegance to your everyday style.",
     variants: [
