@@ -33,15 +33,31 @@ const HotSellersCorousal = ({products}: {products: productType[]}) => {
       <Swiper
         modules={[Navigation]}
         spaceBetween={24}
+        slidesPerGroup={2}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         breakpoints={{
-          0: { slidesPerView: 1 },
-          480: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          908: { slidesPerView: 3 },
-          1224: { slidesPerView: 4 },
+            0: {
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            },
+            480: {
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            },
+            640: {
+            slidesPerView: 2,
+            slidesPerGroup: 2,
+            },
+            908: {
+            slidesPerView: 3,
+            slidesPerGroup: 2,
+            },
+            1224: {
+            slidesPerView: 4,
+            slidesPerGroup: 2,
+            },
         }}
-      >
+        >
         {hotSellersProducts.map((item, index) => (
           <SwiperSlide key={index}>
             {/* <ProductCard collectionSlug='all' {...item} /> */}
