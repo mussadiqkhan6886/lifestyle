@@ -451,8 +451,8 @@ export const helpLinks = [
 export const companyLinks = [
   { label: 'Our story', href: '/about-us' },
   { label: 'All collections', href: '/collections' },
-  { label: 'Privacy policy', href: '/policy#privacy-policy' },
-  { label: 'Terms of service', href: '/policy#terms' },
+  { label: 'Privacy policy', href: '/policies#privacy-policy' },
+  { label: 'Terms of service', href: '/policies#terms' },
 ]
 
 export const socials = [
