@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs"
 import { db } from "../prisma/db"
 import { Request, Response } from "express"
 import { loginSchema } from "../schemas/loginSchema"
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 
 export const login = async (req: Request<{}, {}, {email: string, password: string}>, res:Response) => {
     const {email, password} = req.body
@@ -80,8 +80,81 @@ export const login = async (req: Request<{}, {}, {email: string, password: strin
 
 }
 export const logout = async (req: Request, res:Response) => {
-    
+    const cookies = req.cookies
+
+    if(!cookies.refreshToken) {
+        res.sendStatus(204)
+        return
+    }
+    const isProduction = process.env.NODE_ENV === 'production';
+    const cookieOptions = {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: 'strict' as const,
+            path: '/'
+        };
+    res.clearCookie("accessToken", {
+        ...cookieOptions, maxAge: 15 * 60 * 1000
+    })
+    res.clearCookie("refreshToken", {
+        ...cookieOptions,
+            maxAge: 7 * 24 * 60 * 60 * 1000
+    })
+
+    res.json({message: "Logout successfully"})
 }
 export const refresh = async (req: Request, res:Response) => {
-    
+    const cookies = req.cookies
+
+    if(!cookies.refreshToken){
+        res.sendStatus(204)
+        return
+    }
+
+    const token = cookies.refreshToken
+
+    jwt.verify(
+        token,
+        process.env.REFRESH_TOKEN as string,
+        async (
+            err: jwt.VerifyErrors | null,
+            decoded: string | undefined | JwtPayload
+        ) => {
+            if(err || !decoded || typeof decoded === "string"){
+                return res.status(403).json({
+                    message: "Forbidden",
+                });
+            }
+
+            const admin = await db.orm.public.Admin.where({id: decoded.id}).first()
+
+            if(!admin){
+                res.status(401).json({message: "No User Found"})
+                return
+            }
+
+            const accessToken = jwt.sign(
+                {
+                    adminInfo: {
+                        id: admin.id,
+                        email: admin.email
+                    }
+                },
+                process.env.ACCESS_TOKEN as string,
+                {expiresIn: "15m"}
+            )
+             const isProduction = process.env.NODE_ENV === 'production';
+            const cookieOptions = {
+                    httpOnly: true,
+                    secure: isProduction,
+                    sameSite: 'strict' as const,
+                    path: '/'
+                };
+            res.cookie("accessToken", accessToken, {
+                ...cookieOptions, maxAge: 15 * 60 * 1000
+            })
+
+            res.json({message: "Token refreshed"})
+        }
+    )
 }
