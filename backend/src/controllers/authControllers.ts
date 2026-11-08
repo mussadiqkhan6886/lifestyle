@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 import { loginSchema } from "../schemas/loginSchema"
 import jwt, { JwtPayload } from "jsonwebtoken"
 
-export const login = async (req: Request<{}, {}, {email: string, password: string}>, res:Response) => {
+export const login = async (req: Request<{}, {}, {email: string, password: string}>, res:Response) : Promise<void> => {
     const {email, password} = req.body
      
     const safeParsed = loginSchema.safeParse({email, password})
@@ -79,7 +79,7 @@ export const login = async (req: Request<{}, {}, {email: string, password: strin
     res.json({message: "Login successfully"})
 
 }
-export const logout = async (req: Request, res:Response) => {
+export const logout = async (req: Request, res:Response) : Promise<void> => {
     const cookies = req.cookies
 
     if(!cookies.refreshToken) {
@@ -103,7 +103,7 @@ export const logout = async (req: Request, res:Response) => {
 
     res.json({message: "Logout successfully"})
 }
-export const refresh = async (req: Request, res:Response) => {
+export const refresh = async (req: Request, res:Response) : Promise<void> => {
     const cookies = req.cookies
 
     if(!cookies.refreshToken){

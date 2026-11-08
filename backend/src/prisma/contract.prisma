@@ -5,3 +5,28 @@ model Admin {
     email    String @unique
     password String
 }
+
+model Product {
+    id              Int         @id @default(autoincrement())
+    name            String      @unique
+    slug            String      @unique
+    hotSeller       Boolean     @default(false)
+    category        String
+    description     String
+    variants        Variant[]
+    createdAt       DateTime    @default(now())
+    updatedAt       temporal.UpdatedAt
+}
+
+model Variant {
+     id         Int     @id @default(autoincrement())
+    label       String  @unique
+    sku         String  @unique
+    stock       Int
+    price       Int
+    onSale      Boolean @default(false)
+    salePrice   Int?
+    images      String[]
+    productId   Int
+    product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}

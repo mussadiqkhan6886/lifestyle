@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import { corsOptions } from "./config/corsOption"
 import { ErrorHandler } from "./middleware/ErrorHandler"
 import routerAuth from "./routes/authRoutes"
+import routerProducts from "./routes/productRoute"
 
 const app : Express = express() 
 
@@ -16,6 +17,7 @@ app.get("/health", (req, res) => {
     res.status(200).send("ok")
 })
 app.use("/api/auth/", routerAuth)
+app.use("/api/products", routerProducts)
 
 app.use(ErrorHandler)
 
