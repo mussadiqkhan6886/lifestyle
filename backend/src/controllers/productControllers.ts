@@ -91,25 +91,6 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
             }
         }
 
-        // Check uniqueness for product name and slug
-        const existingByName = await db.orm.public.Product.where({ name: name.trim() }).first();
-        if (existingByName) {
-            res.status(409).json({
-                success: false,
-                message: `Product with name "${name}" already exists`,
-            });
-            return;
-        }
-
-        const existingBySlug = await db.orm.public.Product.where({ slug }).first();
-        if (existingBySlug) {
-            res.status(409).json({
-                success: false,
-                message: `Product with slug "${slug}" already exists`,
-            });
-            return;
-        }
-
         // Upload files to Cloudinary
         const files = (req.files as Express.Multer.File[]) || [];
         const uploadedFiles: UploadedFileRef[] = await Promise.all(
@@ -145,26 +126,26 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                 category: category.trim(),
                 description: description.trim(),
             });
+            const createdVariants = await Promise.all(
+                variants.map((v, i) => {
+                    const variantSku =
+                    v.sku?.trim() || `${slug}-${createSlug(v.label)}-${Date.now()}-${i}`
 
-            const createdVariants = [];
-            for (let i = 0; i < variants.length; i++) {
-                const v = variants[i];
-                const variantSku = v.sku?.trim() || `${slug}-${createSlug(v.label)}-${Date.now()}-${i}`;
-
-                const createdVariant = await tx.orm.public.Variant.create({
+                    return tx.orm.public.Variant.create({
                     label: v.label.trim(),
                     sku: variantSku,
                     stock: Number(v.stock) || 0,
                     price: Math.round(Number(v.price)),
-                    onSale: Boolean(v.onSale === true || v.onSale === "true"),
-                    salePrice: v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ""
+                    onSale: Boolean(v.onSale === true || v.onSale === 'true'),
+                    salePrice:
+                        v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ''
                         ? Math.round(Number(v.salePrice))
                         : null,
                     images: v.images || [],
                     productId: product.id,
-                });
-                createdVariants.push(createdVariant);
-            }
+                    })
+                })
+                )
 
             return {
                 ...product,
