@@ -352,7 +352,7 @@ return (
               <input
                 {...register("name")}
                 placeholder="e.g. Classic Leather Watch"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                className="inputClass"
               />
 
               {errors.name && (
@@ -371,7 +371,7 @@ return (
               <input
                 {...register("slug")}
                 placeholder="classic-leather-watch"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                className="inputClass"
               />
 
               <p className="mt-1.5 text-xs text-gray-400">
@@ -427,7 +427,7 @@ return (
                 {...register("description")}
                 rows={5}
                 placeholder="Write a detailed description of your product..."
-                className="w-full resize-y rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                className="inputClass"
               />
 
               {errors.description && (
@@ -552,7 +552,7 @@ return (
                         <input
                           {...register(`variants.${index}.label`)}
                           placeholder="e.g. Black / Large"
-                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                          className="inputClass"
                         />
 
                         {variantErrors?.label && (
@@ -570,7 +570,7 @@ return (
                         <input
                           {...register(`variants.${index}.sku`)}
                           placeholder="e.g. WATCH-BLK-001"
-                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                          className="inputClass"
                         />
 
                         {variantErrors?.sku && (
@@ -598,7 +598,7 @@ return (
                             {...register(`variants.${index}.price`, {
                               valueAsNumber: true,
                             })}
-                            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                            className="inputClass"
                           />
                         </div>
 
@@ -621,7 +621,7 @@ return (
                           {...register(`variants.${index}.stock`, {
                             valueAsNumber: true,
                           })}
-                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                          className="inputClass"
                         />
 
                         {variantErrors?.stock && (
@@ -671,7 +671,7 @@ return (
                               }
                             )}
                             placeholder="Enter discounted price"
-                            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                            className="inputClass"
                           />
 
                           {variantErrors?.salePrice && (
@@ -736,7 +736,7 @@ return (
                           {variant.images.map((file, imageIndex) => (
                             <ImagePreview
                               key={`${field.id}-${imageIndex}`}
-                              file={file}
+                              file={file as File}
                               onRemove={() => removeImage(index, imageIndex)}
                             />
                           ))}

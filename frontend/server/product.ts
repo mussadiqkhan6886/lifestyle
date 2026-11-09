@@ -23,3 +23,16 @@ export const deleteProduct = async (id: string) => {
     method: 'DELETE',
   })
 }
+
+export const getProductById = async (id: string): Promise<productType> => {
+  const res = await fetchHelper<{success:boolean, product:productType}>(`products/${id}`, { method: 'GET' })
+  return res.product
+}
+
+export const updateProduct = async (id: string, formData: FormData) => {
+  const res = await fetchHelper<{success: boolean, product:productType}>(`products/${id}`, {
+    method: 'PATCH',
+    body: formData,
+  })
+  return res.product
+}

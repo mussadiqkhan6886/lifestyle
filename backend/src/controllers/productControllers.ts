@@ -110,11 +110,11 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         for (let i = 0; i < variants.length; i++) {
             const v = variants[i];
             // Preserve pre-existing URLs (e.g. if passed as strings in images)
-            const existingUrls = Array.isArray(v.images)
-                ? v.images.filter((img) => typeof img === "string" && /^https?:\/\//i.test(img))
+            const existingUrls = Array.isArray(v.existingImages)
+                ? v.existingImages.filter((img) => typeof img === "string" && /^https?:\/\//i.test(img))
                 : [];
             const newUrls = variantImagesMap[i] || [];
-            v.images = Array.from(new Set([...existingUrls, ...newUrls]));
+            v.existingImages = Array.from(new Set([...existingUrls, ...newUrls]));
         }
 
         // Save product and variants inside a transaction
@@ -141,7 +141,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                         v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ''
                         ? Math.round(Number(v.salePrice))
                         : null,
-                    images: v.images || [],
+                    images: v.existingImages || [],
                     productId: product.id,
                     })
                 })
@@ -170,7 +170,6 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 export const UpdateProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const id = Number(req.params.id);
-
         if (!id || isNaN(id)) {
             res.status(400).json({ success: false, message: "A valid Product ID is required" });
             return;
@@ -202,11 +201,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
         }
 
         let updatedSlug = existingProduct.slug;
-        if (rawSlug && rawSlug.trim()) {
-            updatedSlug = createSlug(rawSlug);
-        } else if (name && name.trim()) {
-            updatedSlug = createSlug(name);
-        }
+        updatedSlug = createSlug(name)
 
         if (updatedSlug !== existingProduct.slug) {
             const conflict = await db.orm.public.Product.where({ slug: updatedSlug }).first();
@@ -237,14 +232,13 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
         const variantImagesMap = incomingVariants.length > 0
             ? mapUploadedImagesToVariants(incomingVariants, uploadedFiles, req.body)
             : {};
-
         for (let i = 0; i < incomingVariants.length; i++) {
             const v = incomingVariants[i];
-            const existingUrls = Array.isArray(v.images)
-                ? v.images.filter((img) => typeof img === "string" && /^https?:\/\//i.test(img))
-                : [];
+            const existingUrls = Array.isArray(v.existingImages)
+            ? v.existingImages.filter((img) => typeof img === "string" && /^https?:\/\//i.test(img))
+            : [];
             const newUrls = variantImagesMap[i] || [];
-            v.images = Array.from(new Set([...existingUrls, ...newUrls]));
+            v.existingImages = Array.from(new Set([...existingUrls, ...newUrls]));
         }
 
         const result = await db.transaction(async (tx) => {
@@ -287,7 +281,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 for (let i = 0; i < incomingVariants.length; i++) {
                     const v = incomingVariants[i];
                     const vId = v.id ? Number(v.id) : null;
-                    const variantSku = v.sku?.trim() || `${updatedSlug}-${createSlug(v.label)}-${i}`;
+                    const variantSku = `${updatedSlug}-${createSlug(v.label)}-${i}`;
 
                     if (vId && existingVariants.some((exV) => exV.id === vId)) {
                         // Update existing variant
@@ -300,7 +294,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                             salePrice: v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ""
                                 ? Math.round(Number(v.salePrice))
                                 : null,
-                            images: v.images || [],
+                            images: v.existingImages || [],
                         });
                         if (updatedV) {
                             updatedVariants.push(updatedV);
@@ -316,7 +310,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                             salePrice: v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ""
                                 ? Math.round(Number(v.salePrice))
                                 : null,
-                            images: v.images || [],
+                            images: v.existingImages || [],
                             productId: id,
                         });
                         updatedVariants.push(createdV);

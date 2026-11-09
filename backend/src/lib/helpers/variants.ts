@@ -133,7 +133,7 @@ export const mapUploadedImagesToVariants = (
                     targetIndex = vIdx;
                     break;
                 }
-                if (Array.isArray(v.images) && v.images.some(matchesName)) {
+                if (Array.isArray(v.existingImages) && v.existingImages.some(matchesName)) {
                     targetIndex = vIdx;
                     break;
                 }

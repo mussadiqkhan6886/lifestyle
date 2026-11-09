@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   X,
@@ -22,7 +22,6 @@ const navItems = [
 
 export default function AdminHeader() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
 
   const data = useMutation({
@@ -56,17 +55,11 @@ export default function AdminHeader() {
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-6 md:flex">
             {navItems.map((item) => {
-              const active = pathname === item.href;
-
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-sm font-medium transition ${
-                    active
-                      ? "text-black"
-                      : "text-gray-500 hover:text-black"
-                  }`}
+                  className={`text-sm font-medium transition text-black`}
                 >
                   {item.name}
                 </Link>
@@ -131,18 +124,12 @@ export default function AdminHeader() {
         {/* Sidebar Links */}
         <nav className="flex-1 space-y-2 p-5">
           {navItems.map((item) => {
-            const active = pathname === item.href;
-
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setSidebarOpen(false)}
-                className={`block rounded-lg px-4 py-3 text-sm font-medium transition ${
-                  active
-                    ? "bg-black text-white"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-black"
-                }`}
+                className={`block rounded-lg px-4 py-3 text-sm font-medium transition text-black`}
               >
                 {item.name}
               </Link>

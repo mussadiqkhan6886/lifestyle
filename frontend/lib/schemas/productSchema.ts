@@ -1,5 +1,7 @@
 import z from "zod"
 
+const imageItem = z.union([z.string(), z.instanceof(File)])
+
 const variantSchema = z
   .object({
     label: z.string().trim().min(1, "Variant label is required"),
@@ -21,7 +23,7 @@ const variantSchema = z
 
     salePrice: z.number().finite().min(0).optional(),
 
-    images: z.array(z.instanceof(File)),
+    images: z.array(imageItem).min(1, "Please add atleast 1 image"),
   })
   .superRefine((variant, ctx) => {
     if (variant.onSale && variant.salePrice === undefined) {

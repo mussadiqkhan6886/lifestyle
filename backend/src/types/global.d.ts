@@ -6,7 +6,7 @@ export interface VariantInput {
     price: number | string;
     onSale?: boolean | string;
     salePrice?: number | string | null;
-    images?: string[];
+    existingImages?: string[];
     imageIndices?: number[] | number;
     imageNames?: string[];
 }
