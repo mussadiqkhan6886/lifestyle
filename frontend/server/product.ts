@@ -58,8 +58,8 @@ export const deleteProduct = async (id: string) => {
   })
 }
 
-export const getProductById = async (id: string): Promise<productType> => {
-  const res = await fetchHelperNoCookies<{success:boolean, product:productType}>(`products/${id}`, { method: 'GET' })
+export const getProductBySlug = async (slug: string): Promise<productType> => {
+  const res = await fetchHelperNoCookies<{success:boolean, product:productType}>(`products/${slug}`, { method: 'GET' })
   return res.product
 }
 

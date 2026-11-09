@@ -59,7 +59,7 @@ const Thumb = ({ product }: { product: productType }) => {
 const ActionButtons = ({ product, onDelete }: { product: productType; onDelete: (p: productType) => void }) => (
   <div className="flex items-center gap-2">
     <Link
-      href={`/admin/products/${product.id}`}
+      href={`/admin/products/${product.slug}`}
       aria-label={`Edit ${product.name}`}
       title="Edit"
       className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:border-black hover:bg-black hover:text-white"

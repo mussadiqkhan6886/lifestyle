@@ -1,10 +1,10 @@
 import PageSkeleton from '@/components/client/LoadingSkeletonGlobal'
 import ProductCard from '@/components/client/ProductCard'
 import ProductDetail from '@/components/client/ProductDetail'
-import { collections, products } from '@/lib/constants'
+import { collections } from '@/lib/constants'
 import { aire } from '@/lib/fonts'
+import { getAllProducts, getProductBySlug } from '@/server/product'
 import { ArrowRight } from 'lucide-react'
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React, { Suspense } from 'react'
@@ -13,17 +13,15 @@ type Params = Promise<{ productSlug: string }>
 
 const ProductPage = async ({ params }: { params: Params }) => {
   const { productSlug } = await params
-
-  const product = products.find((p) => p.slug === productSlug)
+  const product = await getProductBySlug(productSlug)
+  const recommendation = await getAllProducts(4,undefined,product.category)
 
   if (!product || product.variants.length === 0) notFound()
 
   const collection = collections.find((c) => c.link === `/collections/${product.category}`)
   const collectionTitle = collection?.title ?? 'All Collections'
 
-  const sameCategory = products.filter((p) => p.id !== product.id && p.category === product.category)
-  const others = products.filter((p) => p.id !== product.id && p.category !== product.category)
-  const recommended = [...sameCategory, ...others].slice(0, 4)
+  const recommended = recommendation.products.filter(i => i.slug !== productSlug)
 
   return (
     <main className="bg-light-beige text-neutral-900">

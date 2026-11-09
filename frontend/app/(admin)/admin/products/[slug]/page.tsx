@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import imageCompression from 'browser-image-compression'
 import { toast } from 'sonner'
 import { collections } from '@/lib/constants'
-import { getProductById, updateProduct } from '@/server/product'
+import { getProductBySlug, updateProduct } from '@/server/product'
 import { productType } from '@/types'
 import { ProductFormValues, productSchema } from '@/lib/schemas/productSchema'
 
@@ -44,7 +44,7 @@ const Loading = () => {
 }
 
 const EditProductContent = () => {
-  const { id } = useParams<{ id: string }>()
+  const { slug } = useParams<{ slug: string }>()
   const {
     data: product,
     isLoading,
@@ -52,9 +52,9 @@ const EditProductContent = () => {
     error,
     refetch,
   } = useQuery<productType>({
-    queryKey: ['product', id],
-    queryFn: () => getProductById(id),
-    enabled: !!id,
+    queryKey: ['product', slug],
+    queryFn: () => getProductBySlug(slug),
+    enabled: !!slug,
   })
 
   if (isLoading) {

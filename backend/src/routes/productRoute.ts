@@ -11,7 +11,7 @@ router.use(apiLimiter);
 router.get("/", getAllProducts);
 router.get("/hot-sellers", getHotSellerProducts);
 router.get("/new-arrivals", getNewArrivals);
-router.get("/:id", getSingleProduct);
+router.get("/:slug", getSingleProduct);
 
 router.post("/", verifyJWT, upload.any(), createProduct);
 router.patch("/:id", verifyJWT, upload.any(), UpdateProduct);

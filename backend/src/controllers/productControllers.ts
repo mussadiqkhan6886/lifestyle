@@ -137,16 +137,16 @@ export const getNewArrivals = async ( req: Request, res: Response): Promise<void
     });
 };
 
-export const getSingleProduct = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
+export const getSingleProduct = async (req: Request<{ slug: string }>, res: Response): Promise<void> => {
     try {
-        const id = Number(req.params.id);
+        const slug = String(req.params.slug);
 
-        if (!id || isNaN(id)) {
-            res.status(400).json({ success: false, message: "A valid Product ID is required" });
+        if (!slug) {
+            res.status(400).json({ success: false, message: "A valid Product slug is required" });
             return;
         }
 
-        const product = await db.orm.public.Product.where({ id }).include("variants").first();
+        const product = await db.orm.public.Product.where({ slug }).include("variants").first();
 
         if (!product) {
             res.status(404).json({ success: false, message: "No product found with this id" });
