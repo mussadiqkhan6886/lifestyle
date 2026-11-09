@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import { db } from "../prisma/db";
 import { uploadToCloudinary } from "../lib/helpers/uploadToCloudinary";
 import { createSlug } from "../lib/helpers";
 import { mapUploadedImagesToVariants, parseVariantsFromRequest } from "../lib/helpers/variants";
 import { UploadedFileRef } from "../types/global";
-import { or } from "@prisma/orm-postgres/orm-client";
+import { prisma } from "../config/prisma";
 
-export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
+export const getAllProducts = async ( req: Request, res: Response): Promise<void> => {
   try {
     const q = String(req.query.q || "").trim();
     const category = String(req.query.category || "").trim();
@@ -17,89 +16,110 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
     const limit = Math.min(Math.max(1, requestedLimit), 48);
     const skip = (page - 1) * limit;
 
-    let productQuery = db.orm.public.Product.include("variants");
+    const where: any = {
+      ...(category && { category }),
 
-    if (category) {
-      productQuery = productQuery.where({ category });
-    }
+      ...(sort === "hot-sellers" && {
+        hotSeller: true,
+      }),
 
-    // Search
-    if (q) {
-      productQuery = productQuery.where((p) =>
-        or(
-          p.name.ilike(`%${q}%`),
-          p.category.ilike(`%${q}%`),
-          p.description.ilike(`%${q}%`),
-          p.slug.ilike(`%${q}%`)
-        )
-      );
-    }
-    // Backend sorting
-   // Hot sellers filter
-    if (sort === "hot-sellers") {
-    productQuery = productQuery.where({ hotSeller: true });
-    }
-
-    // Ordering
-    switch (sort) {
-    case "price-asc":
-    case "price-desc":
-        // Temporary: sort by name/id in SQL.
-        // After fetch, re-sort the page by effective variant price (see below).
-        productQuery = productQuery.orderBy([
-        (p) => p.name.asc(),
-        (p) => p.id.asc(),
-        ]);
-        break;
-
-    case "name":
-        productQuery = productQuery.orderBy([
-        (p) => p.name.asc(),
-        (p) => p.id.asc(),
-        ]);
-        break;
-
-    case "hot-sellers":
-        productQuery = productQuery.orderBy((p) => p.id.desc());
-        break;
-
-    case "featured":
-    default:
-        productQuery = productQuery.orderBy((p) => p.id.desc());
-        break;
-    }
-
-    const result = await productQuery
-    .limit(limit + 1)
-    .offset(skip)
-    .all();
-
-    const hasMore = result.length > limit;
-    let products = result.slice(0, limit);
-
-    // Page-level price sort (only when price sort is requested)
-    if (sort === "price-asc" || sort === "price-desc") {
-    const getEffectivePrice = (product: any) => {
-        const variant = product.variants?.[0];
-        if (!variant) return Number.MAX_SAFE_INTEGER;
-        if (variant.onSale && variant.salePrice != null) {
-        return Number(variant.salePrice);
-        }
-        return Number(variant.price ?? Number.MAX_SAFE_INTEGER);
+      ...(q && {
+        OR: [
+          {
+            name: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            category: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            description: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+          {
+            slug: {
+              contains: q,
+              mode: "insensitive",
+            },
+          },
+        ],
+      }),
     };
 
-    products = [...products].sort((a, b) => {
-        const diff = getEffectivePrice(a) - getEffectivePrice(b);
-        return sort === "price-asc" ? diff : -diff;
+    // Sorting
+    let orderBy: any;
+
+    switch (sort) {
+      case "price-asc":
+      case "price-desc":
+      case "name":
+        orderBy = [
+          { name: "asc" },
+          { id: "asc" },
+        ];
+        break;
+
+      case "hot-sellers":
+      case "featured":
+      default:
+        orderBy = { id: "desc" };
+        break;
+    }
+
+    // Fetch products
+    const result = await prisma.product.findMany({
+      where,
+      include: {
+        variants: true,
+      },
+      orderBy,
+      take: limit + 1,
+      skip,
     });
+
+    // Pagination
+    const hasMore = result.length > limit;
+
+    let products = result.slice(0, limit);
+
+    // Price sorting
+    if (sort === "price-asc" || sort === "price-desc") {
+      const getEffectivePrice = (product: any) => {
+        const variant = product.variants?.[0];
+
+        if (!variant) return Number.MAX_SAFE_INTEGER;
+
+        if (variant.onSale && variant.salePrice != null) {
+          return Number(variant.salePrice);
+        }
+
+        return Number(
+          variant.price ?? Number.MAX_SAFE_INTEGER
+        );
+      };
+
+      products = [...products].sort((a, b) => {
+        const diff =
+          getEffectivePrice(a) - getEffectivePrice(b);
+
+        return sort === "price-asc" ? diff : -diff;
+      });
     }
 
     res.status(200).json({
       success: true,
-      products: products,
+      products,
       hasMore,
       currentPage: page,
     });
+
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -108,11 +128,12 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
   }
 };
 
+
 export const getHotSellerProducts = async ( req: Request, res: Response ): Promise<void> => {
-    const products = await db.orm.public.Product
-        .where({ hotSeller: true })
-        .include("variants")
-        .all();
+    const products = await prisma.product.findMany({
+        where: {hotSeller: true},
+        include: {variants:true},
+    })
 
     res.status(200).json({
         success: true,
@@ -125,11 +146,10 @@ export const getNewArrivals = async ( req: Request, res: Response): Promise<void
 
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const products = await db.orm.public.Product
-        .where((p) => p.createdAt.gte(sevenDaysAgo))
-        .include("variants")
-        .all();
-
+    const products = await prisma.product.findMany({
+        where: {createdAt: {gte: sevenDaysAgo}},
+        include: {variants: true}
+    })
 
     res.status(200).json({
         success: true,
@@ -146,8 +166,11 @@ export const getSingleProduct = async (req: Request<{ slug: string }>, res: Resp
             return;
         }
 
-        const product = await db.orm.public.Product.where({ slug }).include("variants").first();
-
+        const product = await prisma.product.findUnique({
+            where: {slug},
+            include: {variants: true}
+        })
+        
         if (!product) {
             res.status(404).json({ success: false, message: "No product found with this id" });
             return;
@@ -240,31 +263,35 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         }
 
         // Save product and variants inside a transaction
-        const result = await db.transaction(async (tx) => {
-            const product = await tx.orm.public.Product.create({
-                name: name.trim(),
-                slug,
-                hotSeller,
-                category: category.trim(),
-                description: description.trim(),
+        const result = await prisma.$transaction(async (tx) => {
+            const product = await tx.product.create({
+                data: {
+                    name: name.trim(),
+                    slug,
+                    hotSeller,
+                    category: category.trim(),
+                    description: description.trim(),
+                }
             });
             const createdVariants = await Promise.all(
                 variants.map((v, i) => {
                     const variantSku =
                     v.sku?.trim() || `${slug}-${createSlug(v.label)}-${Date.now()}-${i}`
 
-                    return tx.orm.public.Variant.create({
-                    label: v.label.trim(),
-                    sku: variantSku,
-                    stock: Number(v.stock) || 0,
-                    price: Math.round(Number(v.price)),
-                    onSale: Boolean(v.onSale === true || v.onSale === 'true'),
-                    salePrice:
-                        v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ''
-                        ? Math.round(Number(v.salePrice))
-                        : null,
-                    images: v.existingImages || [],
-                    productId: product.id,
+                    return tx.variant.create({
+                    data:{
+                        label: v.label.trim(),
+                        sku: variantSku,
+                        stock: Number(v.stock) || 0,
+                        price: Math.round(Number(v.price)),
+                        onSale: Boolean(v.onSale === true || v.onSale === 'true'),
+                        salePrice:
+                            v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ''
+                            ? Math.round(Number(v.salePrice))
+                            : null,
+                        images: v.existingImages || [],
+                        productId: product.id,
+                    }
                     })
                 })
                 )
@@ -297,7 +324,10 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const existingProduct = await db.orm.public.Product.where({ id }).include("variants").first();
+        const existingProduct = await prisma.product.findFirst({
+            where: {id},
+            include: {variants: true}
+        })
 
         if (!existingProduct) {
             res.status(404).json({ success: false, message: "Product not found" });
@@ -312,7 +342,9 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
 
         // Check for name/slug conflict with other products
         if (name && name.trim() !== existingProduct.name) {
-            const conflict = await db.orm.public.Product.where({ name: name.trim() }).first();
+            const conflict = await prisma.product.findFirst({
+                where: {name: name.trim()}
+            })
             if (conflict && conflict.id !== id) {
                 res.status(409).json({
                     success: false,
@@ -326,7 +358,9 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
         updatedSlug = createSlug(name)
 
         if (updatedSlug !== existingProduct.slug) {
-            const conflict = await db.orm.public.Product.where({ slug: updatedSlug }).first();
+            const conflict = await prisma.product.findUnique({
+                where: {slug: updatedSlug}
+            })
             if (conflict && conflict.id !== id) {
                 res.status(409).json({
                     success: false,
@@ -363,7 +397,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             v.existingImages = Array.from(new Set([...existingUrls, ...newUrls]));
         }
 
-        const result = await db.transaction(async (tx) => {
+        const result = await prisma.$transaction(async (tx) => {
             // 1. Update product base fields
             const productUpdateData: {
                 name?: string;
@@ -380,7 +414,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             if (description !== undefined) productUpdateData.description = description.trim();
 
             const updatedProd = Object.keys(productUpdateData).length > 0
-                ? await tx.orm.public.Product.where({ id }).update(productUpdateData)
+                ? await tx.product.update({where: {id}, data: productUpdateData})
                 : existingProduct;
             const product = updatedProd || existingProduct;
 
@@ -396,7 +430,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 // Delete variants removed in update
                 const toDelete = existingVariants.filter((exV) => !incomingIds.includes(exV.id));
                 for (const delV of toDelete) {
-                    await tx.orm.public.Variant.where({ id: delV.id }).delete();
+                    await prisma.variant.delete({where: {id:delV.id}})
                 }
 
                 const updatedVariants = [];
@@ -407,7 +441,9 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
 
                     if (vId && existingVariants.some((exV) => exV.id === vId)) {
                         // Update existing variant
-                        const updatedV = await tx.orm.public.Variant.where({ id: vId }).update({
+                        const updatedV = await prisma.variant.update({
+                            where: {id: vId},
+                            data:{
                             label: v.label.trim(),
                             sku: variantSku,
                             stock: Number(v.stock) || 0,
@@ -417,13 +453,14 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                                 ? Math.round(Number(v.salePrice))
                                 : null,
                             images: v.existingImages || [],
-                        });
+                        }});
                         if (updatedV) {
                             updatedVariants.push(updatedV);
                         }
                     } else {
                         // Create newly added variant
-                        const createdV = await tx.orm.public.Variant.create({
+                        const createdV = await prisma.variant.create({
+                            data: {
                             label: v.label.trim(),
                             sku: variantSku,
                             stock: Number(v.stock) || 0,
@@ -434,6 +471,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                                 : null,
                             images: v.existingImages || [],
                             productId: id,
+                        }
                         });
                         updatedVariants.push(createdV);
                     }
@@ -470,14 +508,14 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const product = await db.orm.public.Product.where({ id }).first();
+        const product = await prisma.product.findFirst({where: {id}})
 
         if (!product) {
             res.status(404).json({ success: false, message: "Product not found" });
             return;
         }
 
-        await db.orm.public.Product.where({ id }).delete();
+        await prisma.product.delete({where: {id}})
 
         res.status(200).json({
             success: true,

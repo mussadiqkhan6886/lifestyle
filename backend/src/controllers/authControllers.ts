@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs"
-import { db } from "../prisma/db"
 import { Request, Response } from "express"
 import { loginSchema } from "../schemas/loginSchema"
 import jwt, { JwtPayload } from "jsonwebtoken"
+import { prisma } from "../config/prisma"
 
 export const login = async (req: Request<{}, {}, {email: string, password: string}>, res:Response) : Promise<void> => {
     const {email, password} = req.body
@@ -16,11 +16,7 @@ export const login = async (req: Request<{}, {}, {email: string, password: strin
 
     const data = safeParsed.data
 
-    const user = await db.orm.public.Admin
-        .where({
-            email: data.email
-        })
-        .first();
+    const user = await prisma.admin.findUnique({where: {email: data.email}})
 
     if(!user){
         res.status(404).json({success:false, message: "Admin not found with this email"})
@@ -126,8 +122,8 @@ export const refresh = async (req: Request, res:Response) : Promise<void> => {
                 });
             }
 
-            const admin = await db.orm.public.Admin.where({id: decoded.id}).first()
-
+            const admin = await prisma.admin.findUnique({where: {id: Number(decoded.id)}})
+            
             if(!admin){
                 res.status(401).json({message: "No User Found"})
                 return

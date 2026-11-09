@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
-    "postinstall": "prisma skills sync || exit 0",
-    "contract:emit": "prisma contract emit"
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "mussadiq khan",
@@ -16,8 +14,8 @@
   "dependencies": {
     "@neon/config": "^1.11.3",
     "@neon/env": "^1.6.15",
+    "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
-    "@prisma/orm-postgres": "^8.0.0-rc.22",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.11.0",
     "compression": "^1.8.2",
@@ -30,11 +28,11 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.5.0",
     "nodemailer": "^10.3.1",
+    "pg": "^8.23.1",
     "redis": "^6.3.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@prisma/cli-engine": "^0.9.0",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
@@ -42,7 +40,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.3.0",
     "@types/node": "^26.6.6",
-    "prisma": "^8.0.0-rc.31",
+    "@types/pg": "^8.23.1",
+    "prisma": "^7.10.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }

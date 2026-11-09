@@ -1,4 +1,11 @@
-// use prisma-8
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
 
 model Admin {
     id       Int    @id @default(autoincrement())
@@ -15,7 +22,7 @@ model Product {
     description     String
     variants        Variant[]
     createdAt       DateTime    @default(now())
-    updatedAt       temporal.UpdatedAt
+    updatedAt       DateTime    @updatedAt
 }
 
 model Variant {

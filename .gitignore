@@ -2,6 +2,7 @@
 
 backend/.env
 backend/.neon
+backend/generated/prisma
 frontend/.env
 
 frontend/.next/
