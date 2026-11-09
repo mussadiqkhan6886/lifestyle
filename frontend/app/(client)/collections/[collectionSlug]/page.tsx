@@ -1,6 +1,6 @@
 import BreadCrump from '@/components/client/BreadCrump'
 import ProductCard from '@/components/client/ProductCard'
-import { collections, products } from '@/lib/constants'
+import { collections } from '@/lib/constants'
 import { aire } from '@/lib/fonts'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'

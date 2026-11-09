@@ -16,9 +16,6 @@ interface Props {
 const RECENT_KEY = 'ls-recent-searches'
 const MAX_RECENT = 5
 
-// Placeholder suggestions — replace with your real popular terms
-// const popularSearches = ['watches', 'Leather bags', 'Gift for him', 'Women’s heels', 'New arrivals']
-
 const SearchOverlay = ({ open, onClose }: Props) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)

@@ -1,5 +1,5 @@
 import { collections } from '@/lib/constants'
-import { ArrowBigLeft, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'

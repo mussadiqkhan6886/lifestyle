@@ -4,21 +4,48 @@ import { uploadToCloudinary } from "../lib/helpers/uploadToCloudinary";
 import { createSlug } from "../lib/helpers";
 import { mapUploadedImagesToVariants, parseVariantsFromRequest } from "../lib/helpers/variants";
 import { UploadedFileRef } from "../types/global";
+import { or } from "@prisma/orm-postgres/orm-client";
 
-
-export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
+export const getAllProducts = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
     try {
-        const limit = Number(req.query.limit)
+        const limit = Number(req.query.limit);
+        const q = String(req.query.q || "").trim();
+        console.log(q, limit)
+        let productQuery = db.orm.public.Product.include("variants");
+        console.log(productQuery)
         
-        let productQuery = db.orm.public.Product.include("variants")
-
-        if(Number.isInteger(limit) && limit > 0){
-            productQuery = productQuery.limit(limit)
+        if (q) {
+            productQuery = productQuery.where(p =>
+                or(
+                    p.name.ilike(`%${q}%`),
+                    p.category.ilike(`%${q}%`),
+                    p.description.ilike(`%${q}%`),
+                    p.slug.ilike(`%${q}%`)
+                )
+            );
         }
+        
+        console.log(productQuery)
+        if (Number.isInteger(limit) && limit > 0) {
+            productQuery = productQuery.limit(limit);
+        }
+        
         const products = await productQuery.all();
-        res.status(200).json({ success: true, products });
+        
+        console.log(products)
+        res.status(200).json({
+            success: true,
+            products
+        });
+
     } catch (error: any) {
-        res.status(500).json({ success: false, message: error.message || "Failed to fetch products" });
+        res.status(500).json({
+            success: false,
+            message: error.message || "Failed to fetch products"
+        });
     }
 };
 

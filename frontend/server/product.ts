@@ -14,8 +14,21 @@ export const createProduct = async (formData: FormData) => {
   return response;
 }
 
-export const getAllProducts = async (limit ?: number): Promise<productType[]> => {
-  const res = await fetchHelperNoCookies<{success:boolean, products:productType[]}>(`products${limit ? `?limit=${limit}` : ''}`, { method: 'GET' })
+export const getAllProducts = async (limit ?: number, q ?:string): Promise<productType[]> => {
+  const params = new URLSearchParams();
+
+    if (limit) {
+        params.append("limit", String(limit));
+    }
+
+    if (q?.trim()) {
+        params.append("q", q.trim());
+    }
+
+    const queryString = params.toString();
+    
+  const res = await fetchHelperNoCookies<{success:boolean, products:productType[]}>(`products${queryString ? `?${queryString}` : ''}`, { method: 'GET' })
+  console.log(res)
   return res.products
 }
  
