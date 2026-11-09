@@ -430,7 +430,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 // Delete variants removed in update
                 const toDelete = existingVariants.filter((exV) => !incomingIds.includes(exV.id));
                 for (const delV of toDelete) {
-                    await prisma.variant.delete({where: {id:delV.id}})
+                    await tx.variant.delete({where: {id:delV.id}})
                 }
 
                 const updatedVariants = [];
@@ -441,7 +441,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
 
                     if (vId && existingVariants.some((exV) => exV.id === vId)) {
                         // Update existing variant
-                        const updatedV = await prisma.variant.update({
+                        const updatedV = await tx.variant.update({
                             where: {id: vId},
                             data:{
                             label: v.label.trim(),
@@ -459,7 +459,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                         }
                     } else {
                         // Create newly added variant
-                        const createdV = await prisma.variant.create({
+                        const createdV = await tx.variant.create({
                             data: {
                             label: v.label.trim(),
                             sku: variantSku,
