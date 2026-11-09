@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import Link from "next/link";
 import { login } from "@/server/auth";
 import { loginSchema, LoginFormValues } from "@/lib/schemas/loginSchema";
 
@@ -148,6 +148,7 @@ export default function AdminLoginPage() {
         <p className="mt-8 text-center text-xs text-gray-400">
           Protected Admin Area
         </p>
+        <Link className="underline text-xs text-center block mt-2 text-zinc-700" href="/">Go Home</Link>
       </div>
     </main>
   );
