@@ -83,6 +83,13 @@ const getVariants = (v: Variant[]) => {
   ))
 }
 
+interface ProductsResponse {
+  products: productType[]
+  hasMore: boolean
+  currentPage: number
+  success: boolean
+}
+
 /* ───────── page ───────── */
 
 export default function AdminProductsPage() {
@@ -91,9 +98,9 @@ export default function AdminProductsPage() {
   const [category, setCategory] = useState('all')
   const [toDelete, setToDelete] = useState<productType | null>(null)
 
-  const { data, isLoading, isError, error, refetch, isFetching } = useQuery<productType[]>({
+  const { data, isLoading, isError, error, refetch, isFetching } = useQuery<ProductsResponse>({
     queryKey: ['products'],
-    queryFn: () => getAllProducts(),
+    queryFn: () => getAllProducts(48),
   })
 
   const { mutate: removeProduct, isPending: isDeleting } = useMutation({
@@ -106,7 +113,7 @@ export default function AdminProductsPage() {
     onError: (err: Error) => toast.error(err.message || 'Could not delete product'),
   })
 
-  const products = data ?? []
+  const products : productType[] = data?.products ?? []
 
   const categories = useMemo(() => Array.from(new Set(products.map((p) => p.category))).sort(), [products])
 

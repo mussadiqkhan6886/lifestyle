@@ -14,23 +14,43 @@ export const createProduct = async (formData: FormData) => {
   return response;
 }
 
-export const getAllProducts = async (limit ?: number, q ?:string): Promise<productType[]> => {
+interface ReturnProductsT {
+    products:productType[],
+    hasMore: boolean,
+    currentPage: number,
+    success: boolean
+}
+interface ReturnProductsT {
+  products: productType[];
+  hasMore: boolean;
+  currentPage: number;
+  success: boolean;
+}
+
+export const getAllProducts = async (
+  limit?: number,
+  q?: string,
+  category?: string,
+  page?: number,
+  sort?: string
+): Promise<ReturnProductsT> => {
   const params = new URLSearchParams();
 
-    if (limit) {
-        params.append("limit", String(limit));
-    }
+  if (limit) params.append("limit", String(limit));
+  if (q?.trim()) params.append("q", q.trim());
+  if (category) params.append("category", category);
+  if (page) params.append("page", String(page));
+  if (sort) params.append("sort", sort);
 
-    if (q?.trim()) {
-        params.append("q", q.trim());
-    }
+  const queryString = params.toString();
 
-    const queryString = params.toString();
-    
-  const res = await fetchHelperNoCookies<{success:boolean, products:productType[]}>(`products${queryString ? `?${queryString}` : ''}`, { method: 'GET' })
-  console.log(res)
-  return res.products
-}
+  const res = await fetchHelperNoCookies<ReturnProductsT>(
+    `products${queryString ? `?${queryString}` : ""}`,
+    { method: "GET" }
+  );
+
+  return res;
+};
  
 export const deleteProduct = async (id: string) => {
   await fetchHelper(`products/${id}`, {

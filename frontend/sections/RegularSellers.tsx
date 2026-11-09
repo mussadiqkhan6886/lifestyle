@@ -6,7 +6,7 @@ import { getAllProducts } from '@/server/product';
 
 const RegularSellers = async () => {
 
-    const products = await getAllProducts(8)
+    const {products} = await getAllProducts(8)
 
     if(products.length <  1){
         return null

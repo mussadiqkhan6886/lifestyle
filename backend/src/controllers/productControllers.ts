@@ -6,47 +6,106 @@ import { mapUploadedImagesToVariants, parseVariantsFromRequest } from "../lib/he
 import { UploadedFileRef } from "../types/global";
 import { or } from "@prisma/orm-postgres/orm-client";
 
-export const getAllProducts = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
-    try {
-        const limit = Number(req.query.limit);
-        const q = String(req.query.q || "").trim();
-        console.log(q, limit)
-        let productQuery = db.orm.public.Product.include("variants");
-        console.log(productQuery)
-        
-        if (q) {
-            productQuery = productQuery.where(p =>
-                or(
-                    p.name.ilike(`%${q}%`),
-                    p.category.ilike(`%${q}%`),
-                    p.description.ilike(`%${q}%`),
-                    p.slug.ilike(`%${q}%`)
-                )
-            );
-        }
-        
-        console.log(productQuery)
-        if (Number.isInteger(limit) && limit > 0) {
-            productQuery = productQuery.limit(limit);
-        }
-        
-        const products = await productQuery.all();
-        
-        console.log(products)
-        res.status(200).json({
-            success: true,
-            products
-        });
+export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const q = String(req.query.q || "").trim();
+    const category = String(req.query.category || "").trim();
+    const sort = String(req.query.sort || "featured").trim();
 
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message || "Failed to fetch products"
-        });
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const requestedLimit = Number(req.query.limit) || 12;
+    const limit = Math.min(Math.max(1, requestedLimit), 48);
+    const skip = (page - 1) * limit;
+
+    let productQuery = db.orm.public.Product.include("variants");
+
+    if (category) {
+      productQuery = productQuery.where({ category });
     }
+
+    // Search
+    if (q) {
+      productQuery = productQuery.where((p) =>
+        or(
+          p.name.ilike(`%${q}%`),
+          p.category.ilike(`%${q}%`),
+          p.description.ilike(`%${q}%`),
+          p.slug.ilike(`%${q}%`)
+        )
+      );
+    }
+    // Backend sorting
+   // Hot sellers filter
+    if (sort === "hot-sellers") {
+    productQuery = productQuery.where({ hotSeller: true });
+    }
+
+    // Ordering
+    switch (sort) {
+    case "price-asc":
+    case "price-desc":
+        // Temporary: sort by name/id in SQL.
+        // After fetch, re-sort the page by effective variant price (see below).
+        productQuery = productQuery.orderBy([
+        (p) => p.name.asc(),
+        (p) => p.id.asc(),
+        ]);
+        break;
+
+    case "name":
+        productQuery = productQuery.orderBy([
+        (p) => p.name.asc(),
+        (p) => p.id.asc(),
+        ]);
+        break;
+
+    case "hot-sellers":
+        productQuery = productQuery.orderBy((p) => p.id.desc());
+        break;
+
+    case "featured":
+    default:
+        productQuery = productQuery.orderBy((p) => p.id.desc());
+        break;
+    }
+
+    const result = await productQuery
+    .limit(limit + 1)
+    .offset(skip)
+    .all();
+
+    const hasMore = result.length > limit;
+    let products = result.slice(0, limit);
+
+    // Page-level price sort (only when price sort is requested)
+    if (sort === "price-asc" || sort === "price-desc") {
+    const getEffectivePrice = (product: any) => {
+        const variant = product.variants?.[0];
+        if (!variant) return Number.MAX_SAFE_INTEGER;
+        if (variant.onSale && variant.salePrice != null) {
+        return Number(variant.salePrice);
+        }
+        return Number(variant.price ?? Number.MAX_SAFE_INTEGER);
+    };
+
+    products = [...products].sort((a, b) => {
+        const diff = getEffectivePrice(a) - getEffectivePrice(b);
+        return sort === "price-asc" ? diff : -diff;
+    });
+    }
+
+    res.status(200).json({
+      success: true,
+      products: products,
+      hasMore,
+      currentPage: page,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch products",
+    });
+  }
 };
 
 export const getHotSellerProducts = async ( req: Request, res: Response ): Promise<void> => {
