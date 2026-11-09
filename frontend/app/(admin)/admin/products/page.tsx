@@ -93,7 +93,7 @@ export default function AdminProductsPage() {
 
   const { data, isLoading, isError, error, refetch, isFetching } = useQuery<productType[]>({
     queryKey: ['products'],
-    queryFn: getAllProducts,
+    queryFn: () => getAllProducts(),
   })
 
   const { mutate: removeProduct, isPending: isDeleting } = useMutation({

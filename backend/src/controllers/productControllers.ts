@@ -8,11 +8,47 @@ import { UploadedFileRef } from "../types/global";
 
 export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
     try {
-        const products = await db.orm.public.Product.include("variants").all();
+        const limit = Number(req.query.limit)
+        
+        let productQuery = db.orm.public.Product.include("variants")
+
+        if(Number.isInteger(limit) && limit > 0){
+            productQuery = productQuery.limit(limit)
+        }
+        const products = await productQuery.all();
         res.status(200).json({ success: true, products });
     } catch (error: any) {
         res.status(500).json({ success: false, message: error.message || "Failed to fetch products" });
     }
+};
+
+export const getHotSellerProducts = async ( req: Request, res: Response ): Promise<void> => {
+    const products = await db.orm.public.Product
+        .where({ hotSeller: true })
+        .include("variants")
+        .all();
+
+    res.status(200).json({
+        success: true,
+        products,
+    });
+};
+
+export const getNewArrivals = async ( req: Request, res: Response): Promise<void> => {
+    const sevenDaysAgo = new Date();
+
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const products = await db.orm.public.Product
+        .where((p) => p.createdAt.gte(sevenDaysAgo))
+        .include("variants")
+        .all();
+
+
+    res.status(200).json({
+        success: true,
+        products,
+    });
 };
 
 export const getSingleProduct = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
@@ -369,3 +405,4 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
         });
     }
 };
+

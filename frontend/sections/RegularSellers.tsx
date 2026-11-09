@@ -1,11 +1,17 @@
 import Link from 'next/link'
-import React from 'react'
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { products } from '@/lib/constants';
+import { ArrowUpRight } from 'lucide-react';
 import ProductCard from '@/components/client/ProductCard';
 import { aire } from '@/lib/fonts';
+import { getAllProducts } from '@/server/product';
 
-const RegularSellers = () => {
+const RegularSellers = async () => {
+
+    const products = await getAllProducts(8)
+
+    if(products.length <  1){
+        return null
+    }
+
   return (
     <section className='max-w-8xl mx-auto sm:px-3 my-12 sm:my-18 xl:my-24'>
         <div className='flex justify-between items-center mb-10 sm:mb-12 gap-3 px-1'>
@@ -19,7 +25,7 @@ const RegularSellers = () => {
             </div>
         </div>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 sm:gap-2 md:gap-4'>
-            {products.slice(0,8).map(item => (
+            {products.map(item => (
                 <ProductCard tag={"col"} key={item.id} {...item} />
             ))}
         </div>

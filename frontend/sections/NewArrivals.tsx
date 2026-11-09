@@ -1,20 +1,15 @@
 import ProductsCorousal from '@/components/client/ProductsCorousal'
-import { products } from '@/lib/constants'
 import { aire } from '@/lib/fonts'
-import { connection } from 'next/server'
+import { getNewArrivals } from '@/server/product'
 import React from 'react'
 
 const NewArrivals = async () => {
-    await connection()
-     const sevenDaysAgo = new Date()
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
-    const newArrivals = products.filter(item => item.createdAt > Number(sevenDaysAgo))
+    const products = await getNewArrivals()
 
-    if(newArrivals.length < 1){
+    if(products.length < 1){
         return null
     }
-
   return (
      <section className='my-12 px-3'>
         <div className=' py-8 flex gap-1 flex-col'>
