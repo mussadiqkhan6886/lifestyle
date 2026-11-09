@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express, {type Express} from "express"
 import cors from "cors"
 import helmet from "helmet"
@@ -16,7 +17,7 @@ app.use(express.json())
 app.get("/health", (req, res) => {
     res.status(200).send("ok")
 })
-app.use("/api/auth/", routerAuth)
+app.use("/api/auth", routerAuth)
 app.use("/api/products", routerProducts)
 
 app.use(ErrorHandler)
