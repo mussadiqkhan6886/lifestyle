@@ -12,3 +12,14 @@ export const createProduct = async (formData: FormData) => {
   });
   return response;
 }
+
+export const getAllProducts = async (): Promise<productType[]> => {
+  const res = await fetchHelper<{success:boolean, products:productType[]}>(`products`, { method: 'GET' })
+  return res.products
+}
+ 
+export const deleteProduct = async (id: string) => {
+  await fetchHelper(`products/${id}`, {
+    method: 'DELETE',
+  })
+}
