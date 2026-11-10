@@ -4,6 +4,7 @@ import { createSlug } from "../lib/helpers";
 import { mapUploadedImagesToVariants, parseVariantsFromRequest } from "../lib/helpers/variants";
 import { UploadedFileRef } from "../types/global";
 import { prisma } from "../config/prisma";
+import { createProductSchema, updateProductSchema } from "../schemas/productSchema";
 
 export const getAllProducts = async ( req: Request, res: Response): Promise<void> => {
   try {
@@ -184,56 +185,43 @@ export const getSingleProduct = async (req: Request<{ slug: string }>, res: Resp
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, category, description } = req.body;
-        const rawSlug = req.body.slug;
-        const hotSeller = req.body.hotSeller === true || req.body.hotSeller === "true";
-
-        if (!name || typeof name !== "string" || !name.trim()) {
-            res.status(400).json({ success: false, message: "Product name is required" });
-            return;
-        }
-
-        if (!category || typeof category !== "string" || !category.trim()) {
-            res.status(400).json({ success: false, message: "Product category is required" });
-            return;
-        }
-
-        if (!description || typeof description !== "string" || !description.trim()) {
-            res.status(400).json({ success: false, message: "Product description is required" });
-            return;
-        }
-
-        const slug = rawSlug && typeof rawSlug === "string" && rawSlug.trim()
-            ? createSlug(rawSlug)
-            : createSlug(name);
 
         const variants = parseVariantsFromRequest(req.body);
 
-        if (!variants || variants.length === 0) {
+        const validation = createProductSchema.safeParse({
+                ...req.body,
+                hotSeller: req.body.hotSeller ?? false,
+                variants,
+            });
+
+            if (!validation.success) {
+                res.status(400).json({
+                    success: false,
+                    message: "Validation failed",
+                    errors: validation.error.flatten(),
+                });
+                return;
+            }
+
+            const {
+                name,
+                category,
+                description,
+                slug: rawSlug,
+                hotSeller,
+                variants: validatedVariants,
+            } = validation.data;
+
+            const slug = rawSlug?.trim()
+                ? createSlug(rawSlug)
+                : createSlug(name);
+
+        if (!validatedVariants || validatedVariants.length === 0) {
             res.status(400).json({
                 success: false,
                 message: "At least one product variant is required",
             });
             return;
-        }
-
-        // Validate variants
-        for (let i = 0; i < variants.length; i++) {
-            const v = variants[i];
-            if (!v.label || typeof v.label !== "string" || !v.label.trim()) {
-                res.status(400).json({
-                    success: false,
-                    message: `Variant at index ${i} requires a non-empty label`,
-                });
-                return;
-            }
-            if (v.price === undefined || v.price === null || isNaN(Number(v.price))) {
-                res.status(400).json({
-                    success: false,
-                    message: `Variant "${v.label}" requires a valid price`,
-                });
-                return;
-            }
         }
 
         // Upload files to Cloudinary
@@ -249,11 +237,11 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
             })
         );
 
-        // Distribute images to their target variants
-        const variantImagesMap = mapUploadedImagesToVariants(variants, uploadedFiles, req.body);
+        // Distribute images to their target validatedVariants
+        const variantImagesMap = mapUploadedImagesToVariants(validatedVariants, uploadedFiles, req.body);
 
-        for (let i = 0; i < variants.length; i++) {
-            const v = variants[i];
+        for (let i = 0; i < validatedVariants.length; i++) {
+            const v = validatedVariants[i];
             // Preserve pre-existing URLs (e.g. if passed as strings in images)
             const existingUrls = Array.isArray(v.existingImages)
                 ? v.existingImages.filter((img) => typeof img === "string" && /^https?:\/\//i.test(img))
@@ -274,7 +262,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                 }
             });
             const createdVariants = await Promise.all(
-                variants.map((v, i) => {
+                validatedVariants.map((v, i) => {
                     const variantSku =
                     v.sku?.trim() || `${slug}-${createSlug(v.label)}-${Date.now()}-${i}`
 
@@ -284,9 +272,9 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                         sku: variantSku,
                         stock: Number(v.stock) || 0,
                         price: Math.round(Number(v.price)),
-                        onSale: Boolean(v.onSale === true || v.onSale === 'true'),
+                        onSale: Boolean(v.onSale === true),
                         salePrice:
-                            v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ''
+                            v.salePrice !== undefined && v.salePrice !== null
                             ? Math.round(Number(v.salePrice))
                             : null,
                         images: v.existingImages || [],
@@ -334,15 +322,11 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const { name, category, description } = req.body;
-        const rawSlug = req.body.slug;
-        const hotSeller = req.body.hotSeller !== undefined
-            ? (req.body.hotSeller === true || req.body.hotSeller === "true")
-            : undefined;
-
-        // Check for name/slug conflict with other products
+        const { name } = req.body;
+        const rawSlug = req.body.slug
+        // Check for nameBody/slug conflict with other products
         if (name && name.trim() !== existingProduct.name) {
-            const conflict = await prisma.product.findFirst({
+            const conflict = await prisma.product.findUnique({
                 where: {name: name.trim()}
             })
             if (conflict && conflict.id !== id) {
@@ -354,8 +338,11 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             }
         }
 
-        let updatedSlug = existingProduct.slug;
-        updatedSlug = createSlug(name)
+        const slugSource = rawSlug?.trim() || name;
+
+        const updatedSlug = slugSource
+            ? createSlug(slugSource)
+            : existingProduct.slug;
 
         if (updatedSlug !== existingProduct.slug) {
             const conflict = await prisma.product.findUnique({
@@ -370,7 +357,34 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             }
         }
 
-        const incomingVariants = parseVariantsFromRequest(req.body);
+        const incomingVariantsParsed = parseVariantsFromRequest(req.body);
+
+        const validation = updateProductSchema.safeParse({
+                ...req.body,
+                variants: req.body.variants !== undefined
+                    ? incomingVariantsParsed
+                    : undefined,
+            });
+
+            if (!validation.success) {
+                res.status(400).json({
+                    success: false,
+                    message: "Validation failed",
+                    errors: validation.error.flatten(),
+                });
+                return;
+            }
+
+            const {
+                name:updatedName,
+                category,
+                description,
+                slug,
+                hotSeller,
+                variants: validatedVariants,
+            } = validation.data;
+
+            const incomingVariants = validatedVariants ?? [];
 
         // Upload any newly uploaded files to Cloudinary
         const files = (req.files as Express.Multer.File[]) || [];
@@ -407,8 +421,8 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 description?: string;
             } = {};
 
-            if (name !== undefined) productUpdateData.name = name.trim();
-            if (updatedSlug !== undefined) productUpdateData.slug = updatedSlug;
+            if (updatedName !== undefined) productUpdateData.name = updatedName.trim();
+            if (slug !== undefined) productUpdateData.slug = slug;
             if (hotSeller !== undefined) productUpdateData.hotSeller = hotSeller;
             if (category !== undefined) productUpdateData.category = category.trim();
             if (description !== undefined) productUpdateData.description = description.trim();
@@ -437,7 +451,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 for (let i = 0; i < incomingVariants.length; i++) {
                     const v = incomingVariants[i];
                     const vId = v.id ? Number(v.id) : null;
-                    const variantSku = `${updatedSlug}-${createSlug(v.label)}-${i}`;
+                    const variantSku = `${slug}-${createSlug(v.label)}-${i}`;
 
                     if (vId && existingVariants.some((exV) => exV.id === vId)) {
                         // Update existing variant
@@ -448,8 +462,8 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                             sku: variantSku,
                             stock: Number(v.stock) || 0,
                             price: Math.round(Number(v.price)),
-                            onSale: Boolean(v.onSale === true || v.onSale === "true"),
-                            salePrice: v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ""
+                            onSale: Boolean(v.onSale === true ),
+                            salePrice: v.salePrice !== undefined && v.salePrice !== null
                                 ? Math.round(Number(v.salePrice))
                                 : null,
                             images: v.existingImages || [],
@@ -465,8 +479,8 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                             sku: variantSku,
                             stock: Number(v.stock) || 0,
                             price: Math.round(Number(v.price)),
-                            onSale: Boolean(v.onSale === true || v.onSale === "true"),
-                            salePrice: v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== ""
+                            onSale: Boolean(v.onSale === true),
+                            salePrice: v.salePrice !== undefined && v.salePrice !== null
                                 ? Math.round(Number(v.salePrice))
                                 : null,
                             images: v.existingImages || [],

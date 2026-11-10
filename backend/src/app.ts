@@ -8,6 +8,7 @@ import { ErrorHandler } from "./middleware/ErrorHandler"
 import routerAuth from "./routes/authRoutes"
 import routerProducts from "./routes/productRoute"
 import routerAI from "./routes/aiRoute";
+import routerReview from "./routes/reviewRoute";
 
 const app : Express = express() 
 
@@ -21,6 +22,7 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", routerAuth)
 app.use("/api/products", routerProducts)
 app.use("/api/ai", routerAI)
+app.use("/api/review", routerReview)
 
 app.use(ErrorHandler)
 

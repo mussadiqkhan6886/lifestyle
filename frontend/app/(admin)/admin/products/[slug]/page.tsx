@@ -181,7 +181,6 @@ function EditProductForm({ product }: { product: productType }) {
     onSuccess: () => {
       toast.success('Product updated successfully!', { id: 'p' })
       queryClient.invalidateQueries({ queryKey: ['products'] })
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] })
       queryClient.invalidateQueries({ queryKey: ['product', product.id] })
       router.push('/admin/products')
     },
