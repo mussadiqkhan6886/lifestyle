@@ -16,6 +16,8 @@ import { createProduct } from "@/server/product";
 import { toast } from "sonner";
 import { collections } from "@/lib/constants";
 import { Suspense } from "react";
+import { generateAi } from "@/server/ai";
+import GenerateDesc from "@/components/admin/GenerateDesc";
 
 export default function CreateProductPage() {
   return (
@@ -144,6 +146,7 @@ function CreateProductForm() {
         toast.error(err.message || "Something went wrong", {id: "p"})
     }
   });
+
 
   const handleImageChange = async (
     variantIndex: number,
@@ -282,6 +285,15 @@ function CreateProductForm() {
     mutation.mutate(formData);
   };
 
+  const productName = useWatch({
+    control,
+    name: "name",
+  });
+
+  const description = useWatch({
+    control,
+    name: "description",
+  });
  
 return (
   <main className="min-h-screen bg-[#f8fafc] px-4 py-8 sm:px-6 lg:px-10">
@@ -419,8 +431,17 @@ return (
 
             {/* DESCRIPTION */}
             <div className="sm:col-span-2">
-              <label className="mb-2 block text-sm font-semibold text-gray-700">
-                Product Description <span className="text-red-500">*</span>
+              <label className="mb-2 text-sm font-semibold text-gray-700 flex items-start gap-2">
+                Product Description <span className="text-red-500">*</span> <GenerateDesc
+                      productName={productName}
+                      description={description}
+                      onGenerated={(generatedDescription) => {
+                        setValue("description", generatedDescription, {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        });
+                      }}
+                    />
               </label>
 
               <textarea

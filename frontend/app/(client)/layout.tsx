@@ -11,7 +11,7 @@ export const metadata : Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <>
-      <Suspense fallback={<div className="h-20" />}>
+      <Suspense fallback={<div className="h-20 absolute" />}>
         <Header />
       </Suspense>
       {children}

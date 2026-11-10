@@ -56,7 +56,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
   return (
     <section className="lg:grid lg:grid-cols-12 bg-light-beige text-neutral-900">
       {/* ── Images: vertical full-screen stack on desktop, swipe carousel on mobile ── */}
-      <div className="lg:col-span-7 relative">
+      <div className="lg:col-span-6 relative">
         <div
           ref={scrollerRef}
           onScroll={onScroll}
@@ -97,7 +97,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
         )}
       </div>
 
-      <div className="lg:col-span-5 lg:sticky lg:top-0 lg:self-start lg:h-screen lg:overflow-y-auto">
+      <div className="lg:col-span-6 lg:sticky lg:top-0 lg:self-start lg:h-screen lg:overflow-y-auto">
         <div className="px-4 sm:px-8 lg:px-8 xl:px-12 pt-8 lg:pt-24 pb-12 space-y-6">
           <BreadCrump collection={collectionTitle} product={product.name} />
 
@@ -107,7 +107,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
                 Hot seller
               </span>
             )}
-            <h1 className={`${aire.className} text-[25px] sm:text-4xl mt-5 leading-tight tracking-tight`}>{product.name}</h1>
+            <h1 className={`${aire.className} text-[25px] sm:text-4xl mt-5 leading-tight tracking-tight capitalize`}>{product.name}</h1>
 
             <div className="flex items-baseline gap-3">
               <span className={`${aire.className} text-[20px] sm:text-2xl tabular-nums`}>PKR {price.toLocaleString()}</span>

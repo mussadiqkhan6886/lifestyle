@@ -13,8 +13,7 @@ const CollectionPage = async ({
   params: Params
   searchParams: SearchParams
 }) => {
-  const { collectionSlug } = await params
-  const { sort } = await searchParams
+  const [{collectionSlug}, {sort}] = await Promise.all([params, searchParams])
 
   return (
     <CollectionComp

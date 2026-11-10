@@ -7,12 +7,9 @@ import { getAllProducts } from '@/server/product'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Search, PackageX, Sparkles, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation';
 
-const ShowSearch = () => {
+const ShowSearch = ({q}: {q:string}) => {
 
-  const searchParams = useSearchParams()
-  const q = searchParams.get("q")
   const query = q?.trim()
 
   if (!query) {
@@ -73,11 +70,15 @@ const ShowSearch = () => {
     const products = data?.pages.flatMap((page) => page.products) ?? [];
 
     if(isLoading){
-      return <ProductCardSkeletonGrid />
+      return <ProductCardSkeletonGrid count={8} />
     }
 
     if(isError){
-      <div className="text-red-600 flex items-center justify-center min-h-screen"><h2>Failed to load: {error.message}</h2></div>
+      return (
+      <div className="text-red-600 flex items-center justify-center min-h-screen">
+        <h2>Failed to load: {error.message}
+          </h2>
+      </div>)
     }
 
   if (products.length < 1) {

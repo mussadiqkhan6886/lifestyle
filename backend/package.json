@@ -12,6 +12,7 @@
   "author": "mussadiq khan",
   "license": "ISC",
   "dependencies": {
+    "@google/genai": "^3.0.0",
     "@neon/config": "^1.11.3",
     "@neon/env": "^1.6.15",
     "@prisma/adapter-pg": "^7.10.1",

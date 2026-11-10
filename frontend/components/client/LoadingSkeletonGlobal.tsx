@@ -52,11 +52,7 @@ const PageSkeleton = ({ cards = 6 }: { cards?: number }) => (
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <Skeleton className="h-4 w-24" />
-        <div className="flex flex-wrap gap-2">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-8 w-24 rounded-full" />
-          ))}
-        </div>
+        <Skeleton className="h-8 w-24 rounded-full" />
       </div>
 
       <ProductGridSkeleton count={cards} />
