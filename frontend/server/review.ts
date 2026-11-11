@@ -11,8 +11,8 @@ export const getAllReviews = async () : Promise<ReviewT[]> => {
     return res.reviews
 }
 
-export const deleteReview = async (id:number) : Promise<undefined> => {
-    await fetchHelper<undefined>(`reviews/${id}`, {method: "DELETE"})
+export const deleteReview = async (id:number) : Promise<void> => {
+    await fetchHelper<undefined>(`review/${id}`, {method: "DELETE"})
 }
 
 export const createReview = async (data: {name: string, comment:string, title:string, rating:number}) : Promise<ReviewT> => {
