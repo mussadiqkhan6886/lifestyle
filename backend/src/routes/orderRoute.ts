@@ -1,0 +1,15 @@
+
+import { Router } from "express"
+import { verifyJWT } from "../middleware/verifyJWT"
+import { createOrder, getAllOrders, getSingleOrder, updateOrder } from "../controllers/orderControllers"
+import { apiLimiter } from "../middleware/apiLimiter"
+
+const router = Router()
+
+router.post("/", createOrder)
+
+router.get("/", verifyJWT ,getAllOrders)
+router.get("/:id" ,apiLimiter, getSingleOrder)
+router.patch("/:id", verifyJWT ,updateOrder)
+
+export default router

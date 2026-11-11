@@ -15,7 +15,8 @@ const AdminReviews = () => {
         isLoading,
         isError,
         error,
-        refetch
+        refetch,
+        isFetching
     } = useQuery({
         queryKey: ['reviews'],
         queryFn: getAllReviews
@@ -64,11 +65,11 @@ const AdminReviews = () => {
                 <button
                     type="button"
                     onClick={() => refetch()}
-                    disabled={isLoading}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-neutral-900 text-white rounded-lg text-sm hover:bg-neutral-800 transition-colors disabled:opacity-50"
+                    disabled={isFetching}
+                    className="inline-flex items-center cursor-pointer justify-center gap-2 px-4 py-2.5 bg-neutral-900 text-white rounded-lg text-sm hover:bg-neutral-800 transition-colors disabled:opacity-50"
                 >
                     <RefreshCw className="w-4 h-4" />
-                    Refresh
+                    {isFetching ? "Refreshing..." :"Refresh"}
                 </button>
             </div>
 

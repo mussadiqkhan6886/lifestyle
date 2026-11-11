@@ -45,3 +45,85 @@ model Review {
   title   String
   comment String
 }
+
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH_ON_DELIVERY
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
+model Order {
+  id             Int           @id @default(autoincrement())
+  orderNumber    String        @unique
+  checkoutToken  String?       @unique
+
+  // Customer details
+  customerName   String
+  email          String?
+  phone          String
+
+  // Shipping address
+  addressLine1   String
+  addressLine2   String?
+  city           String
+  province       String
+  postalCode     String?
+  customerNotes  String?
+
+  // Payment and order details
+  paymentMethod  PaymentMethod @default(CASH_ON_DELIVERY)
+  paymentStatus  PaymentStatus @default(UNPAID)
+  status         OrderStatus   @default(PENDING)
+
+  subtotal       Int
+  shippingCost   Int           @default(0)
+  discount       Int           @default(0)
+  total          Int
+
+  items          OrderItem[]
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([phone])
+  @@index([status, createdAt])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id             Int      @id @default(autoincrement())
+
+  orderId        Int
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Product snapshot: preserves order history if the product changes later
+  productId      Int
+  productName    String
+  productSlug    String
+  variantSku     String
+  variantLabel   String
+  image          String?
+
+  // Price snapshot at purchase time
+  unitPrice      Int
+  quantity       Int
+  lineTotal      Int
+
+  createdAt      DateTime @default(now())
+
+  @@index([orderId])
+  @@index([variantSku])
+}

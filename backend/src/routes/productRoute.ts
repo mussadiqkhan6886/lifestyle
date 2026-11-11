@@ -6,15 +6,13 @@ import { upload } from "../middleware/upload";
 
 const router = Router()
 
-router.use(apiLimiter);
-
 router.get("/", getAllProducts);
 router.get("/hot-sellers", getHotSellerProducts);
 router.get("/new-arrivals", getNewArrivals);
 router.get("/:slug", getSingleProduct);
 
-router.post("/", verifyJWT, upload.any(), createProduct);
-router.patch("/:id", verifyJWT, upload.any(), UpdateProduct);
-router.delete("/:id", verifyJWT, deleteProduct);
+router.post("/",apiLimiter, verifyJWT, upload.any(), createProduct);
+router.patch("/:id", apiLimiter, verifyJWT, upload.any(), UpdateProduct);
+router.delete("/:id", apiLimiter ,verifyJWT, deleteProduct);
 
 export default router

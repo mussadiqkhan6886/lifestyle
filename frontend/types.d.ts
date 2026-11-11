@@ -55,70 +55,76 @@ export type CartItem = {
   quantity: number
 }
 
-export type checkoutItem = {
-  slug: string
-  name: string
-  price: number
-  onSale: boolean
-  salePrice: number
-  finalPrice: number
-  quantity: number
-  image: string
-  variant: string
-}
 
 export type OrderItem = {
-  productId: string
-  name: string
-  price: number
-  onSale: boolean
-  salePrice: number | null
-  finalPrice: number
+  id: number
+  orderId: number
+  productId: number
+  productName: string
+  productSlug: string
+  variantSku: string
+  variantLabel: string
+  image: string | null
+  unitPrice: number
   quantity: number
-  image: string
-  variant: string
+  lineTotal: number
+  createdAt: Date
 }
 
-export type OrderUserDetails = {
-  fullName: string
-  phone: string
-  email?: string
-}
-
-export type ShippingAddress = {
-  city?: string
-  postalCode?: string
-  address: string
-}
-
-export type OrderStatus =
-  | "pending"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled"
-
-export type PaymentMethod = "cod" | "bank"
-
+export type OrderStatus =  "PENDING"
+    | "CONFIRMED"
+    | "PROCESSING"
+    | "SHIPPED"
+    | "DELIVERED"
+    | "CANCELLED"
 
 export type Order = {
-  _id: string
-  orderId: string
-  items: OrderItem[]
+  id: number
+  orderNumber: string
+  checkoutToken: string | null
 
-  totalPrice: number
-  shippingCost: number
+  customerName: string
+  email: string | null
+  phone: string
 
-  userDetails: OrderUserDetails
-  notes?: string
+  addressLine1: string
+  addressLine2: string | null
+  city: string
+  province: string
+  postalCode: string | null
+  country: string
+  customerNotes: string | null
 
+  paymentMethod: "CASH_ON_DELIVERY"
+  paymentStatus: "UNPAID" | "PAID" | "REFUNDED"
   status: OrderStatus
 
-  shippingAddress: ShippingAddress
+  currency: string
+  subtotal: number
+  shippingCost: number
+  discount: number
+  total: number
 
-  paymentMethod: PaymentMethod
-  paymentProof?: string
+  items: OrderItem[]
 
   createdAt: Date
   updatedAt: Date
 }
+
+export type CreateOrderInput = {
+  checkoutToken: string
+  customerName: string
+  email: string
+  phone: string
+  addressLine1: string
+  addressLine2?: string
+  city: string
+  province: string
+  postalCode?: string
+  customerNotes?: string
+  items: {
+    sku: string
+    quantity: number
+  }[]
+}
+
