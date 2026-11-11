@@ -28,6 +28,8 @@ frontend/out/
 # production
 frontend/build/
 frontend/dist/
+backend/dist/
+backend/generated/prisma
 
 # debug
 npm-debug.log*
