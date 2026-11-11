@@ -27,3 +27,11 @@ export interface ProductCardT {
   variants: Variant[];
   tag: "row" | "col"
 }
+
+export interface ReviewT {
+  id: number
+  name: string
+  comment: string
+  rating: number
+  title:string
+}
