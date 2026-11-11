@@ -8,6 +8,84 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React, { Suspense } from 'react'
+import {Metadata} from "next"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params
+}): Promise<Metadata> {
+  const { productSlug } = await params
+  const product = await getProductBySlug(productSlug)
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The product you are looking for is not available.",
+    }
+  }
+
+  const title = `${product.name}`
+  const description =
+    product.description?.slice(0, 160) ||
+    `Buy ${product.name} – premium UK-imported ${product.category} available in Pakistan. Authentic quality with fast nationwide delivery.`
+
+  const image =
+    product.variants?.[0]?.images?.[0] ||
+    "/og-image.jpg"
+
+  const price = product.variants?.[0]?.price
+
+  return {
+    title,
+    description,
+    keywords: [
+      product.name,
+      product.category,
+      "uk imported",
+      "pakistan",
+      "lifestyle shopping uk",
+      `${product.category} pakistan`,
+    ],
+
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: "en_PK",
+      siteName: "Lifestyle Shopping UK",
+      url: `https://www.lifestyleshoppinguk.com/product/${product.slug}`,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 1200,
+          alt: product.name,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+
+    alternates: {
+      canonical: `https://www.lifestyleshoppinguk.com/product/${product.slug}`,
+    },
+
+  }
+}
+
+export const generateStaticParams = async () => {
+  const products = await getAllProducts()
+
+  return products.products.map(i => ({
+    productSlug: i.slug
+  }))
+}
 
 type Params = Promise<{ productSlug: string }>
 

@@ -9,6 +9,15 @@ type OrderSuccessPageProps = {
   }>
 }
 
+export const metadata = {
+  title: "Order Success | Lifestyle shopping uk",
+  description: "Thankyou for shopping from lifestyle shopping uk", 
+  robots: {
+    index: false,  
+    follow: false,
+  },
+};
+
 const OrderSuccessPage = async ({ searchParams }: OrderSuccessPageProps) => {
   return (
     <Suspense

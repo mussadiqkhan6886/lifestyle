@@ -7,6 +7,10 @@ import React from 'react'
 
 export const metadata: Metadata = {
   title: 'Page not found | Lifestyle Shopping UK',
+  robots: {
+    index: false,
+    follow: false
+  }
 }
 
 const NotFound = () => {

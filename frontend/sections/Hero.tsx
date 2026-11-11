@@ -11,7 +11,7 @@ const Hero = () => {
           muted 
           autoPlay 
           loop 
-          playsInline 
+          playsInline
           className="w-full h-full scale-x-105 object-cover object-center"
         />
       </div>
