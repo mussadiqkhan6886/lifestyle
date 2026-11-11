@@ -2,7 +2,6 @@
 
 backend/.env
 backend/.neon
-backend/generated/prisma
 frontend/.env
 
 frontend/.next/
@@ -29,7 +28,6 @@ frontend/out/
 frontend/build/
 frontend/dist/
 backend/dist/
-backend/generated/prisma
 
 # debug
 npm-debug.log*
