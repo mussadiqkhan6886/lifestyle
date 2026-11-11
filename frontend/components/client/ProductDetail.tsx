@@ -2,11 +2,13 @@
 
 import { aire } from '@/lib/fonts'
 import { productType } from '@/types'
-import { Check, ChevronDown, Minus, Plus, ShoppingBag, Truck } from 'lucide-react'
+import { Check, ChevronDown, Minus, Plus, ShoppingBag } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import BreadCrump from './BreadCrump'
+import { useCart } from '@/hooks/useCart'
+import { toast } from 'sonner'
 
 interface Props {
   product: productType
@@ -25,7 +27,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
   const price = variant.onSale && variant.salePrice != null ? variant.salePrice : variant.price
   const hasDiscount = price < variant.price
   const discount = hasDiscount ? Math.round(((variant.price - price) / variant.price) * 100) : 0
-
+  const {addToCart} = useCart()
   // New variant → back to its first image + quantity 1
   useEffect(() => {
     scrollerRef.current?.scrollTo({ left: 0 })
@@ -47,8 +49,24 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
   }
 
   const handleAddToCart = () => {
-    if (!inStock) return
-    // TODO: connect to your cart state/store with { productId: product.id, sku: variant.sku, quantity }
+    
+    const success = addToCart({
+      productId: product.id,
+      name: product.name,
+      slug: product.slug,
+      image: variant.images[0],
+      quantity,
+      variant: {
+        variantId: variant.sku,
+        label: variant.label,
+        stock: variant.stock,
+        price: variant.price,
+        salePrice: variant.salePrice ?? null,
+        onSale: variant.onSale
+      }
+    })
+
+    if(!success) return
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }

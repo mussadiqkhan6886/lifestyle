@@ -191,7 +191,7 @@ const [cartOpen, setCartOpen] = useState(false);
                 aria-label="Shopping cart"
                 className="relative h-10 w-10 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none"
                 >
-                <ShoppingBag className="w-[18px] h-[18px]" />
+                <ShoppingBag className="w-[19px] h-[19px]" />
             </button>
 
             {/* Animated hamburger (mobile) */}

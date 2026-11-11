@@ -1,32 +1,27 @@
 'use client'
 
-import { orders } from '@/lib/constants'
 import { aire } from '@/lib/fonts'
-import { ArrowRight, Minus, Plus, ShoppingBag, Truck, X } from 'lucide-react'
+import { ArrowRight, Minus, Plus, ShoppingBag, Trash, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import {useCart} from "@/hooks/useCart"
+import { useHasMounted } from '@/hooks/useHasMounted';
 
 interface Props {
   open: boolean
   onClose: () => void
 }
 
-type CartItem = (typeof orders)[number] & { qty: number }
 
 const SideBarCart = ({ open, onClose }: Props) => {
-  // Fake cart: starts with the 3 demo orders. Replace with your real cart state/store.
-  const [items, setItems] = useState<CartItem[]>(() => orders.slice(0, 5).map((p) => ({ ...p, qty: 1 })))
+  const {cart, updateQuantity, removeFromCart, totalPrice, totalItems} = useCart()
 
-  const updateQty = (id: number, delta: number) =>
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item))
-    )
+  const hasMounted = useHasMounted()
 
-  const removeItem = (id: number) => setItems((prev) => prev.filter((item) => item.id !== id))
-
-  const itemCount = items.reduce((sum, i) => sum + i.qty, 0)
-  const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0)
+  const safeCart = hasMounted  ? cart : []
+  const safeTotalPrice = hasMounted  ? totalPrice : 0
+  const safeTotalItems = hasMounted  ? totalItems : []
 
   // Scroll lock + Escape
   useEffect(() => {
@@ -70,7 +65,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
           <div className="flex items-baseline gap-3">
             <h2 className={`${aire.className} text-2xl tracking-tight`}>Your Cart</h2>
             <span className="text-[11px] uppercase tracking-[0.3em] text-neutral-500">
-              {itemCount} {itemCount === 1 ? 'item' : 'items'}
+              {safeTotalItems} {safeTotalItems === 1 ? 'item' : 'items'}
             </span>
           </div>
           <button
@@ -82,13 +77,13 @@ const SideBarCart = ({ open, onClose }: Props) => {
           </button>
         </div>
 
-        {items.length > 0 ? (
+        {safeCart.length > 0 ? (
           <>
             {/* Items */}
             <ul className="relative flex-1 overflow-y-auto px-6 divide-y divide-black/10">
-              {items.map((item, i) => (
+              {safeCart.map((item, i) => (
                 <li
-                  key={item.id}
+                  key={item.variant.variantId}
                   style={{ transitionDelay: open ? `${200 + i * 80}ms` : '0ms' }}
                   className={`flex gap-4 py-5 transition-all duration-700 ${
                     open ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
@@ -110,44 +105,57 @@ const SideBarCart = ({ open, onClose }: Props) => {
                     <div className="space-y-1">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-[10px] uppercase tracking-[0.3em] text-neutral-500">{item.category}</p>
                           <h3 className={`${aire.className} text-base leading-snug tracking-wide truncate`}>
                             {item.name}
                           </h3>
                         </div>
                         <button
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeFromCart(item.productId, item.variant.variantId)}
                           aria-label={`Remove ${item.name}`}
                           className="shrink-0 p-1 text-neutral-400 hover:text-neutral-900 transition-colors"
                         >
-                          <X className="w-4 h-4" />
+                          <Trash className="w-4 h-4 text-red-600" />
                         </button>
                       </div>
-                      <p className="text-xs text-neutral-500">{item.variant}</p>
+                      <p className="text-xs text-neutral-500">Variant: {item.variant.label}</p>
                     </div>
 
                     <div className="flex items-center justify-between">
                       {/* Quantity stepper */}
                       <div className="inline-flex items-center rounded-lg border border-black/15">
                         <button
-                          onClick={() => updateQty(item.id, -1)}
+                          onClick={() => updateQuantity(item.productId, item.variant.variantId, "decrement")}
                           aria-label="Decrease quantity"
-                          disabled={item.qty === 1}
+                          disabled={item.quantity === 1}
                           className="h-8 w-8 flex items-center justify-center rounded-l-md hover:bg-neutral-900 hover:text-light-beige transition-colors disabled:opacity-30 disabled:pointer-events-none"
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
-                        <span className="w-6 text-center text-sm tabular-nums">{item.qty}</span>
+                        <span className="w-6 text-center text-sm tabular-nums">{item.quantity}</span>
                         <button
-                          onClick={() => updateQty(item.id, 1)}
+                          onClick={() => updateQuantity(item.productId, item.variant.variantId, "increment")}
                           aria-label="Increase quantity"
                           className="h-8 w-8 flex items-center justify-center rounded-r-md hover:bg-neutral-900 hover:text-light-beige transition-colors"
                         >
                           <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
-
-                      <p className="text-sm font-semibold tabular-nums">PKR {item.price * item.qty}</p>
+                     <div className="flex items-center gap-2">
+                      {item.variant.onSale && item.variant.salePrice != null ? (
+                        <>
+                          <p className="text-sm font-semibold tabular-nums text-neutral-400 line-through">
+                            PKR {item.variant.price.toLocaleString()}
+                          </p>
+                          <p className="text-sm font-semibold tabular-nums text-red-600">
+                            PKR {item.variant.salePrice.toLocaleString()}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-sm font-semibold tabular-nums">
+                          PKR {item.variant.price.toLocaleString()}
+                        </p>
+                      )}
+                    </div>
                     </div>
                   </div>
                 </li>
@@ -158,7 +166,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
             <div className="relative border-t border-black/10 bg-contrast-beige/60 px-6 py-6 space-y-4">
               <div className="flex items-baseline justify-between">
                 <span className="text-[11px] uppercase tracking-[0.3em] text-neutral-500">Subtotal</span>
-                <span className={`${aire.className} text-2xl tabular-nums`}>PKR {subtotal}</span>
+                <span className={`${aire.className} text-2xl tabular-nums`}>PKR {safeTotalPrice}</span>
               </div>
               <p className="text-xs text-neutral-500">Taxes and shipping are calculated at checkout.</p>
 

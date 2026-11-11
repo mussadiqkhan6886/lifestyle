@@ -2,6 +2,7 @@ import { roboto } from "@/lib/fonts";
 import "./globals.css";
 import TanStackQueryProvider from "@/components/providers/tanstackQueryProvider"
 import { Toaster } from "sonner";
+import { CartProvider } from "@/context/CartContext";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -11,8 +12,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <TanStackQueryProvider >
-          <Toaster position="top-right" richColors />
-          {children}
+          <CartProvider>
+            <Toaster position="top-right" richColors />
+            {children}
+            </CartProvider>
         </TanStackQueryProvider>
         </body>
     </html>
