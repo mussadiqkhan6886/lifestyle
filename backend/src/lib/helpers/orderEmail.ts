@@ -1,12 +1,3 @@
-import { Prisma } from "../../../generated/prisma/client"
-
-// Get the exact Prisma order type, including its related items.
-type OrderWithItems = Prisma.OrderGetPayload<{
-  include: {
-    items: true
-  }
-}>
-
 // Escape HTML to prevent customer-provided content from injecting HTML.
 const escapeHtml = (value: string | number): string =>
   String(value).replace(/[&<>"']/g, (character) => {
@@ -25,10 +16,10 @@ const formatPKR = (amount: number): string =>
   `PKR ${amount.toLocaleString("en-PK")}`
 
 // Generate HTML rows for all ordered products.
-const getOrderItemsHtml = (order: OrderWithItems): string =>
+const getOrderItemsHtml = (order: any): string =>
   order.items
     .map(
-      (item) => `
+      (item: any) => `
         <tr>
           <td style="padding:12px;border-bottom:1px solid #eee;">
             <strong>${escapeHtml(item.productName)}</strong>
@@ -55,7 +46,7 @@ const getOrderItemsHtml = (order: OrderWithItems): string =>
     .join("")
 
 // Generate the order summary table.
-const getOrderSummaryHtml = (order: OrderWithItems): string => `
+const getOrderSummaryHtml = (order: any): string => `
   <table style="width:100%;border-collapse:collapse;margin-top:20px;">
     <thead>
       <tr style="background:#f5f5f5;text-align:left;">
@@ -109,7 +100,7 @@ const getEmailLayout = (content: string): string => `
 `
 
 // ADMIN EMAIL
-export const createAdminEmail = (order: OrderWithItems): string =>
+export const createAdminEmail = (order: any): string =>
   getEmailLayout(`
     <h2>New Order Received!</h2>
 
@@ -146,7 +137,7 @@ export const createAdminEmail = (order: OrderWithItems): string =>
   `)
 
 // CUSTOMER EMAIL
-export const createCustomerEmail = (order: OrderWithItems): string =>
+export const createCustomerEmail = (order: any): string =>
   getEmailLayout(`
     <h2>Thank you for your order, ${escapeHtml(order.customerName)}!</h2>
 
