@@ -27,7 +27,6 @@ frontend/out/
 # production
 frontend/build/
 frontend/dist/
-backend/dist/
 
 # debug
 npm-debug.log*
