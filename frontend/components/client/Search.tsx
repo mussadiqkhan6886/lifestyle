@@ -1,5 +1,6 @@
 'use client'
 
+import useDebounce from '@/hooks/useDebounce'
 import { collections } from '@/lib/constants'
 import { aire } from '@/lib/fonts'
 import { ArrowRight, ArrowUpRight, Clock, Search as SearchIcon, X } from 'lucide-react'
@@ -19,9 +20,9 @@ const MAX_RECENT = 5
 const SearchOverlay = ({ open, onClose }: Props) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState<string>('')
   const [recent, setRecent] = useState<string[]>([])
-
+  const debounceSearch = useDebounce(query, 500)
   // Load recent searches
   useEffect(() => {
     try {
@@ -45,7 +46,7 @@ const SearchOverlay = ({ open, onClose }: Props) => {
     }
   }, [open, onClose])
 
-  const trimmed = query.trim()
+  const trimmed = debounceSearch.trim()
 
   const matches = useMemo(() => {
     if (!trimmed) return []
