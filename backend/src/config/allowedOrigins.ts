@@ -1,9 +1,7 @@
-import "dotenv/config";
-
 export const allowedOrigins: string[] = [
-    process.env.FRONTEND_URL,
+    process.env.FRONTEND_URL as string,
     "http://localhost:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
-].filter(Boolean) as string[];
+]
