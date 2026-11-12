@@ -24,7 +24,6 @@ const GenerateDesc = ({
 
     onSuccess: (data) => {
       toast.success("Description generated", { id: "ai" });
-        console.log(data)
       onGenerated(data);
     },
 

@@ -16,7 +16,6 @@ import { createProduct } from "@/server/product";
 import { toast } from "sonner";
 import { collections } from "@/lib/constants";
 import { Suspense } from "react";
-import { generateAi } from "@/server/ai";
 import GenerateDesc from "@/components/admin/GenerateDesc";
 
 export default function CreateProductPage() {

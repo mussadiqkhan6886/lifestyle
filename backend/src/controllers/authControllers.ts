@@ -86,7 +86,7 @@ export const logout = async (req: Request, res:Response) : Promise<void> => {
     const cookieOptions = {
             httpOnly: true,
             secure: isProduction,
-            sameSite: 'strict' as const,
+            sameSite: 'lax' as const,
             path: '/'
         };
     res.clearCookie("accessToken", {
@@ -143,7 +143,7 @@ export const refresh = async (req: Request, res:Response) : Promise<void> => {
             const cookieOptions = {
                     httpOnly: true,
                     secure: isProduction,
-                    sameSite: 'strict' as const,
+                    sameSite: 'lax' as const,
                     path: '/'
                 };
             res.cookie("accessToken", accessToken, {

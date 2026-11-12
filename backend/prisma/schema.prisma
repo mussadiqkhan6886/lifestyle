@@ -27,7 +27,7 @@ model Product {
 
 model Variant {
      id         Int     @id @default(autoincrement())
-    label       String  @unique
+    label       String  
     sku         String  @unique
     stock       Int
     price       Int
