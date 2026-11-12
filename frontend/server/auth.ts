@@ -1,5 +1,5 @@
 export const login = async (email: string, password:string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/auth/login`, {
+    const res = await fetch(`/api/auth/login`, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify({
@@ -18,6 +18,6 @@ export const login = async (email: string, password:string) => {
 }
 
 export const logout = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/auth/logout`, {method: "POST", credentials: "include"})
+    const res = await fetch(`/api/auth/logout`, {method: "POST", credentials: "include"})
     return res.json()
 }

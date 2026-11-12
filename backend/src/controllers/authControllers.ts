@@ -61,7 +61,7 @@ export const login = async (req: Request<{}, {}, {email: string, password: strin
     const cookieOptions = {
             httpOnly: true,
             secure: isProduction,
-            sameSite: 'strict' as const,
+            sameSite: 'lax' as const,
             path: '/'
         };
     res.cookie("accessToken", accessToken, {
