@@ -7,6 +7,7 @@ import WhyUs from '@/sections/WhyUs'
 import RegularSellers from '@/sections/RegularSellers'
 import NewArrivals from '@/sections/NewArrivals'
 import Reviews from '@/sections/Reviews'
+import { Suspense } from 'react'
 
 const HomePage = () => {
   return (
@@ -14,11 +15,17 @@ const HomePage = () => {
       <Hero />
       <LoopBelowHero />
       <Collections />
-      <BestSellers />
+      <Suspense fallback={null}>
+        <BestSellers />
+      </Suspense>
       <CollectionsTwo />
-      <NewArrivals />
+      <Suspense fallback={null}>
+        <NewArrivals />
+      </Suspense>
       <WhyUs />
-      <RegularSellers />
+      <Suspense fallback={null}>
+        <RegularSellers />
+      </Suspense>
       <Reviews />
     </main>
   )
