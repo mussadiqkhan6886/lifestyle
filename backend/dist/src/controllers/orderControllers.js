@@ -1,8 +1,11 @@
-import { prisma } from "../config/prisma";
-import { createOrderSchema, updateOrderSchema } from "../schemas/orderSchema";
-import { generateOrderNumber } from "../lib/helpers";
-import { transporter } from "../config/nodemailer";
-import { createAdminEmail, createCustomerEmail } from "../lib/helpers/orderEmail";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateOrder = exports.getSingleOrder = exports.getAllOrders = exports.createOrder = void 0;
+const prisma_1 = require("../config/prisma");
+const orderSchema_1 = require("../schemas/orderSchema");
+const index_1 = require("../lib/helpers/index");
+const nodemailer_1 = require("../config/nodemailer");
+const orderEmail_1 = require("../lib/helpers/orderEmail");
 class CheckoutError extends Error {
     constructor(statusCode, message) {
         super(message);
@@ -10,9 +13,8 @@ class CheckoutError extends Error {
         this.name = "CheckoutError";
     }
 }
-export const createOrder = async (req, res) => {
-    var _a;
-    const parsed = createOrderSchema.safeParse(req.body);
+const createOrder = async (req, res) => {
+    const parsed = orderSchema_1.createOrderSchema.safeParse(req.body);
     if (!parsed.success) {
         console.log("Checkout validation errors:", parsed.error.flatten());
         res.status(400).json({
@@ -25,7 +27,7 @@ export const createOrder = async (req, res) => {
     const data = parsed.data;
     try {
         // Return the existing order if the same checkout request is retried.
-        const existingOrder = await prisma.order.findUnique({
+        const existingOrder = await prisma_1.prisma.order.findUnique({
             where: { checkoutToken: data.checkoutToken },
             include: { items: true },
         });
@@ -40,13 +42,13 @@ export const createOrder = async (req, res) => {
         // Combine duplicate SKUs before checking stock.
         const quantityBySku = new Map();
         for (const item of data.items) {
-            quantityBySku.set(item.sku, ((_a = quantityBySku.get(item.sku)) !== null && _a !== void 0 ? _a : 0) + item.quantity);
+            quantityBySku.set(item.sku, (quantityBySku.get(item.sku) ?? 0) + item.quantity);
         }
         const requestedItems = Array.from(quantityBySku, ([sku, quantity]) => ({
             sku,
             quantity,
         }));
-        const order = await prisma.$transaction(async (tx) => {
+        const order = await prisma_1.prisma.$transaction(async (tx) => {
             const variants = await tx.variant.findMany({
                 where: {
                     sku: {
@@ -70,13 +72,12 @@ export const createOrder = async (req, res) => {
             const variantMap = new Map(variants.map((variant) => [variant.sku, variant]));
             let subtotal = 0;
             const orderItems = requestedItems.map((requested) => {
-                var _a;
                 const variant = variantMap.get(requested.sku);
                 if (!variant) {
                     throw new CheckoutError(400, `Variant with SKU ${requested.sku} does not exist`);
                 }
-                if (variant.stock < requested.quantity) {
-                    throw new CheckoutError(409, `${variant.product.name} (${variant.label}) has only ${variant.stock} item(s) available`);
+                if (Number(variant.stock) < requested.quantity) {
+                    throw new CheckoutError(409, `(${variant.label}) has only ${variant.stock} item(s) available`);
                 }
                 const unitPrice = variant.onSale && variant.salePrice !== null
                     ? variant.salePrice
@@ -95,7 +96,7 @@ export const createOrder = async (req, res) => {
                     productSlug: variant.product.slug,
                     variantSku: variant.sku,
                     variantLabel: variant.label,
-                    image: (_a = variant.images[0]) !== null && _a !== void 0 ? _a : null,
+                    image: variant.images[0] ?? null,
                     unitPrice,
                     quantity: requested.quantity,
                     lineTotal,
@@ -127,7 +128,7 @@ export const createOrder = async (req, res) => {
             }
             const order = await tx.order.create({
                 data: {
-                    orderNumber: generateOrderNumber(),
+                    orderNumber: (0, index_1.generateOrderNumber)(),
                     checkoutToken: data.checkoutToken,
                     customerName: data.customerName,
                     email: data.email || null,
@@ -155,19 +156,19 @@ export const createOrder = async (req, res) => {
             return order;
         });
         const emailTasks = [
-            transporter.sendMail({
+            nodemailer_1.transporter.sendMail({
                 from: process.env.EMAIL_USER,
                 to: process.env.EMAIL_USER,
                 subject: `New Order: ${order.orderNumber}`,
-                html: createAdminEmail(order),
+                html: (0, orderEmail_1.createAdminEmail)(order),
             }),
         ];
         if (order.email) {
-            emailTasks.push(transporter.sendMail({
+            emailTasks.push(nodemailer_1.transporter.sendMail({
                 from: process.env.EMAIL_USER,
                 to: order.email,
                 subject: `Order Confirmation: ${order.orderNumber}`,
-                html: createCustomerEmail(order),
+                html: (0, orderEmail_1.createCustomerEmail)(order),
             }));
         }
         const emailResults = await Promise.allSettled(emailTasks);
@@ -188,7 +189,7 @@ export const createOrder = async (req, res) => {
             error !== null &&
             "code" in error &&
             error.code === "P2002") {
-            const existingOrder = await prisma.order.findUnique({
+            const existingOrder = await prisma_1.prisma.order.findUnique({
                 where: { checkoutToken: data.checkoutToken },
                 include: { items: true },
             });
@@ -215,9 +216,10 @@ export const createOrder = async (req, res) => {
         });
     }
 };
-export const getAllOrders = async (req, res) => {
+exports.createOrder = createOrder;
+const getAllOrders = async (req, res) => {
     try {
-        const orders = await prisma.order.findMany({
+        const orders = await prisma_1.prisma.order.findMany({
             include: {
                 items: true,
             },
@@ -238,13 +240,14 @@ export const getAllOrders = async (req, res) => {
         });
     }
 };
-export const getSingleOrder = async (req, res) => {
+exports.getAllOrders = getAllOrders;
+const getSingleOrder = async (req, res) => {
     const id = String(req.params.id);
     if (!id) {
         res.status(400).json({ success: false, message: "Id is required" });
         return;
     }
-    const order = await prisma.order.findFirst({ where: { orderNumber: id }, include: {
+    const order = await prisma_1.prisma.order.findFirst({ where: { orderNumber: id }, include: {
             items: true
         } });
     if (!order) {
@@ -256,7 +259,8 @@ export const getSingleOrder = async (req, res) => {
         order
     });
 };
-export const updateOrder = async (req, res) => {
+exports.getSingleOrder = getSingleOrder;
+const updateOrder = async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (!Number.isSafeInteger(id) || id <= 0) {
@@ -266,7 +270,7 @@ export const updateOrder = async (req, res) => {
             });
             return;
         }
-        const parsed = updateOrderSchema.safeParse(req.body);
+        const parsed = orderSchema_1.updateOrderSchema.safeParse(req.body);
         if (!parsed.success) {
             res.status(400).json({
                 success: false,
@@ -275,7 +279,7 @@ export const updateOrder = async (req, res) => {
             });
             return;
         }
-        const updatedOrder = await prisma.order.update({
+        const updatedOrder = await prisma_1.prisma.order.update({
             where: { id },
             data: parsed.data,
             include: {
@@ -305,3 +309,4 @@ export const updateOrder = async (req, res) => {
         });
     }
 };
+exports.updateOrder = updateOrder;

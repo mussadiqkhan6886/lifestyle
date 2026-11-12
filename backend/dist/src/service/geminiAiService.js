@@ -1,6 +1,9 @@
-import { gemini } from "../config/geminiAI";
-export async function generate(productName, description) {
-    const prompt = (description === null || description === void 0 ? void 0 : description.trim())
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generate = generate;
+const geminiAI_1 = require("../config/geminiAI");
+async function generate(productName, description) {
+    const prompt = description?.trim()
         ? `
         Rewrite the following product description for an ecommerce website.
 
@@ -29,7 +32,7 @@ export async function generate(productName, description) {
         - Do not use Markdown formatting.
         - Do not use bold text, asterisks, headings, bullet points, or quotation marks.
         - Return only the product description without any introduction or explanation. `;
-    const response = await gemini.models.generateContent({
+    const response = await geminiAI_1.gemini.models.generateContent({
         model: "gemini-3.6-flash",
         contents: prompt,
     });

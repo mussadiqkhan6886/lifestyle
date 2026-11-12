@@ -1,5 +1,7 @@
-import { defineConfig } from "@neon/config/v1";
-export default defineConfig({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const v1_1 = require("@neon/config/v1");
+exports.default = (0, v1_1.defineConfig)({
     // Declare your Neon services here
     auth: false,
     // Branch policy: per-branch tuning

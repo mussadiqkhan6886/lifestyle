@@ -4,9 +4,9 @@
   "description": "backend for lifestyle uk web app",
   "main": "server.js",
   "scripts": {
-    "dev": "tsx watch ./src/server.ts",
+    "dev": "nodemon",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/src/server.js"
   },
   "keywords": [],
   "author": "mussadiq khan",

@@ -5,6 +5,9 @@ backend/.neon
 frontend/.env
 
 frontend/.next/
+frontend/out/
+/backend/dist/
+/backend/build/
 
 .env.test
 .env*.local

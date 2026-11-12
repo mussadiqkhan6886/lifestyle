@@ -1,5 +1,8 @@
-import "dotenv/config";
-export const allowedOrigins = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.allowedOrigins = void 0;
+require("dotenv/config");
+exports.allowedOrigins = [
     process.env.FRONTEND_URL,
     "http://localhost:3000",
     "http://localhost:3001",

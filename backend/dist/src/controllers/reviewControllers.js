@@ -1,7 +1,10 @@
-import { prisma } from "../config/prisma";
-import { reviewSchema } from "../schemas/reviewSchema";
-export const getAllReviews = async (req, res) => {
-    const reviews = await prisma.review.findMany({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteReview = exports.createReview = exports.getAllReviews = void 0;
+const prisma_1 = require("../config/prisma");
+const reviewSchema_1 = require("../schemas/reviewSchema");
+const getAllReviews = async (req, res) => {
+    const reviews = await prisma_1.prisma.review.findMany({
         orderBy: {
             id: "desc"
         }
@@ -11,8 +14,9 @@ export const getAllReviews = async (req, res) => {
         reviews
     });
 };
-export const createReview = async (req, res) => {
-    const parsedData = reviewSchema.safeParse(req.body);
+exports.getAllReviews = getAllReviews;
+const createReview = async (req, res) => {
+    const parsedData = reviewSchema_1.reviewSchema.safeParse(req.body);
     if (!parsedData.success) {
         res.status(400).json({
             success: false,
@@ -21,7 +25,7 @@ export const createReview = async (req, res) => {
         return;
     }
     const data = parsedData.data;
-    const review = await prisma.review.create({
+    const review = await prisma_1.prisma.review.create({
         data: {
             title: data.title,
             comment: data.comment,
@@ -34,7 +38,8 @@ export const createReview = async (req, res) => {
         review
     });
 };
-export const deleteReview = async (req, res) => {
+exports.createReview = createReview;
+const deleteReview = async (req, res) => {
     const id = await Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {
         res.status(400).json({
@@ -43,7 +48,7 @@ export const deleteReview = async (req, res) => {
         });
         return;
     }
-    const review = await prisma.review.findUnique({ where: { id } });
+    const review = await prisma_1.prisma.review.findUnique({ where: { id } });
     if (!review) {
         res.status(404).json({
             success: false,
@@ -51,6 +56,7 @@ export const deleteReview = async (req, res) => {
         });
         return;
     }
-    await prisma.review.delete({ where: { id } });
+    await prisma_1.prisma.review.delete({ where: { id } });
     res.status(204).send();
 };
+exports.deleteReview = deleteReview;

@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createCustomerEmail = exports.createAdminEmail = void 0;
 // Escape HTML to prevent customer-provided content from injecting HTML.
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => {
     const entities = {
@@ -89,7 +92,7 @@ const getEmailLayout = (content) => `
   </html>
 `;
 // ADMIN EMAIL
-export const createAdminEmail = (order) => getEmailLayout(`
+const createAdminEmail = (order) => getEmailLayout(`
     <h2>New Order Received!</h2>
 
     <p>A customer has placed a new order on your store.</p>
@@ -123,8 +126,9 @@ export const createAdminEmail = (order) => getEmailLayout(`
     <p><strong>Payment:</strong> Cash on Delivery</p>
     <p><strong>Order Status:</strong> ${escapeHtml(order.status)}</p>
   `);
+exports.createAdminEmail = createAdminEmail;
 // CUSTOMER EMAIL
-export const createCustomerEmail = (order) => getEmailLayout(`
+const createCustomerEmail = (order) => getEmailLayout(`
     <h2>Thank you for your order, ${escapeHtml(order.customerName)}!</h2>
 
     <p>
@@ -166,3 +170,4 @@ export const createCustomerEmail = (order) => getEmailLayout(`
 
     <p>We appreciate your trust in us!</p>
   `);
+exports.createCustomerEmail = createCustomerEmail;

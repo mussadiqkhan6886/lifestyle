@@ -11,6 +11,15 @@ export interface VariantInput {
     imageNames?: string[];
 }
 
+export interface orderVariantMap extends VariantInput {
+    images: string[]
+        product: {
+          id: number,
+          name: string,
+          slug: string
+        }
+      }
+
 export interface UploadedFileRef {
     file: Express.Multer.File;
     index: number;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { uploadToCloudinary } from "../lib/helpers/uploadToCloudinary";
-import { createSlug } from "../lib/helpers";
+import { createSlug } from "../lib/helpers/index";
 import { mapUploadedImagesToVariants, parseVariantsFromRequest } from "../lib/helpers/variants";
 import { UploadedFileRef } from "../types/global";
 import { prisma } from "../config/prisma";

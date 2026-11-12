@@ -1,6 +1,8 @@
-export const ErrorHandler = (err, req, res, next) => {
-    var _a;
-    const status = (_a = err.statusCode) !== null && _a !== void 0 ? _a : 500;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ErrorHandler = void 0;
+const ErrorHandler = (err, req, res, next) => {
+    const status = err.statusCode ?? 500;
     console.error({
         message: err.message,
         stack: err.stack,
@@ -20,3 +22,4 @@ export const ErrorHandler = (err, req, res, next) => {
     }
     res.status(status).json(response);
 };
+exports.ErrorHandler = ErrorHandler;

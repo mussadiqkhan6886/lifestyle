@@ -4,7 +4,6 @@ import { getNewArrivals } from '@/server/product'
 import React from 'react'
 
 const NewArrivals = async () => {
-  try {
     const products = await getNewArrivals()
 
     if (!products || products.length < 1) {
@@ -23,10 +22,6 @@ const NewArrivals = async () => {
         <ProductsCorousal tag={"row"} products={products} />
       </section>
     )
-  } catch (error) {
-    console.warn("Failed to load NewArrivals:", error)
-    return null
-  }
 }
 
 export default NewArrivals

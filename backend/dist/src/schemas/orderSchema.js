@@ -1,5 +1,8 @@
-import { z } from "zod";
-const pakistanPhoneSchema = z
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateOrderSchema = exports.createOrderSchema = void 0;
+const zod_1 = require("zod");
+const pakistanPhoneSchema = zod_1.z
     .string()
     .trim()
     .transform((value) => value.replace(/[\s()-]/g, ""))
@@ -13,66 +16,65 @@ const pakistanPhoneSchema = z
         return `+92${value.slice(1)}`;
     return `+92${value}`;
 });
-export const createOrderSchema = z.object({
-    checkoutToken: z.string().uuid(),
-    customerName: z
+exports.createOrderSchema = zod_1.z.object({
+    checkoutToken: zod_1.z.string().uuid(),
+    customerName: zod_1.z
         .string()
         .trim()
         .min(2, "Name must contain at least 2 characters")
         .max(100),
-    email: z
+    email: zod_1.z
         .string()
         .trim()
         .email("Enter a valid email address")
         .max(254)
         .optional()
-        .or(z.literal("")),
+        .or(zod_1.z.literal("")),
     phone: pakistanPhoneSchema,
-    addressLine1: z
+    addressLine1: zod_1.z
         .string()
         .trim()
         .min(5, "Please enter a complete address")
         .max(200),
-    addressLine2: z
+    addressLine2: zod_1.z
         .string()
         .trim()
         .max(200)
         .optional()
-        .or(z.literal("")),
-    city: z
+        .or(zod_1.z.literal("")),
+    city: zod_1.z
         .string()
         .trim()
         .min(2)
         .max(80),
-    province: z
+    province: zod_1.z
         .string()
         .trim()
         .min(2)
         .max(80),
-    postalCode: z
+    postalCode: zod_1.z
         .string()
         .trim()
         .max(20)
         .optional()
-        .or(z.literal("")),
-    customerNotes: z
+        .or(zod_1.z.literal("")),
+    customerNotes: zod_1.z
         .string()
         .trim()
         .max(500)
         .optional()
-        .or(z.literal("")),
-    items: z
-        .array(z.object({
-        sku: z.string().trim().min(1).max(100),
-        quantity: z.number().int().min(1).max(20),
+        .or(zod_1.z.literal("")),
+    items: zod_1.z
+        .array(zod_1.z.object({
+        sku: zod_1.z.string().trim().min(1).max(100),
+        quantity: zod_1.z.number().int().min(1).max(20),
     }).strict())
         .min(1, "Your cart is empty")
         .max(20, "You can order up to 20 different variants at once"),
 }).strict().superRefine((data, ctx) => {
-    var _a;
     const quantities = new Map();
     for (const item of data.items) {
-        const total = ((_a = quantities.get(item.sku)) !== null && _a !== void 0 ? _a : 0) + item.quantity;
+        const total = (quantities.get(item.sku) ?? 0) + item.quantity;
         quantities.set(item.sku, total);
         if (total > 20) {
             ctx.addIssue({
@@ -83,8 +85,8 @@ export const createOrderSchema = z.object({
         }
     }
 });
-export const updateOrderSchema = z.object({
-    status: z.enum([
+exports.updateOrderSchema = zod_1.z.object({
+    status: zod_1.z.enum([
         "PENDING",
         "CONFIRMED",
         "PROCESSING",
@@ -92,7 +94,7 @@ export const updateOrderSchema = z.object({
         "DELIVERED",
         "CANCELLED",
     ]).optional(),
-    paymentStatus: z.enum([
+    paymentStatus: zod_1.z.enum([
         "UNPAID",
         "PAID",
     ]).optional(),

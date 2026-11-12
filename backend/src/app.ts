@@ -1,14 +1,13 @@
-import "dotenv/config";
 import express, {type Express} from "express"
 import cors from "cors"
 import helmet from "helmet"
 import cookieParser from "cookie-parser"
-import { corsOptions } from "./config/corsOption"
+import { corsOptions } from "./config/corsOption" 
 import { ErrorHandler } from "./middleware/ErrorHandler"
 import routerAuth from "./routes/authRoutes"
 import routerProducts from "./routes/productRoute"
-import routerAI from "./routes/aiRoute";
-import routerReview from "./routes/reviewRoute";
+import routerAI from "./routes/aiRoute"
+import routerReview from "./routes/reviewRoute"
 import orderRoutes from "./routes/orderRoute"
 
 const app : Express = express() 
@@ -24,7 +23,7 @@ app.use(
     parameterLimit: 100,
   })
 )
-app.get(["/health", "/api/health"], (req, res) => {
+app.get(["/api/health", "/health"], (req, res) => {
     res.status(200).send("ok")
 })
 app.use(["/api/auth", "/auth"], routerAuth)

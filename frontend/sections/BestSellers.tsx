@@ -4,7 +4,6 @@ import { aire } from '@/lib/fonts'
 import { getHotSellerProducts } from '@/server/product'
 
 const BestSellers = async () => {
-  try {
     const products = await getHotSellerProducts()
 
     if (!products || products.length < 1) {
@@ -24,10 +23,6 @@ const BestSellers = async () => {
         </div>
       </section>
     )
-  } catch (error) {
-    console.warn("Failed to load BestSellers:", error)
-    return null
-  }
 }
 
 export default BestSellers

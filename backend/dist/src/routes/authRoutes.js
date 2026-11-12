@@ -1,8 +1,10 @@
-import { Router } from "express";
-import { loginLimiter } from "../middleware/loginLimiter";
-import { login, logout, refresh } from "../controllers/authControllers";
-const router = Router();
-router.post("/login", loginLimiter, login);
-router.post("/logout", logout);
-router.post("/refresh", refresh);
-export default router;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const loginLimiter_1 = require("../middleware/loginLimiter");
+const authControllers_1 = require("../controllers/authControllers");
+const router = (0, express_1.Router)();
+router.post("/login", loginLimiter_1.loginLimiter, authControllers_1.login);
+router.post("/logout", authControllers_1.logout);
+router.post("/refresh", authControllers_1.refresh);
+exports.default = router;

@@ -1,11 +1,13 @@
-export const parseVariantsFromRequest = (body) => {
-    var _a, _b;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mapUploadedImagesToVariants = exports.parseVariantsFromRequest = void 0;
+const parseVariantsFromRequest = (body) => {
     let variants = body.variants;
     if (typeof variants === "string") {
         try {
             variants = JSON.parse(variants);
         }
-        catch (_c) {
+        catch {
             variants = [];
         }
     }
@@ -17,8 +19,8 @@ export const parseVariantsFromRequest = (body) => {
             variants = [{
                     label: body.label || "Default",
                     sku: body.sku,
-                    stock: (_a = body.stock) !== null && _a !== void 0 ? _a : 0,
-                    price: (_b = body.price) !== null && _b !== void 0 ? _b : 0,
+                    stock: body.stock ?? 0,
+                    price: body.price ?? 0,
                     onSale: body.onSale,
                     salePrice: body.salePrice,
                     images: Array.isArray(body.images) ? body.images : []
@@ -30,8 +32,8 @@ export const parseVariantsFromRequest = (body) => {
     }
     return variants;
 };
-export const mapUploadedImagesToVariants = (variants, uploadedFiles, reqBody) => {
-    var _a;
+exports.parseVariantsFromRequest = parseVariantsFromRequest;
+const mapUploadedImagesToVariants = (variants, uploadedFiles, reqBody) => {
     const variantImagesMap = {};
     for (let i = 0; i < variants.length; i++) {
         variantImagesMap[i] = [];
@@ -49,7 +51,7 @@ export const mapUploadedImagesToVariants = (variants, uploadedFiles, reqBody) =>
                 bodyVariantIndices = parsed.map(Number);
             }
         }
-        catch (_b) {
+        catch {
             // ignore JSON parse error
         }
     }
@@ -60,7 +62,7 @@ export const mapUploadedImagesToVariants = (variants, uploadedFiles, reqBody) =>
                 ? JSON.parse(reqBody.imageVariantMap)
                 : reqBody.imageVariantMap;
         }
-        catch (_c) {
+        catch {
             // ignore
         }
     }
@@ -85,7 +87,7 @@ export const mapUploadedImagesToVariants = (variants, uploadedFiles, reqBody) =>
         }
         // 3. Check req.body.imageVariantMap by originalname or file index
         if (targetIndex === null && imageVariantMap) {
-            const mapped = (_a = imageVariantMap[file.originalname]) !== null && _a !== void 0 ? _a : imageVariantMap[String(index)];
+            const mapped = imageVariantMap[file.originalname] ?? imageVariantMap[String(index)];
             if (mapped !== undefined) {
                 const idx = Number(mapped);
                 if (!isNaN(idx) && idx >= 0 && idx < variants.length) {
@@ -136,3 +138,4 @@ export const mapUploadedImagesToVariants = (variants, uploadedFiles, reqBody) =>
     }
     return variantImagesMap;
 };
+exports.mapUploadedImagesToVariants = mapUploadedImagesToVariants;

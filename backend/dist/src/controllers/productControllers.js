@@ -1,9 +1,12 @@
-import { uploadToCloudinary } from "../lib/helpers/uploadToCloudinary";
-import { createSlug } from "../lib/helpers";
-import { mapUploadedImagesToVariants, parseVariantsFromRequest } from "../lib/helpers/variants";
-import { prisma } from "../config/prisma";
-import { createProductSchema, updateProductSchema } from "../schemas/productSchema";
-export const getAllProducts = async (req, res) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteProduct = exports.UpdateProduct = exports.createProduct = exports.getSingleProduct = exports.getNewArrivals = exports.getHotSellerProducts = exports.getAllProducts = void 0;
+const uploadToCloudinary_1 = require("../lib/helpers/uploadToCloudinary");
+const index_1 = require("../lib/helpers/index");
+const variants_1 = require("../lib/helpers/variants");
+const prisma_1 = require("../config/prisma");
+const productSchema_1 = require("../schemas/productSchema");
+const getAllProducts = async (req, res) => {
     try {
         const q = String(req.query.q || "").trim();
         const category = String(req.query.category || "").trim();
@@ -64,7 +67,7 @@ export const getAllProducts = async (req, res) => {
                 break;
         }
         // Fetch products
-        const result = await prisma.product.findMany({
+        const result = await prisma_1.prisma.product.findMany({
             where,
             include: {
                 variants: true,
@@ -79,14 +82,13 @@ export const getAllProducts = async (req, res) => {
         // Price sorting
         if (sort === "price-asc" || sort === "price-desc") {
             const getEffectivePrice = (product) => {
-                var _a, _b;
-                const variant = (_a = product.variants) === null || _a === void 0 ? void 0 : _a[0];
+                const variant = product.variants?.[0];
                 if (!variant)
                     return Number.MAX_SAFE_INTEGER;
                 if (variant.onSale && variant.salePrice != null) {
                     return Number(variant.salePrice);
                 }
-                return Number((_b = variant.price) !== null && _b !== void 0 ? _b : Number.MAX_SAFE_INTEGER);
+                return Number(variant.price ?? Number.MAX_SAFE_INTEGER);
             };
             products = [...products].sort((a, b) => {
                 const diff = getEffectivePrice(a) - getEffectivePrice(b);
@@ -107,8 +109,9 @@ export const getAllProducts = async (req, res) => {
         });
     }
 };
-export const getHotSellerProducts = async (req, res) => {
-    const products = await prisma.product.findMany({
+exports.getAllProducts = getAllProducts;
+const getHotSellerProducts = async (req, res) => {
+    const products = await prisma_1.prisma.product.findMany({
         where: { hotSeller: true },
         include: { variants: true },
     });
@@ -117,10 +120,11 @@ export const getHotSellerProducts = async (req, res) => {
         products,
     });
 };
-export const getNewArrivals = async (req, res) => {
+exports.getHotSellerProducts = getHotSellerProducts;
+const getNewArrivals = async (req, res) => {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const products = await prisma.product.findMany({
+    const products = await prisma_1.prisma.product.findMany({
         where: { createdAt: { gte: sevenDaysAgo } },
         include: { variants: true }
     });
@@ -129,14 +133,15 @@ export const getNewArrivals = async (req, res) => {
         products,
     });
 };
-export const getSingleProduct = async (req, res) => {
+exports.getNewArrivals = getNewArrivals;
+const getSingleProduct = async (req, res) => {
     try {
         const slug = String(req.params.slug);
         if (!slug) {
             res.status(400).json({ success: false, message: "A valid Product slug is required" });
             return;
         }
-        const product = await prisma.product.findUnique({
+        const product = await prisma_1.prisma.product.findUnique({
             where: { slug },
             include: { variants: true }
         });
@@ -150,13 +155,13 @@ export const getSingleProduct = async (req, res) => {
         res.status(500).json({ success: false, message: error.message || "Failed to fetch product" });
     }
 };
-export const createProduct = async (req, res) => {
-    var _a;
+exports.getSingleProduct = getSingleProduct;
+const createProduct = async (req, res) => {
     try {
-        const variants = parseVariantsFromRequest(req.body);
-        const validation = createProductSchema.safeParse({
+        const variants = (0, variants_1.parseVariantsFromRequest)(req.body);
+        const validation = productSchema_1.createProductSchema.safeParse({
             ...req.body,
-            hotSeller: (_a = req.body.hotSeller) !== null && _a !== void 0 ? _a : false,
+            hotSeller: req.body.hotSeller ?? false,
             variants,
         });
         if (!validation.success) {
@@ -168,9 +173,9 @@ export const createProduct = async (req, res) => {
             return;
         }
         const { name, category, description, slug: rawSlug, hotSeller, variants: validatedVariants, } = validation.data;
-        const slug = (rawSlug === null || rawSlug === void 0 ? void 0 : rawSlug.trim())
-            ? createSlug(rawSlug)
-            : createSlug(name);
+        const slug = rawSlug?.trim()
+            ? (0, index_1.createSlug)(rawSlug)
+            : (0, index_1.createSlug)(name);
         if (!validatedVariants || validatedVariants.length === 0) {
             res.status(400).json({
                 success: false,
@@ -181,7 +186,7 @@ export const createProduct = async (req, res) => {
         // Upload files to Cloudinary
         const files = req.files || [];
         const uploadedFiles = await Promise.all(files.map(async (file, index) => {
-            const uploadRes = await uploadToCloudinary(file.buffer);
+            const uploadRes = await (0, uploadToCloudinary_1.uploadToCloudinary)(file.buffer);
             return {
                 file,
                 index,
@@ -189,7 +194,7 @@ export const createProduct = async (req, res) => {
             };
         }));
         // Distribute images to their target validatedVariants
-        const variantImagesMap = mapUploadedImagesToVariants(validatedVariants, uploadedFiles, req.body);
+        const variantImagesMap = (0, variants_1.mapUploadedImagesToVariants)(validatedVariants, uploadedFiles, req.body);
         for (let i = 0; i < validatedVariants.length; i++) {
             const v = validatedVariants[i];
             // Preserve pre-existing URLs (e.g. if passed as strings in images)
@@ -200,7 +205,7 @@ export const createProduct = async (req, res) => {
             v.existingImages = Array.from(new Set([...existingUrls, ...newUrls]));
         }
         // Save product and variants inside a transaction
-        const result = await prisma.$transaction(async (tx) => {
+        const result = await prisma_1.prisma.$transaction(async (tx) => {
             const product = await tx.product.create({
                 data: {
                     name: name.trim(),
@@ -211,8 +216,7 @@ export const createProduct = async (req, res) => {
                 }
             });
             const createdVariants = await Promise.all(validatedVariants.map((v, i) => {
-                var _a;
-                const variantSku = ((_a = v.sku) === null || _a === void 0 ? void 0 : _a.trim()) || `${slug}-${createSlug(v.label)}-${Date.now()}-${i}`;
+                const variantSku = v.sku?.trim() || `${slug}-${(0, index_1.createSlug)(v.label)}-${Date.now()}-${i}`;
                 return tx.variant.create({
                     data: {
                         label: v.label.trim(),
@@ -247,14 +251,15 @@ export const createProduct = async (req, res) => {
         });
     }
 };
-export const UpdateProduct = async (req, res) => {
+exports.createProduct = createProduct;
+const UpdateProduct = async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (!id || isNaN(id)) {
             res.status(400).json({ success: false, message: "A valid Product ID is required" });
             return;
         }
-        const existingProduct = await prisma.product.findFirst({
+        const existingProduct = await prisma_1.prisma.product.findFirst({
             where: { id },
             include: { variants: true }
         });
@@ -266,7 +271,7 @@ export const UpdateProduct = async (req, res) => {
         const rawSlug = req.body.slug;
         // Check for nameBody/slug conflict with other products
         if (name && name.trim() !== existingProduct.name) {
-            const conflict = await prisma.product.findUnique({
+            const conflict = await prisma_1.prisma.product.findUnique({
                 where: { name: name.trim() }
             });
             if (conflict && conflict.id !== id) {
@@ -277,12 +282,12 @@ export const UpdateProduct = async (req, res) => {
                 return;
             }
         }
-        const slugSource = (rawSlug === null || rawSlug === void 0 ? void 0 : rawSlug.trim()) || name;
+        const slugSource = rawSlug?.trim() || name;
         const updatedSlug = slugSource
-            ? createSlug(slugSource)
+            ? (0, index_1.createSlug)(slugSource)
             : existingProduct.slug;
         if (updatedSlug !== existingProduct.slug) {
-            const conflict = await prisma.product.findUnique({
+            const conflict = await prisma_1.prisma.product.findUnique({
                 where: { slug: updatedSlug }
             });
             if (conflict && conflict.id !== id) {
@@ -293,8 +298,8 @@ export const UpdateProduct = async (req, res) => {
                 return;
             }
         }
-        const incomingVariantsParsed = parseVariantsFromRequest(req.body);
-        const validation = updateProductSchema.safeParse({
+        const incomingVariantsParsed = (0, variants_1.parseVariantsFromRequest)(req.body);
+        const validation = productSchema_1.updateProductSchema.safeParse({
             ...req.body,
             variants: req.body.variants !== undefined
                 ? incomingVariantsParsed
@@ -309,11 +314,11 @@ export const UpdateProduct = async (req, res) => {
             return;
         }
         const { name: updatedName, category, description, slug, hotSeller, variants: validatedVariants, } = validation.data;
-        const incomingVariants = validatedVariants !== null && validatedVariants !== void 0 ? validatedVariants : [];
+        const incomingVariants = validatedVariants ?? [];
         // Upload any newly uploaded files to Cloudinary
         const files = req.files || [];
         const uploadedFiles = await Promise.all(files.map(async (file, index) => {
-            const uploadRes = await uploadToCloudinary(file.buffer);
+            const uploadRes = await (0, uploadToCloudinary_1.uploadToCloudinary)(file.buffer);
             return {
                 file,
                 index,
@@ -321,7 +326,7 @@ export const UpdateProduct = async (req, res) => {
             };
         }));
         const variantImagesMap = incomingVariants.length > 0
-            ? mapUploadedImagesToVariants(incomingVariants, uploadedFiles, req.body)
+            ? (0, variants_1.mapUploadedImagesToVariants)(incomingVariants, uploadedFiles, req.body)
             : {};
         for (let i = 0; i < incomingVariants.length; i++) {
             const v = incomingVariants[i];
@@ -331,7 +336,7 @@ export const UpdateProduct = async (req, res) => {
             const newUrls = variantImagesMap[i] || [];
             v.existingImages = Array.from(new Set([...existingUrls, ...newUrls]));
         }
-        const result = await prisma.$transaction(async (tx) => {
+        const result = await prisma_1.prisma.$transaction(async (tx) => {
             // 1. Update product base fields
             const productUpdateData = {};
             if (updatedName !== undefined)
@@ -364,7 +369,7 @@ export const UpdateProduct = async (req, res) => {
                 for (let i = 0; i < incomingVariants.length; i++) {
                     const v = incomingVariants[i];
                     const vId = v.id ? Number(v.id) : null;
-                    const variantSku = `${slug}-${createSlug(v.label)}-${i}`;
+                    const variantSku = `${slug}-${(0, index_1.createSlug)(v.label)}-${i}`;
                     if (vId && existingVariants.some((exV) => exV.id === vId)) {
                         // Update existing variant
                         const updatedV = await tx.variant.update({
@@ -425,19 +430,20 @@ export const UpdateProduct = async (req, res) => {
         });
     }
 };
-export const deleteProduct = async (req, res) => {
+exports.UpdateProduct = UpdateProduct;
+const deleteProduct = async (req, res) => {
     try {
         const id = Number(req.params.id);
         if (!id || isNaN(id)) {
             res.status(400).json({ success: false, message: "A valid Product ID is required" });
             return;
         }
-        const product = await prisma.product.findFirst({ where: { id } });
+        const product = await prisma_1.prisma.product.findFirst({ where: { id } });
         if (!product) {
             res.status(404).json({ success: false, message: "Product not found" });
             return;
         }
-        await prisma.product.delete({ where: { id } });
+        await prisma_1.prisma.product.delete({ where: { id } });
         res.status(200).json({
             success: true,
             message: "Product deleted successfully",
@@ -451,3 +457,4 @@ export const deleteProduct = async (req, res) => {
         });
     }
 };
+exports.deleteProduct = deleteProduct;

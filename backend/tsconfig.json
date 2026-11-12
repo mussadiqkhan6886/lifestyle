@@ -1,21 +1,26 @@
 {
   "compilerOptions": {
-   
-    "target": "es2018",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "module": "preserve",                                /* Specify what module code is generated. */
-     "rootDir": ".",                                  /* Specify the root folder within your source files. */
-     "outDir": "./dist",                                  /* Specify the root folder within your source files. */
-    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "express.d.ts", "**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "generated/**/*.ts",
+    "express.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "neon.ts",
+    "prisma7.config.ts"
+  ]
 }

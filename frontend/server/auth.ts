@@ -1,8 +1,5 @@
-import { getBaseUrl } from "@/lib/helpers/getBaseUrl"
-
 export const login = async (email: string, password:string) => {
-    const baseUrl = getBaseUrl()
-    const res = await fetch(`${baseUrl}/api/auth/login`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify({
@@ -21,7 +18,6 @@ export const login = async (email: string, password:string) => {
 }
 
 export const logout = async () => {
-    const baseUrl = getBaseUrl()
-    const res = await fetch(`${baseUrl}/api/auth/logout`, {method: "POST", credentials: "include"})
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {method: "POST", credentials: "include"})
     return res.json()
 }

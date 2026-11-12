@@ -1,7 +1,13 @@
-import cloudinary from "../../config/cloudinary";
-export const uploadToCloudinary = (buffer) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.uploadToCloudinary = void 0;
+const cloudinary_1 = __importDefault(require("../../config/cloudinary"));
+const uploadToCloudinary = (buffer) => {
     return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream({
+        const stream = cloudinary_1.default.uploader.upload_stream({
             folder: "lifestyle",
             resource_type: "image",
         }, (error, result) => {
@@ -18,3 +24,4 @@ export const uploadToCloudinary = (buffer) => {
         stream.end(buffer);
     });
 };
+exports.uploadToCloudinary = uploadToCloudinary;

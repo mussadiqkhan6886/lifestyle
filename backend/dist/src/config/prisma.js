@@ -1,11 +1,14 @@
-var _a;
-import { PrismaClient } from "../../generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.prisma = void 0;
+const client_1 = require("../../generated/prisma/client");
+const adapter_pg_1 = require("@prisma/adapter-pg");
 const globalForPrisma = globalThis;
-const adapter = new PrismaPg({
+const adapter = new adapter_pg_1.PrismaPg({
     connectionString: process.env.DATABASE_URL,
 });
-export const prisma = (_a = globalForPrisma.prisma) !== null && _a !== void 0 ? _a : new PrismaClient({ adapter });
+exports.prisma = globalForPrisma.prisma ??
+    new client_1.PrismaClient({ adapter });
 if (process.env.NODE_ENV !== "production") {
-    globalForPrisma.prisma = prisma;
+    globalForPrisma.prisma = exports.prisma;
 }

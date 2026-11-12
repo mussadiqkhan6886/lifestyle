@@ -2,9 +2,10 @@
 import { Request, Response } from "express"
 import { prisma } from "../config/prisma"
 import { createOrderSchema, updateOrderSchema} from "../schemas/orderSchema"
-import { generateOrderNumber } from "../lib/helpers";
+import { generateOrderNumber } from "../lib/helpers/index";
 import { transporter } from "../config/nodemailer";
 import { createAdminEmail, createCustomerEmail } from "../lib/helpers/orderEmail";
+import { orderVariantMap, VariantInput } from "../types/global";
 
 class CheckoutError extends Error {
   constructor(
@@ -66,7 +67,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       quantity,
     }))
 
-    const order = await prisma.$transaction(async (tx) => {
+    const order = await prisma.$transaction(async (tx:any) => {
       const variants = await tx.variant.findMany({
         where: {
           sku: {
@@ -93,13 +94,13 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       }
 
       const variantMap = new Map(
-        variants.map((variant) => [variant.sku, variant])
+        variants.map((variant:any) => [variant.sku, variant])
       )
 
       let subtotal = 0
 
       const orderItems = requestedItems.map((requested) => {
-  const variant = variantMap.get(requested.sku)
+  const variant = variantMap.get(requested.sku) as orderVariantMap
 
   if (!variant) {
     throw new CheckoutError(
@@ -108,10 +109,10 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     )
   }
 
-  if (variant.stock < requested.quantity) {
+  if (Number(variant.stock) < requested.quantity) {
     throw new CheckoutError(
       409,
-      `${variant.product.name} (${variant.label}) has only ${variant.stock} item(s) available`
+      `(${variant.label}) has only ${variant.stock} item(s) available`
     )
   }
 
@@ -120,11 +121,11 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       ? variant.salePrice
       : variant.price
 
-  if (!Number.isSafeInteger(unitPrice) || unitPrice < 0) {
+  if (!Number.isSafeInteger(unitPrice) || unitPrice as number < 0) {
     throw new Error("Invalid product price")
   }
 
-  const lineTotal = unitPrice * requested.quantity
+  const lineTotal = unitPrice as number * requested.quantity
 
   if (!Number.isSafeInteger(lineTotal)) {
   throw new CheckoutError(400, "Order amount is too large")

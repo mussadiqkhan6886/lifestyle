@@ -1,21 +1,27 @@
-import bcrypt from "bcryptjs";
-import { loginSchema } from "../schemas/loginSchema";
-import jwt from "jsonwebtoken";
-import { prisma } from "../config/prisma";
-export const login = async (req, res) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.refresh = exports.logout = exports.login = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const loginSchema_1 = require("../schemas/loginSchema");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const prisma_1 = require("../config/prisma");
+const login = async (req, res) => {
     const { email, password } = req.body;
-    const safeParsed = loginSchema.safeParse({ email, password });
+    const safeParsed = loginSchema_1.loginSchema.safeParse({ email, password });
     if (!safeParsed.success) {
         res.status(400).json({ success: false, message: "Please enter a valid email and password" });
         return;
     }
     const data = safeParsed.data;
-    const user = await prisma.admin.findUnique({ where: { email: data.email } });
+    const user = await prisma_1.prisma.admin.findUnique({ where: { email: data.email } });
     if (!user) {
         res.status(404).json({ success: false, message: "Admin not found with this email" });
         return;
     }
-    const comparePassword = await bcrypt.compare(data.password, user.password);
+    const comparePassword = await bcryptjs_1.default.compare(data.password, user.password);
     if (!comparePassword) {
         res.status(401).json({ success: false, message: "Wrong password" });
         return;
@@ -25,13 +31,13 @@ export const login = async (req, res) => {
     if (!accessSecret || !refreshSecret) {
         throw new Error('JWT secrets are not configured');
     }
-    const accessToken = jwt.sign({
+    const accessToken = jsonwebtoken_1.default.sign({
         adminInfo: {
             id: user.id,
             email: user.email
         }
     }, accessSecret, { expiresIn: "15m" });
-    const refreshToken = jwt.sign({
+    const refreshToken = jsonwebtoken_1.default.sign({
         id: user.id,
         email: user.email
     }, refreshSecret, { expiresIn: "7d" });
@@ -51,7 +57,8 @@ export const login = async (req, res) => {
     });
     res.json({ message: "Login successfully" });
 };
-export const logout = async (req, res) => {
+exports.login = login;
+const logout = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies.refreshToken) {
         res.sendStatus(204);
@@ -73,25 +80,26 @@ export const logout = async (req, res) => {
     });
     res.json({ message: "Logout successfully" });
 };
-export const refresh = async (req, res) => {
+exports.logout = logout;
+const refresh = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies.refreshToken) {
         res.sendStatus(204);
         return;
     }
     const token = cookies.refreshToken;
-    jwt.verify(token, process.env.REFRESH_TOKEN, async (err, decoded) => {
+    jsonwebtoken_1.default.verify(token, process.env.REFRESH_TOKEN, async (err, decoded) => {
         if (err || !decoded || typeof decoded === "string") {
             return res.status(403).json({
                 message: "Forbidden",
             });
         }
-        const admin = await prisma.admin.findUnique({ where: { id: Number(decoded.id) } });
+        const admin = await prisma_1.prisma.admin.findUnique({ where: { id: Number(decoded.id) } });
         if (!admin) {
             res.status(401).json({ message: "No User Found" });
             return;
         }
-        const accessToken = jwt.sign({
+        const accessToken = jsonwebtoken_1.default.sign({
             adminInfo: {
                 id: admin.id,
                 email: admin.email
@@ -110,3 +118,4 @@ export const refresh = async (req, res) => {
         res.json({ message: "Token refreshed" });
     });
 };
+exports.refresh = refresh;
