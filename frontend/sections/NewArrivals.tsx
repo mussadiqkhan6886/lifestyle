@@ -4,23 +4,29 @@ import { getNewArrivals } from '@/server/product'
 import React from 'react'
 
 const NewArrivals = async () => {
-
+  try {
     const products = await getNewArrivals()
 
-    if(products.length < 1){
-        return null
+    if (!products || products.length < 1) {
+      return null
     }
-  return (
-     <section className='my-12 px-3'>
+    return (
+      <section className='my-12 px-3'>
         <div className=' py-8 flex gap-1 flex-col'>
-            <h2 className={`${aire.className} text-[28px] sm:text-5xl tracking-wide `}>
-                New Arrivals
-            </h2>
-            <p className='text-sm text-black/60'>Discover our latest arrivals, featuring fresh styles and carefully selected pieces to elevate your everyday look.</p>
+          <h2 className={`${aire.className} text-[28px] sm:text-5xl tracking-wide `}>
+            New Arrivals
+          </h2>
+          <p className='text-sm text-black/60'>
+            Discover our latest arrivals, featuring fresh styles and carefully selected pieces to elevate your everyday look.
+          </p>
         </div>
         <ProductsCorousal tag={"row"} products={products} />
-    </section>
-  )
+      </section>
+    )
+  } catch (error) {
+    console.warn("Failed to load NewArrivals:", error)
+    return null
+  }
 }
 
 export default NewArrivals

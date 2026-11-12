@@ -4,24 +4,30 @@ import { aire } from '@/lib/fonts'
 import { getHotSellerProducts } from '@/server/product'
 
 const BestSellers = async () => {
-    
+  try {
     const products = await getHotSellerProducts()
 
-    if(products.length < 1){
-        return null
+    if (!products || products.length < 1) {
+      return null
     }
 
-  return (
-    <section className='max-w-8xl mx-auto px-3 my-12 sm:my-18 xl:my-24'>
+    return (
+      <section className='max-w-8xl mx-auto px-3 my-12 sm:my-18 xl:my-24'>
         <div className='flex items-center flex-col mb-10 sm:mb-12 gap-3'>
-            <h3 className={`${aire.className} text-3xl sm:text-5xl tracking-wide`}>Shop Best Seller</h3>
-            <p className='text-black/50 max-w-md px-2 text-center leading-5 text-sm'>Browse, select and order your perfect taste oin just a few steps with our smooth and user-friednly experience</p>
+          <h3 className={`${aire.className} text-3xl sm:text-5xl tracking-wide`}>Shop Best Seller</h3>
+          <p className='text-black/50 max-w-md px-2 text-center leading-5 text-sm'>
+            Browse, select and order your perfect taste oin just a few steps with our smooth and user-friednly experience
+          </p>
         </div>
         <div>
-            <ProductsCorousal tag={"row"} products={products} />
+          <ProductsCorousal tag={"row"} products={products} />
         </div>
-    </section>
-  )
+      </section>
+    )
+  } catch (error) {
+    console.warn("Failed to load BestSellers:", error)
+    return null
+  }
 }
 
 export default BestSellers

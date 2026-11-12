@@ -123,15 +123,23 @@ export async function generateMetadata({
 }
 
 export const generateStaticParams = async () => {
-  const products = await getAllProducts()
+  try {
+    const products = await getAllProducts()
 
-  const categories = [
-    ...new Set(products.products.map(product => product.category))
-  ]
+    const categories = [
+      ...new Set(products?.products?.map((product) => product.category) || []),
+    ]
 
-  return categories.map(category => ({
-    collectionSlug: category
-  }))
+    return categories.map((category) => ({
+      collectionSlug: category,
+    }))
+  } catch (error) {
+    console.warn(
+      "generateStaticParams: unable to fetch categories at build time, will render on demand:",
+      error
+    )
+    return []
+  }
 }
 
 type Params = Promise<{ collectionSlug: string }>

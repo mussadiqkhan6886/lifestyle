@@ -1,11 +1,13 @@
 'use server'
 import { cookies } from "next/headers"
+import { getBaseUrl } from "./getBaseUrl"
 
 export const fetchHelper = async <T>(path: string, options: RequestInit = {}): Promise<T> => {
     const cookiesStore = await cookies()
     const token = cookiesStore.toString()
+    const baseUrl = getBaseUrl()
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/${path}`, {
+    const res = await fetch(`${baseUrl}/api/${path}`, {
         ...options,
         headers: { Cookie: token, ...(options.headers || {}) },
     })
@@ -15,7 +17,7 @@ export const fetchHelper = async <T>(path: string, options: RequestInit = {}): P
     }
 
     const result = await res.json()
-   if (!res.ok) {
+    if (!res.ok) {
         throw new Error(
             result.message ||
             result.error?.message ||

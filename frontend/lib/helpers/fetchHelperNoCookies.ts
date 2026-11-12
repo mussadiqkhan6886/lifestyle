@@ -1,15 +1,11 @@
 'use server'
+import { getBaseUrl } from "./getBaseUrl"
 
 export const fetchHelperNoCookies = async <T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_BASE_URL is not configured")
-  }
-
+  const baseUrl = getBaseUrl()
   const url = `${baseUrl}/api/${path}`
 
   const res = await fetch(url, {
