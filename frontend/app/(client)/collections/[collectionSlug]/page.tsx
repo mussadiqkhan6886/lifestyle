@@ -2,7 +2,6 @@
 import React, { Suspense } from 'react'
 import PageSkeleton from '@/components/client/LoadingSkeletonGlobal'
 import CollectionComp from '@/components/client/CollectionComp'
-import { getAllProducts } from '@/server/product'
 import { Metadata } from 'next'
 
 
@@ -119,26 +118,6 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://www.lifestyleshoppinguk.com/collection/${slug}`,
     },
-  }
-}
-
-export const generateStaticParams = async () => {
-  try {
-    const products = await getAllProducts()
-
-    const categories = [
-      ...new Set(products?.products?.map((product) => product.category) || []),
-    ]
-
-    return categories.map((category) => ({
-      collectionSlug: category,
-    }))
-  } catch (error) {
-    console.warn(
-      "generateStaticParams: unable to fetch categories at build time, will render on demand:",
-      error
-    )
-    return []
   }
 }
 

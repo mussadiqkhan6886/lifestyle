@@ -83,23 +83,6 @@ export async function generateMetadata({
   }
 }
 
-export const generateStaticParams = async () => {
-  try {
-    const products = await getAllProducts()
-
-    return (
-      products?.products?.map((i) => ({
-        productSlug: i.slug,
-      })) || []
-    )
-  } catch (error) {
-    console.warn(
-      "generateStaticParams: unable to fetch products at build time, will render on demand:",
-      error
-    )
-    return []
-  }
-}
 
 type Params = Promise<{ productSlug: string }>
 
