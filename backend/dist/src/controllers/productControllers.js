@@ -79,8 +79,7 @@ export const getAllProducts = async (req, res) => {
         // Price sorting
         if (sort === "price-asc" || sort === "price-desc") {
             const getEffectivePrice = (product) => {
-                var _a;
-                var _b;
+                var _a, _b;
                 const variant = (_a = product.variants) === null || _a === void 0 ? void 0 : _a[0];
                 if (!variant)
                     return Number.MAX_SAFE_INTEGER;
