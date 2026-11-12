@@ -20,13 +20,13 @@ app.use(express.urlencoded({
     limit: "100kb",
     parameterLimit: 100,
 }));
-app.get("/health", (req, res) => {
+app.get(["/health", "/api/health"], (req, res) => {
     res.status(200).send("ok");
 });
-app.use("/api/auth", routerAuth);
-app.use("/api/products", routerProducts);
-app.use("/api/ai", routerAI);
-app.use("/api/review", routerReview);
-app.use("/api/orders", orderRoutes);
+app.use(["/api/auth", "/auth"], routerAuth);
+app.use(["/api/products", "/products"], routerProducts);
+app.use(["/api/ai", "/ai"], routerAI);
+app.use(["/api/review", "/review"], routerReview);
+app.use(["/api/orders", "/orders"], orderRoutes);
 app.use(ErrorHandler);
 export default app;

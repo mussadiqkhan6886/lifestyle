@@ -18,8 +18,8 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "5mb"
     }
   },
-  cacheComponents: false,
-  partialPrefetching: false,
+  cacheComponents: true,
+  partialPrefetching: true,
   turbopack: {
     rules: {
       "*.css": {

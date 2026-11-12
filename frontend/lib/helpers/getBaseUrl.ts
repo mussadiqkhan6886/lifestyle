@@ -1,7 +1,12 @@
 export const getBaseUrl = (): string => {
+  // In the browser, always use a relative URL so requests hit the current origin
+  if (typeof window !== "undefined") {
+    return "";
+  }
+
   const envUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // If a valid production URL is configured and not pointing to local dev
+  // If a valid production URL is configured
   if (envUrl && !envUrl.includes("localhost") && !envUrl.includes("127.0.0.1")) {
     return envUrl.replace(/\/+$/, "");
   }
