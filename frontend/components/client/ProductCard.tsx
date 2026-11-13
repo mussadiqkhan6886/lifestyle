@@ -69,7 +69,7 @@ const ProductCard = ({
             {name}
         </h2>
 
-        <div className={`flex ${tag === "col" ? "flex-col sm:flex-row justify-between items-center" : "flex-row"} ${tag === "row" && !onSale ? "items-center justify-center" : "justify-between"} mt-1`}>
+        <div className={`flex ${tag === "col" ? "flex-col sm:flex-row justify-between items-center" : "flex-row"} ${tag === "row" && !onSale ? "items-center justify-center sm:items-start sm:justify-between" : "justify-between"} mt-1`}>
                 {/* Price Container */}
                 <div className="flex items-center gap-2">
                 {onSale && firstVariant?.salePrice ? (
