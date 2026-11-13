@@ -106,11 +106,11 @@ const ProductPage = async ({ params }: { params: Params }) => {
 
       {/* Recommended products */}
       {recommended.length > 0 && (
-        <section className="border-t border-black/10 py-16 sm:py-20">
+        <section className="border-t border-black/10 py-14 sm:py-20">
           <div className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 space-y-10">
-            <div className="flex items-end justify-between gap-6">
+            <div className="flex items-center md:items-end justify-center md:justify-between gap-6">
               <div className="space-y-3">
-                <p className="text-[11px] uppercase tracking-[0.4em] text-contrast-beige">You may also like</p>
+                <p className="text-[11px] uppercase tracking-[0.4em] text-center md:text-left text-contrast-beige">You may also like</p>
                 <h2 className={`${aire.className} text-3xl sm:text-5xl tracking-tight italic`}>Recommended for you</h2>
               </div>
               <Link

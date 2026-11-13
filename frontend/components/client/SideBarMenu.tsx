@@ -50,7 +50,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
   return (
     <div
       aria-hidden={!open}
-      className={`md:hidden fixed inset-0 z-0 transition-[visibility] duration-700 ${
+      className={`lg:hidden fixed inset-0 z-0 transition-[visibility] duration-700 ${
         open ? 'visible' : 'invisible delay-700'
       }`}
     >
@@ -62,7 +62,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
       >
         {/* Texture + glow */}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:26px_26px] pointer-events-none" />
-        <div className="absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-amber-500/15 blur-[100px] pointer-events-none" />
+        <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-amber-500/15 blur-[100px] pointer-events-none" />
       </div>
 
       {/* Content */}
@@ -88,7 +88,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                     >
                       <span className="flex items-baseline gap-4">
                         <span
-                          className={`${aire.className} text-3xl tracking-tight text-light-beige transition-transform duration-300 group-active:translate-x-2`}
+                          className={`${aire.className} text-3xl tracking-tight text-white transition-transform duration-300 group-active:translate-x-2`}
                         >
                           {item.title}
                         </span>
@@ -105,7 +105,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                         <span className="flex items-baseline gap-4">
                           <span
                             className={`${aire.className} text-3xl tracking-tight transition-colors duration-300 ${
-                              isOpen ? 'text-white' : 'text-light-beige'
+                              isOpen ? 'text-light-beige' : 'text-white'
                             }`}
                           >
                             {item.title}
@@ -114,8 +114,8 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                         <span
                           className={`h-9 w-9 rounded-full border flex items-center justify-center transition-all duration-500 ${
                             isOpen
-                              ? 'rotate-45 border-white text-white'
-                              : 'border-light-beige text-light-beige'
+                              ? 'rotate-45 border-light-beige text-light-beige'
+                              : 'border-white text-white'
                           }`}
                         >
                           <Plus className="w-4 h-4" />
@@ -169,18 +169,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
           style={reveal(navbarData.length + 2)}
           className={`mt-10 space-y-6 transition-all duration-700 ${revealClass}`}
         >
-          <Link
-            href="/contact-us"
-            onClick={handleNavigate}
-            className="flex items-center justify-between rounded-xl bg-light-beige text-neutral-900 pl-6 pr-1.5 py-1.5 text-[11px] uppercase tracking-[0.25em] font-medium"
-          >
-            Contact support
-            <span className="h-10 w-10 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center">
-              <ArrowUpRight className="w-4 h-4" />
-            </span>
-          </Link>
-
-          <div className="flex items-center justify-between text-xs text-white/50">
+          <div className="flex items-center justify-center md:justify-between text-xs text-white/90">
             <div className="flex gap-5">
               {socials.map((s) => (
                 <Link
@@ -194,7 +183,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                 </Link>
               ))}
             </div>
-            <span className="uppercase tracking-[0.3em] text-[10px]">Lifestyle Shopping UK</span>
+            <span className="hidden md:block uppercase tracking-[0.3em] text-[10px]">Lifestyle Shopping UK</span>
           </div>
         </div>
       </div>

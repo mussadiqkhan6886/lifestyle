@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-      <main className='pt-35 max-w-6xl mx-auto mb-14'>
-        <div className="mb-10 ml-10 md:ml-1">
+      <main className='pt-35 max-w-6xl mx-auto mb-14 px-4'>
+        <div className="mb-10 md:ml-1">
           <h1 className={`${aire.className} text-5xl`}>
             Collections
           </h1>
-          <p className='text-black/50 tracking-wide max-w-xl'>Explore our curated collections of timeless watches, elegant fashion, and everyday essentials, thoughtfully selected to bring style to every moment.</p>
+          <p className='text-black/50 tracking-wide max-w-xl text-justify'>Explore our curated collections of timeless watches, elegant fashion, and everyday essentials, thoughtfully selected to bring style to every moment.</p>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-8'>
           {collections.map((item) => (

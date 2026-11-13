@@ -90,7 +90,7 @@ const ShowSearch = ({q}: {q:string}) => {
         <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-neutral-500 mb-2">
           No Matches Found
         </span>
-        <h1 className={`${aire.className} text-3xl sm:text-4xl text-neutral-900 tracking-wide mb-3`}>
+        <h1 className={`${aire.className} text-3xl sm:text-4xl text-neutral-900 tracking-wide mb-3 px-3`}>
           No results for "{query}"
         </h1>
         <p className="text-xs sm:text-sm text-neutral-600 max-w-md leading-relaxed mb-8">

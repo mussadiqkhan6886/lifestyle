@@ -65,11 +65,11 @@ const ProductCard = ({
 
       {/* Product Information */}
       <div className="mt-3 flex flex-col px-1">
-        <h2 className={`${aire.className} text-[16px] sm:text-[17px] tracking-wider text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-1`}>
+        <h2 className={`${aire.className} text-center sm:text-left capitalize ${tag === "row"  ? "text-xl" : "text-[16px]"} sm:text-[17px] tracking-wider text-neutral-900 group-hover:text-neutral-600 transition-colors line-clamp-1`}>
             {name}
         </h2>
 
-        <div className={`flex ${tag === "col" ? "flex-col sm:flex-row" : "flex-row"} justify-between sm:items-center mt-1`}>
+        <div className={`flex ${tag === "col" ? "flex-col sm:flex-row justify-between items-center" : "flex-row"} ${tag === "row" && !onSale ? "items-center justify-center" : "justify-between"} mt-1`}>
                 {/* Price Container */}
                 <div className="flex items-center gap-2">
                 {onSale && firstVariant?.salePrice ? (

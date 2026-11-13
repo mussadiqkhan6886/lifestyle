@@ -121,11 +121,11 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
 
           <div className="space-y-3">
             {product.hotSeller && (
-              <span className="inline-block rounded-full bg-red-700 text-white px-3 py-1 text-[10px] uppercase tracking-[0.25em] font-semibold">
+              <span className="inline-block rounded-lg bg-red-700 text-white px-3 py-1 text-[9px] uppercase tracking-[0.25em] font-semibold">
                 Hot seller
               </span>
             )}
-            <h1 className={`${aire.className} text-[25px] sm:text-4xl mt-5 leading-tight tracking-tight capitalize`}>{product.name}</h1>
+            <h1 className={`${aire.className} text-[25px] sm:text-4xl mt-3 leading-tight tracking-tight capitalize`}>{product.name}</h1>
 
             <div className="flex items-baseline gap-3">
               <span className={`${aire.className} text-[20px] sm:text-2xl tabular-nums`}>PKR {price.toLocaleString()}</span>
@@ -142,7 +142,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
             </div>
           </div>
 
-          <div className="space-y-4 border-y border-black/10 py-6">
+          <div className="space-y-4 border-y border-black/10 py-4">
             <div className="space-y-3">
               <p className="text-[11px] uppercase tracking-[0.3em] text-neutral-500">
                 Variant: <span className="text-neutral-900">{variant.label}</span>

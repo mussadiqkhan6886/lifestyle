@@ -1185,7 +1185,7 @@ export const LogoLoop = memo<LogoLoopProps>(
               const visual = renderItem ? (
                 renderItem(item, key)
               ) : (
-                <p className={`${aire.className} text-black/90 tracking-widest text-base capitalize`}>{item.title}</p>
+                <p className={`${aire.className} text-black tracking-widest text-base capitalize`}>{item.title}</p>
               );
               const inner = (
                 <>

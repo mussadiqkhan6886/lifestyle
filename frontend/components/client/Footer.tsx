@@ -21,7 +21,7 @@ const Footer = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* ── Statement card ───────────────────────────── */}
-        <div className="relative overflow-hidden rounded-[1.75rem] sm:rounded-[2.5rem] bg-neutral-950 text-light-beige px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
+        <div className="relative overflow-hidden rounded-[1.75rem] sm:rounded-[2.5rem] bg-neutral-950 text-light-beige px-6 sm:px-12 lg:px-16 py-7 md:py-12 lg:py-20">
           {/* Glow */}
           <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-amber-500/20 blur-[110px] pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:26px_26px] pointer-events-none" />
@@ -43,10 +43,10 @@ const Footer = () => {
             <div className="lg:col-span-4 flex lg:justify-end">
               <Link
                 href="/contact-us"
-                className="group relative inline-flex items-center gap-4 rounded-2xl bg-light-beige text-neutral-900 pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-contrast-beige"
+                className="group relative inline-flex items-center gap-2 xl:gap-4 rounded-2xl bg-light-beige text-neutral-900 pl-6 lg:pl-8 pr-2 py-2 text-xs uppercase tracking-[0.25em] font-medium overflow-hidden transition-all duration-500 hover:bg-contrast-beige"
               >
                 <span>Contact support</span>
-                <span className="h-12 w-12 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
+                <span className="h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-neutral-900 text-light-beige flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
                   <ArrowUpRight className="w-5 h-5" />
                 </span>
               </Link>

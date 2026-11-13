@@ -213,7 +213,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
             <Link
               href="/collections"
               onClick={onClose}
-              className="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-light-beige px-7 py-3.5 text-xs uppercase tracking-[0.25em] font-medium hover:bg-amber-500 hover:text-neutral-900 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-light-beige px-5 sm:px-7 py-3.5 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium hover:bg-amber-500 hover:text-neutral-900 transition-colors"
             >
               Explore collections
               <ArrowRight className="w-4 h-4" />

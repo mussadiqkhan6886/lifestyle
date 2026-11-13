@@ -18,7 +18,7 @@ const Hero = () => {
         <div className="absolute inset-0 w-full h-full bg-black/20 block md:hidden" />
 
       <div className="relative z-10 max-w-3xl p-6 sm:p-12 md:p-14 space-y-6 mb-4">
-        <h1 className={`text-[32px] sm:text-5xl md:text-6xl lg:text-7xl text-white leading-10 sm:leading-16 md:leading-20 tracking-widest ${aire.className}`}>
+        <h1 className={`text-[32px] font-medium sm:text-5xl md:text-6xl lg:text-7xl text-white leading-10 sm:leading-16 md:leading-20 tracking-widest ${aire.className}`}>
           Future-Ready
           <br />
           <span className=" text-gray-200">Fashion</span>
