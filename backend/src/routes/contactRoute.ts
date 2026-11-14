@@ -7,6 +7,6 @@ const router = Router()
 
 router.use(apiLimiter)
 
-router.get("/", sendContactMessage)
+router.post("/", sendContactMessage)
 
 export default router
