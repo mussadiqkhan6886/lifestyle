@@ -149,8 +149,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
         throw new CheckoutError(400, "Order amount is too large")
         }
 
-      // Free delivery is determined by the backend, never by the client.
-      const shippingCost = 0
+      const shippingCost = data.city.toLowerCase() === "lahore" ? 400 : 450
       const total = subtotal + shippingCost
 
       for (const item of requestedItems) {

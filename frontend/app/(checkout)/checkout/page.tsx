@@ -46,6 +46,7 @@ const CheckoutPage = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -62,6 +63,10 @@ const CheckoutPage = () => {
       customerNotes: '',
     },
   })
+
+  const city = watch('city')
+const shippingFee = city.trim().toLowerCase() === 'lahore' ? 400 : 450
+const grandTotal = totalPrice + shippingFee
 
   const placeOrder = useMutation({
     mutationFn: async (values: CheckoutFormValues) => {
@@ -518,7 +523,7 @@ const CheckoutPage = () => {
 
               <div className="flex justify-between">
                 <span className="text-neutral-500">Shipping</span>
-                <span className="text-green-700 font-medium">FREE</span>
+                <span className="text-green-700 font-medium">PKR {shippingFee.toLocaleString()}</span>
               </div>
 
             </div>
@@ -529,17 +534,9 @@ const CheckoutPage = () => {
               <span className="font-semibold">Total</span>
 
               <span className="text-xl font-bold">
-                PKR {totalPrice.toLocaleString()}
+                PKR {grandTotal.toLocaleString()}
               </span>
             </div>
-
-            <p className="mt-4 text-xs text-neutral-500">
-              Free delivery on all orders.
-            </p>
-
-            <p className="mt-3 text-xs text-neutral-400">
-              Final prices and stock availability are verified when your order is submitted.
-            </p>
 
           </aside>
 

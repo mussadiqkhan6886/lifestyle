@@ -96,7 +96,7 @@ export type Order = {
   customerNotes: string | null
 
   paymentMethod: "CASH_ON_DELIVERY"
-  paymentStatus: "UNPAID" | "PAID" | "REFUNDED"
+  paymentStatus: "UNPAID" | "PAID"
   status: OrderStatus
 
   currency: string

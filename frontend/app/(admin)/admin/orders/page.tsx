@@ -31,7 +31,6 @@ const statuses: OrderStatus[] = [
 const paymentStatuses : PaymentStatus[] = [
   "UNPAID",
   "PAID",
-  "REFUNDED",
 ]
 
 const statusStyles: Record<OrderStatus, string> = {
@@ -46,7 +45,6 @@ const statusStyles: Record<OrderStatus, string> = {
 const paymentStyles: Record<PaymentStatus, string> = {
   UNPAID: "bg-yellow-100 text-yellow-700",
   PAID: "bg-green-100 text-green-700",
-  REFUNDED: "bg-purple-100 text-purple-700",
 }
 
 export const formatPrice = (price: number) =>

@@ -64,7 +64,7 @@ const getOrderSummaryHtml = (order: any): string => `
 
   <div style="margin-top:20px;text-align:right;">
     <p>Subtotal: <strong>${formatPKR(order.subtotal)}</strong></p>
-    <p>Delivery: <strong>FREE</strong></p>
+    <p>Delivery: <strong>${formatPKR(order.shippingCost)}</strong></p>
     <h2>Total: ${formatPKR(order.total)}</h2>
   </div>
 `
@@ -168,7 +168,7 @@ export const createCustomerEmail = (order: any): string =>
     <div style="background:#f5f5f5;padding:18px;margin-top:20px;">
 
       <p><strong>Payment:</strong> Cash on Delivery</p>
-      <p><strong>Delivery:</strong> FREE</p>
+      <p><strong>Delivery:</strong>$${order.shippingCost}</p>
 
       <p>
         <strong>Total to pay on delivery:</strong>

@@ -33,7 +33,7 @@ export const getSingleOrder = async (id: number) => {
     return res.order
 }
 
-export type PaymentStatus = "UNPAID" | "PAID" | "REFUNDED"
+export type PaymentStatus = "UNPAID" | "PAID"
 
 type UpdateOrderPayload = {
   status?: OrderStatus
