@@ -101,7 +101,7 @@ const ContactPage = () => {
                 </div>
 
                 {method.href && method.actionText && (
-                  <a
+                  <Link
                     href={method.href}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -109,7 +109,7 @@ const ContactPage = () => {
                   >
                     <span>{method.actionText}</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
+                  </Link>
                 )}
               </div>
             )
