@@ -56,119 +56,166 @@ const PoliciesPage = () => {
           {/* Policy content */}
           <div className="lg:col-span-8 space-y-16">
 
-            {/* 1. Shipping & Delivery */}
-            <section id="shipping" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
-              <div className="flex items-center gap-3 border-b border-black/10 pb-4">
-                <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-neutral-900 shadow-sm">
-                  <Truck className="w-5 h-5 stroke-[1.5]" />
-                </div>
-                <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
-                  Shipping & Delivery
-                </h2>
-              </div>
-              <div className="space-y-4 text-[13px] text-black leading-relaxed">
-                <p>
-                  At lifestyle shopping.uk, we curate luxury collections directly imported from the United Kingdom. Every order is meticulously inspected, securely packaged in our signature unboxing boxes, and shipped straight to your doorstep across Pakistan and worldwide.
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-black">
-                  <li><strong>Complimentary Delivery:</strong> Enjoy free express shipping on all orders above PKR 5,000.</li>
-                  <li><strong>Duties & Taxes Included:</strong> The price you see is the absolute final price you pay. All customs duties, import tariffs, and taxes are fully covered by lifestyle shopping.uk.</li>
-                  <li><strong>Nationwide Transit Time:</strong> Orders reaching Karachi, Lahore, Islamabad, and major cities typically arrive within 2–4 business days via insured courier partners.</li>
-                  <li><strong>Eco-Curation:</strong> Every single order automatically plants a tree in your name, tracked live inside your personal account dashboard.</li>
-                </ul>
-              </div>
-            </section>
+  {/* 1. Shipping & Delivery */}
+  <section id="shipping" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-neutral-900 shadow-sm">
+        <Truck className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Shipping & Delivery
+      </h2>
+    </div>
+    <div className="space-y-4 text-[13px] text-black leading-relaxed">
+      <p>
+        Lifestyle Shopping UK sells pre-loved fashion, watches and accessories imported from the UK, USA and UAE. All orders are delivered across Pakistan through TCS.
+      </p>
+      <ul className="list-disc pl-5 space-y-2 text-black">
+        <li><strong>In-Stock Items:</strong> Delivered within 4–5 days of order confirmation.</li>
+        <li><strong>Pre-Orders:</strong> Items that are not in stock are imported on request and take 3–4 weeks to arrive.</li>
+        <li><strong>Courier:</strong> We ship with TCS and share your tracking details once the order is dispatched.</li>
+        <li><strong>Delivery Charges:</strong> PKR 400 for Lahore and PKR 450 for all other cities. The charge is shown at checkout before you place your order.</li>
+      </ul>
+    </div>
+  </section>
 
-            {/* 2. Returns & Exchanges */}
-            <section id="returns" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
-              <div className="flex items-center gap-3 border-b border-black/10 pb-4">
-                <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
-                  <RotateCcw className="w-5 h-5 stroke-[1.5]" />
-                </div>
-                <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
-                  Returns & Exchanges
-                </h2>
-              </div>
-              <div className="space-y-4 text-[13px] text-black leading-relaxed">
-                <p>
-                  We want your lifestyle shopping.uk experience to be flawless. If you wish to exchange a timepiece, apparel size, or accessory, we offer a straightforward return and exchange window.
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-black">
-                  <li><strong>7-Day Window:</strong> You may request a return or exchange within 7 days of receiving your package.</li>
-                  <li><strong>Item Condition:</strong> Items must be unblemished, unworn, and returned in their original luxury packaging with all tags and seals intact.</li>
-                  <li><strong>Quick Processing:</strong> Once inspected at our Lahore distribution hub, exchanges are dispatched immediately or store credit/refunds are processed securely.</li>
-                </ul>
-              </div>
-            </section>
+  {/* 2. Payment */}
+  <section id="payment" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
+        <FileText className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Payment
+      </h2>
+    </div>
+    <div className="space-y-4 text-[13px] text-black leading-relaxed">
+      <ul className="list-disc pl-5 space-y-2 text-black">
+        <li><strong>In-Stock Items:</strong> 100% advance payment is required to confirm and dispatch your order.</li>
+        <li><strong>Pre-Orders:</strong> 50% advance payment is required to place the order. The remaining 50% is due before the item is dispatched to you.</li>
+        <li><strong>Confirmation:</strong> Our team will contact you on WhatsApp with payment details after you place your order.</li>
+      </ul>
+    </div>
+  </section>
 
-            {/* 3. FAQs */}
-            <section id="faq" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
-              <div className="flex items-center gap-3 border-b border-black/10 pb-4">
-                <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
-                  <HelpCircle className="w-5 h-5 stroke-[1.5]" />
-                </div>
-                <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
-                  Frequently Asked Questions
-                </h2>
-              </div>
-              <div className="space-y-6 text-[13px] text-black">
-                <div className="space-y-1.5">
-                  <h3 className="font-semibold text-black">Are lifestyle shopping.uk watches and jewelry authentic?</h3>
-                  <p className="text-black leading-relaxed">Yes. Every piece in our men&apos;s watches, women&apos;s watches, clothing, and accessories collection is authentically imported straight from authorized British brand houses.</p>
-                </div>
-                <div className="space-y-1.5">
-                  <h3 className="font-semibold text-black">Will I have to pay any extra customs tax upon delivery?</h3>
-                  <p className="text-black leading-relaxed">Never. lifestyle shopping.uk covers 100% of international import duties and taxes. What you see at checkout is all you pay.</p>
-                </div>
-                <div className="space-y-1.5">
-                  <h3 className="font-semibold text-black">How do I track my planted tree?</h3>
-                  <p className="text-black leading-relaxed">With every completed order, our environmental partnership records your tree planting milestone directly in your customer portal profile.</p>
-                </div>
-              </div>
-            </section>
+  {/* 3. Returns & Exchanges */}
+  <section id="returns" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
+        <RotateCcw className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Returns, Exchanges & Refunds
+      </h2>
+    </div>
+    <div className="space-y-4 text-[13px] text-black leading-relaxed">
+      <p>
+        If there is an issue with your product, you can request a return or exchange within 2 days of delivery.
+      </p>
+      <ul className="list-disc pl-5 space-y-2 text-black">
+        <li><strong>2-Day Window:</strong> Requests must be made within 2 days of receiving your order. Requests after this period cannot be accepted.</li>
+        <li><strong>How to Request:</strong> Message us on WhatsApp at 0322 4204456 with your order number and clear photos or a short video of the issue.</li>
+        <li><strong>Return Shipping:</strong> The customer bears the return shipping cost.</li>
+        <li><strong>Refunds:</strong> Approved refunds are processed within 2 working days after we receive and inspect the returned item.</li>
+        <li><strong>Pre-Orders:</strong> Pre-ordered items are imported specially for you, so please confirm your size, colour and details before paying.</li>
+      </ul>
+    </div>
+  </section>
 
-            {/* 4. Privacy Policy */}
-            <section id="privacy-policy" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
-              <div className="flex items-center gap-3 border-b border-black/10 pb-4">
-                <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
-                  <ShieldCheck className="w-5 h-5 stroke-[1.5]" />
-                </div>
-                <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
-                  Privacy Policy
-                </h2>
-              </div>
-              <div className="space-y-4 text-[13px] text-black leading-relaxed">
-                <p>
-                  Your privacy is paramount. lifestyle shopping.uk respects and protects your personal information in accordance with international data security standards.
-                </p>
-                <p className="text-black">
-                  We collect only necessary information required to process orders, manage deliveries, and optimize your shopping experience. We never sell or distribute your private credentials.
-                </p>
-              </div>
-            </section>
+  {/* 4. FAQs */}
+  <section id="faq" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
+        <HelpCircle className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Frequently Asked Questions
+      </h2>
+    </div>
+    <div className="space-y-6 text-[13px] text-black">
+      <div className="space-y-1.5">
+        <h3 className="font-semibold text-black">How long does delivery take?</h3>
+        <p className="text-black leading-relaxed">In-stock items arrive in 4–5 days. Pre-orders take 3–4 weeks because they are imported after you order.</p>
+      </div>
+      <div className="space-y-1.5">
+        <h3 className="font-semibold text-black">How do I pay?</h3>
+        <p className="text-black leading-relaxed">In-stock items need 100% advance payment. Pre-orders need 50% in advance, with the rest paid before dispatch.</p>
+      </div>
+      <div className="space-y-1.5">
+        <h3 className="font-semibold text-black">Which courier do you use?</h3>
+        <p className="text-black leading-relaxed">All orders are shipped with TCS.</p>
+      </div>
+      <div className="space-y-1.5">
+        <h3 className="font-semibold text-black">Can I exchange an item?</h3>
+        <p className="text-black leading-relaxed">Yes, if there is an issue with the product, you can request an exchange within 2 days of delivery.</p>
+      </div>
+      <div className="space-y-1.5">
+        <h3 className="font-semibold text-black">Do watches come with a guarantee?</h3>
+        <p className="text-black leading-relaxed">Yes. All watches come with a 1-year guarantee.</p>
+      </div>
+    </div>
+  </section>
 
-            {/* 5. Terms of Service */}
-            <section id="terms" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
-              <div className="flex items-center gap-3 border-b border-black/10 pb-4">
-                <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
-                  <FileText className="w-5 h-5 stroke-[1.5]" />
-                </div>
-                <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
-                  Terms of Service
-                </h2>
-              </div>
-              <div className="space-y-4 text-[13px] text-black leading-relaxed">
-                <p>
-                  By accessing and purchasing from lifestyle shopping.uk, you agree to comply with our operating terms.
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-black">
-                  <li><strong>Pricing & Availability:</strong> All prices are listed in PKR and are subject to adjustment based on stock availability.</li>
-                  <li><strong>Intellectual Property:</strong> All imagery, product designs, brand names, and typography associated with lifestyle shopping.uk are legally protected.</li>
-                </ul>
-              </div>
-            </section>
+  {/* 5. Privacy Policy */}
+  <section id="privacy-policy" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
+        <ShieldCheck className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Privacy Policy
+      </h2>
+    </div>
+    <div className="space-y-4 text-[13px] text-black leading-relaxed">
+      <p>
+        We collect only the information needed to process your order: your name, phone number, email, delivery address and any notes you add.
+      </p>
+      <p className="text-black">
+        This information is used to confirm and deliver your order and to contact you about it. It is shared only with our courier (TCS) for delivery, and we never sell your personal information.
+      </p>
+    </div>
+  </section>
 
-          </div>
+  {/* 6. Terms of Service */}
+  <section id="terms" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
+        <FileText className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Terms of Service
+      </h2>
+    </div>
+    <div className="space-y-4 text-[13px] text-black leading-relaxed">
+      <p>
+        By ordering from Lifestyle Shopping UK, you agree to the terms below.
+      </p>
+      <ul className="list-disc pl-5 space-y-2 text-black">
+        <li><strong>Pricing & Availability:</strong> All prices are in PKR and may change based on stock availability.</li>
+        <li><strong>Guarantee:</strong> Watches come with a 1-year guarantee.</li>
+        <li><strong>Disputes:</strong> For any complaint or dispute, contact us on WhatsApp at 0322 4204456 and we will work to resolve it.</li>
+        <li><strong>Intellectual Property:</strong> All imagery, designs and branding on this website belong to Lifestyle Shopping UK.</li>
+      </ul>
+    </div>
+  </section>
+
+  {/* 7. Business Information */}
+  <section id="business-info" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
+    <div className="flex items-center gap-3 border-b border-black/10 pb-4">
+      <div className="p-2.5 bg-light-beige rounded-lg border border-black/5 text-black shadow-sm">
+        <HelpCircle className="w-5 h-5 stroke-[1.5]" />
+      </div>
+      <h2 className={`${aire.className} text-2xl text-black tracking-wide`}>
+        Business Information
+      </h2>
+    </div>
+    <div className="space-y-2 text-[13px] text-black leading-relaxed">
+      <p><strong>Address:</strong> Phase 3, DHA, Lahore, Pakistan</p>
+      <p><strong>Phone / WhatsApp:</strong> <a href="https://wa.me/923224204456" className="underline underline-offset-4">0322 4204456</a></p>
+    </div>
+  </section>
+
+</div>
         </div>
       </div>
     </main>

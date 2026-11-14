@@ -11,6 +11,8 @@ const navLinks = [
   { label: 'FAQs', href: '#faq', icon: HelpCircle },
   { label: 'Privacy policy', href: '#privacy-policy', icon: ShieldCheck },
   { label: 'Terms of service', href: '#terms', icon: FileText },
+  { label: 'Payment', href: '#payment', icon: FileText },
+{ label: 'Business information', href: '#business-info', icon: HelpCircle },
 ]
 
 const PolicyNav = () => {

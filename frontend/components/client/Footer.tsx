@@ -60,7 +60,7 @@ const Footer = () => {
           <div className="md:col-span-4 space-y-5">
             <p className={`${aire.className} text-2xl tracking-wide`}>Lifestyle Shopping</p>
             <p className="text-sm text-neutral-600 leading-relaxed max-w-xs">
-              Watches, fashion and everyday luxuries, chosen with an eye for detail and delivered across pakistan imported from the UK.
+              Watches, fashion and everyday luxuries, chosen with an eye for detail and delivered across pakistan imported from the UK, USA & UAE.
             </p>
           </div>
 

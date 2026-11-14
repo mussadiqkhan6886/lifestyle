@@ -29,17 +29,17 @@ export const metadata: Metadata = {
 const contactMethods = [
   {
     title: 'Concierge WhatsApp',
-    value: '+92 300 1234567',
+    value: '03224204456',
     description: 'Instant support for sizing, stock availability, & orders.',
-    href: 'https://wa.me/923001234567',
+    href: 'https://wa.me/923224204456',
     icon: MessageSquare,
     actionText: 'Chat on WhatsApp',
   },
   {
     title: 'Email Assistance',
-    value: 'support@lifestyleshopping.uk',
+    value: 'lifestyleshoppinguk12@gmail.com',
     description: 'Send us your queries—we respond within 12 hours.',
-    href: 'mailto:support@lifestyleshopping.uk',
+    href: 'mailto:lifestyleshoppinguk12@gmail.com',
     icon: Mail,
     actionText: 'Send Email',
   },
@@ -136,23 +136,30 @@ const ContactPage = () => {
 
               <div className="space-y-4 text-xs text-neutral-700">
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-neutral-900">How long does shipping take?</h3>
+                  <h3 className="font-semibold text-neutral-900">How long does delivery take?</h3>
                   <p className="text-neutral-600 leading-relaxed">
-                    Main cities (Karachi, Lahore, Islamabad) receive orders within 2–4 business days via insured express delivery.
+                    In-stock items arrive in 4–5 days via TCS. Pre-orders are imported on request and take 3–4 weeks.
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-neutral-900">Are duties and taxes included?</h3>
+                  <h3 className="font-semibold text-neutral-900">How do I pay for my order?</h3>
                   <p className="text-neutral-600 leading-relaxed">
-                    Yes, 100% of UK import duties and taxes are covered by Lifestyle Shopping UK. Zero hidden fees on delivery.
+                    In-stock items need 100% advance payment. Pre-orders need 50% in advance, with the rest paid before dispatch.
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-neutral-900">Can I exchange for a different size?</h3>
+                  <h3 className="font-semibold text-neutral-900">Can I exchange or return an item?</h3>
                   <p className="text-neutral-600 leading-relaxed">
-                    We offer a hassle-free 7-day exchange window for unworn items in original packaging.
+                    If there is an issue with your product, message us on WhatsApp within 2 days of delivery. Return shipping is paid by the customer.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-semibold text-neutral-900">Do watches have a guarantee?</h3>
+                  <p className="text-neutral-600 leading-relaxed">
+                    Yes, all watches come with a 1-year guarantee.
                   </p>
                 </div>
               </div>

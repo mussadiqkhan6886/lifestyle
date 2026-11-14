@@ -1,7 +1,5 @@
-'tsx'
 import { aire } from '@/lib/fonts'
-import { Plane, Award, ShieldCheck, HeartHandshake, ArrowRight } from 'lucide-react'
-import Image from 'next/image'
+import { Plane, ShieldCheck, ShoppingBag, Truck, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -10,14 +8,14 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    'Lifestyle Shopping UK brings authentic, quality-checked pre-loved fashion, watches and accessories from the UK, USA and UAE to Pakistan at honest prices, delivered to your door.',
+    'Lifestyle Shopping UK imports original clothes, watches, footwear and bags from the UK, USA and UAE and delivers them across Pakistan.',
   alternates: {
     canonical: '/about-us',
   },
   openGraph: {
     title: 'About Us | Lifestyle Shopping UK',
     description:
-      'Meet the team behind Lifestyle Shopping UK: authentic imported finds from the UK, USA and UAE, delivered across Pakistan.',
+      'Original clothes, watches, footwear and bags imported from the UK, USA and UAE, delivered across Pakistan.',
     url: '/about-us',
     siteName: 'Lifestyle Shopping UK',
     type: 'website',
@@ -27,90 +25,89 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'About Us | Lifestyle Shopping UK',
     description:
-      'Authentic imported finds from the UK, USA and UAE, delivered across Pakistan.',
+      'Original imported clothes, watches, footwear and bags from the UK, USA and UAE.',
   },
 }
 
+const brandPillars = [
+  {
+    title: 'Imported From 3 Countries',
+    description:
+      'We source our products from the United Kingdom, the United States and the UAE, so you get international brands without travelling abroad.',
+    icon: Plane,
+  },
+  {
+    title: 'Original Products',
+    description:
+      'We sell original clothes, watches, footwear and bags. Every item is checked before it is dispatched to you.',
+    icon: ShieldCheck,
+  },
+  {
+    title: 'In-Stock & Pre-Order',
+    description:
+      'Ready items are delivered in 4–5 days. Not in stock? Pre-order it and we import it for you in 3–4 weeks.',
+    icon: ShoppingBag,
+  },
+  {
+    title: 'Delivery With TCS',
+    description:
+      'Orders are shipped across Pakistan with TCS. Watches come with a 1-year guarantee.',
+    icon: Truck,
+  },
+]
+
+const productCategories = [
+  'Clothing',
+  'Watches',
+  'Footwear',
+  'Bags',
+  'wallets & Belts',
+]
+
 const AboutUs = () => {
-  const brandPillars = [
-    {
-      title: 'Directly UK Imported',
-      description:
-        'Every piece in our curation—from refined apparel to luxury timepieces—is sourced directly from authorized brand houses across the United Kingdom.',
-      icon: Plane,
-    },
-    {
-      title: 'Curated Excellence',
-      description:
-        'We hand-select premium clothing, handcrafted women’s footwear, and genuine leather wallets & belts engineered for longevity.',
-      icon: Award,
-    },
-    {
-      title: 'Guaranteed Authenticity',
-      description:
-        'Zero compromise. We eliminate intermediary markups and deliver certified UK fashion at honest, direct-to-consumer prices.',
-      icon: ShieldCheck,
-    },
-    {
-      title: 'Sustainably Driven',
-      description:
-        'Luxury with purpose. Every order placed with Lifestyle Shopping UK automatically plants a tree in your name, tracked live in your account.',
-      icon: HeartHandshake,
-    },
-  ]
-
-  const productCategories = [
-    'Men’s & Women’s Watches',
-    'Curated Apparel',
-    'Women’s Footwear',
-    'Wallets & Belts',
-    'Fine Leather Accessories',
-  ]
-
   return (
-    <section className="bg-light-beige text-neutral-900 py-16 pt-28 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+    <main className="bg-light-beige text-neutral-900 py-16 pt-28 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
       {/* Background Decorative Accent */}
       <div className="absolute inset-0 bg-[radial-gradient(#00000004_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-20">
-        
+
         {/* Hero Banner Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="flex items-center justify-center gap-2">
             <span className="h-[1px] w-8 bg-neutral-900" />
             <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-neutral-600">
-              The Standard of Authentic Luxury
+              UK · USA · UAE
             </span>
             <span className="h-[1px] w-8 bg-neutral-900" />
           </div>
 
           <h1 className={`${aire.className} text-4xl sm:text-5xl lg:text-6xl text-neutral-900 tracking-wide leading-tight`}>
-            British Elegance, <br /> Delivered Straight to Your Doorstep.
+            Original Brands, <br /> Imported to Your Doorstep.
           </h1>
 
           <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-2xl mx-auto pt-2">
-            Lifestyle Shopping UK was founded on a singular vision: to bridge the gap between high-street British fashion and discerning shoppers seeking original, uncompromised quality.
+            Lifestyle Shopping UK brings original clothes, watches, footwear and bags from the UK, USA and UAE to customers across Pakistan.
           </p>
         </div>
 
         {/* Story Section Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center border-y border-black/10 py-12">
-          
-          {/* Left Column: Visual Highlight Card */}
+
+          {/* Left Column */}
           <div className="lg:col-span-5 bg-contrast-beige/60 border border-black/10 rounded-2xl p-8 sm:p-10 relative overflow-hidden space-y-6">
             <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block">
-              Direct UK Import Guarantee
+              What We Import
             </span>
 
-            <h3 className={`${aire.className} text-2xl sm:text-3xl text-neutral-900 leading-snug`}>
-              No Customs Stress. No Import Markups. Just Pure Luxury.
-            </h3>
+            <h2 className={`${aire.className} text-2xl sm:text-3xl text-neutral-900 leading-snug`}>
+              Fashion and Accessories From Trusted International Markets.
+            </h2>
 
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-              From precision-engineered men’s and women’s watches to tailored apparel, elegant footwear, and pristine leather wallets and belts—all our import taxes, duties, and transit logistics are fully managed by us. The price you see is the final price you pay.
+              We import clothing, watches, footwear and bags straight from the UK, USA and UAE, so you can shop original international products without the hassle of overseas shipping or forwarding.
             </p>
 
-            {/* Category Tags */}
             <div className="pt-2 flex flex-wrap gap-2">
               {productCategories.map((cat) => (
                 <span
@@ -123,48 +120,48 @@ const AboutUs = () => {
             </div>
           </div>
 
-          {/* Right Column: Mission Narrative */}
+          {/* Right Column */}
           <div className="lg:col-span-7 space-y-6 lg:pl-6">
             <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-neutral-600">
-              Our Journey
+              Our Story
             </span>
 
             <h2 className={`${aire.className} text-3xl sm:text-4xl text-neutral-900 tracking-wide`}>
-              Redefining Lifestyle & Convenience
+              Global Brands, Made Easy
             </h2>
 
             <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
-              At <strong>Lifestyle Shopping UK</strong>, we believe authentic style shouldn’t require international travel or complicated forwarding services. We meticulously select and import high-caliber apparel, footwear, and accessories directly from the UK, ensuring every customer receives genuine products backed by full transit insurance.
+              At <strong>Lifestyle Shopping UK</strong>, we believe getting original international products shouldn’t mean travelling abroad. We select clothing, watches, footwear and bags from the UK, USA and UAE and deliver them to your door in Pakistan.
             </p>
 
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-              Whether you are looking for a statement timepiece to complement formal attire, durable genuine leather belts and wallets, or the latest women’s footwear trends, our collection represents the perfect synthesis of British craftsmanship and modern luxury.
+              Whether you want a watch for everyday wear, a pair of shoes, a new bag or a fresh outfit, you can order what is already in stock or pre-order the piece you want and we will import it for you.
             </p>
 
             {/* Metric Banner */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-4 border-t border-black/10">
               <div>
                 <span className={`${aire.className} text-2xl sm:text-3xl font-semibold text-neutral-900 block`}>
-                  100%
+                  3
                 </span>
                 <span className="text-[11px] text-neutral-500 uppercase tracking-wider font-medium">
-                  UK Sourced Originals
+                  Import Countries
                 </span>
               </div>
               <div>
                 <span className={`${aire.className} text-2xl sm:text-3xl font-semibold text-neutral-900 block`}>
-                  Zero
+                  4–5 Days
                 </span>
                 <span className="text-[11px] text-neutral-500 uppercase tracking-wider font-medium">
-                  Hidden Tax Fees
+                  In-Stock Delivery
                 </span>
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <span className={`${aire.className} text-2xl sm:text-3xl font-semibold text-neutral-900 block`}>
-                  Quick Delivery
+                  1 Year
                 </span>
                 <span className="text-[11px] text-neutral-500 uppercase tracking-wider font-medium">
-                  faster delivery system
+                  Watch Guarantee
                 </span>
               </div>
             </div>
@@ -172,15 +169,15 @@ const AboutUs = () => {
 
         </div>
 
-        {/* 4 Pillars Grid */}
+        {/* Pillars Grid */}
         <div className="space-y-10">
           <div className="text-center space-y-2">
             <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-neutral-600">
               Why Lifestyle Shopping UK
             </span>
-            <h3 className={`${aire.className} text-2xl sm:text-3xl text-neutral-900 tracking-wide`}>
-              The Pillars of Our Commitment
-            </h3>
+            <h2 className={`${aire.className} text-2xl sm:text-3xl text-neutral-900 tracking-wide`}>
+              What You Can Expect From Us
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -195,9 +192,9 @@ const AboutUs = () => {
                     <div className="p-3 bg-light-beige text-neutral-900 rounded-lg border border-black/5 w-fit shadow-sm">
                       <Icon className="w-5 h-5 stroke-[1.5]" />
                     </div>
-                    <h4 className={`${aire.className} text-lg text-neutral-900 tracking-wide`}>
+                    <h3 className={`${aire.className} text-lg text-neutral-900 tracking-wide`}>
                       {pillar.title}
-                    </h4>
+                    </h3>
                     <p className="text-xs text-neutral-600 leading-relaxed">
                       {pillar.description}
                     </p>
@@ -208,15 +205,15 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Call to Action Footer */}
+        {/* Call to Action */}
         <div className="bg-contrast-beige border border-black/10 rounded-2xl p-8 sm:p-12 text-center flex flex-col items-center justify-center space-y-6">
           <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-600 font-semibold">
-            Explore the Direct-from-UK Lineup
+            Shop the Collection
           </span>
 
-          <h3 className={`${aire.className} text-2xl sm:text-3xl text-neutral-900 max-w-2xl leading-relaxed`}>
-            Ready to upgrade your wardrobe with authentic British timepieces, footwear & apparel?
-          </h3>
+          <h2 className={`${aire.className} text-2xl sm:text-3xl text-neutral-900 max-w-2xl leading-relaxed`}>
+            Ready to upgrade your wardrobe with original watches, footwear, bags and clothing?
+          </h2>
 
           <Link
             href="/collections"
@@ -228,7 +225,7 @@ const AboutUs = () => {
         </div>
 
       </div>
-    </section>
+    </main>
   )
 }
 
