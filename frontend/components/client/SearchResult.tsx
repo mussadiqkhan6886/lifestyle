@@ -1,12 +1,12 @@
 'use client';
 
-import { ProductCardSkeletonGrid } from '@/components/client/LoadingSkeleton'
 import ProductCard from '@/components/client/ProductCard' // Adjust import path to your ProductCard component
 import { aire } from '@/lib/fonts'
 import { getAllProducts } from '@/server/product'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Search, PackageX, Sparkles, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import PageSkeleton from './LoadingSkeletonGlobal';
 
 const ShowSearch = ({q}: {q:string}) => {
 
@@ -70,7 +70,7 @@ const ShowSearch = ({q}: {q:string}) => {
     const products = data?.pages.flatMap((page) => page.products) ?? [];
 
     if(isLoading){
-      return <ProductCardSkeletonGrid count={8} />
+      return <PageSkeleton cards={8} />
     }
 
     if(isError){

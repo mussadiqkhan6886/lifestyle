@@ -32,22 +32,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${BASE_URL}/collections`,
+      url: `${BASE_URL}collections`,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/about-us`,
+      url: `${BASE_URL}about-us`,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
-      url: `${BASE_URL}/contact-us`,
+      url: `${BASE_URL}contact-us`,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
-      url: `${BASE_URL}/policies`,
+      url: `${BASE_URL}policies`,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
@@ -56,7 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Collection pages
   const collectionPages: MetadataRoute.Sitemap = categories.map(
     (category) => ({
-      url: `${BASE_URL}/collections/${category}`,
+      url: `${BASE_URL}collections/${category}`,
       changeFrequency: 'weekly',
       priority: 0.8,
     })
@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Product detail pages
   const productPages: MetadataRoute.Sitemap = allProducts.map(
     (product) => ({
-      url: `${BASE_URL}/collections/${product.category}/${product.slug}`,
+      url: `${BASE_URL}collections/${product.category}/${product.slug}`,
       changeFrequency: 'weekly',
       priority: 0.7,
     })
