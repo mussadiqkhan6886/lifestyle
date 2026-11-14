@@ -6,37 +6,37 @@
 
 export const collections = [
   {
-    image: "/men-watches.jpg",
+    image: "/men-watches.webp",
     title: "Men Watches",
     description: "Explore premium men's watches featuring timeless designs, elegant finishes, and versatile styles for every occasion.",
     link: "/collections/men-watches",
   },
   {
-    image: "/women-watches.jpg",
+    image: "/women-watches.webp",
     title: "Women Watches",
     description: "Discover elegant women's watches with sophisticated designs that complement everyday outfits and special occasions.",
     link: "/collections/women-watches",
   },
   {
-    image: "/clothing.jpg",
+    image: "/clothing.webp",
     title: "Clothing",
     description: "Shop stylish clothing with versatile designs, quality fabrics, and effortless everyday fashion for every wardrobe.",
     link: "/collections/clothing",
   },
   {
-    image: "/bags.jpg",
+    image: "/bags-2.webp",
     title: "Bags",
     description: "Discover stylish handbags and everyday bags that combine practical functionality with timeless fashion and elegance.",
     link: "/collections/bags",
   },
   {
-    image: "/wallets-and-belts.jpg",
+    image: "/wallets-and-belts.webp",
     title: "Wallets & Belts",
     description: "Explore premium wallets and belts with refined details, practical designs, and timeless everyday appeal.",
     link: "/collections/wallet-and-belts",
   },
   {
-    image: "/women-footwear.jpg",
+    image: "/footwear.webp",
     title: "Women Footwear",
     description: "Step into stylish women's footwear featuring versatile designs, everyday comfort, and elegant finishing touches.",
     link: "/collections/women-footwear",

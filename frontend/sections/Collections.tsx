@@ -11,7 +11,8 @@ const Collections = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 grid-rows-2'>
 
       {collections.slice(0, 4).map((item) => (
-          <Link href={item.link} key={item.link} className='relative h-screen w-full'>
+        <Link href={item.link} key={item.link} className='relative h-screen w-full'>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent h-screen z-2" />
           <Image 
             src={item.image} 
             alt={item.title} 

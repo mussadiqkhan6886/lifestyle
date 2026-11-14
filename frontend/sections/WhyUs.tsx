@@ -9,12 +9,12 @@ const WhyUs = () => {
       {/* Video Container */}
       <div className="w-full overflow-hidden rounded-xl border border-black/5 shadow-sm">
         <video 
-          src="/whyUsVideo.mp4" 
+          src="/why-us.mp4" 
           autoPlay 
           muted 
           playsInline 
           loop 
-          className="h-[65vh] sm:h-[75vh] w-full object-cover object-center" 
+          className="h-[65vh] sm:h-[77vh] w-full object-cover object-center" 
         />
       </div>
 
