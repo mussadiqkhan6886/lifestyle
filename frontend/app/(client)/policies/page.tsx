@@ -1,51 +1,39 @@
-'use client'
-
 import { aire } from '@/lib/fonts'
-import { Truck, RotateCcw, HelpCircle, ShieldCheck, FileText, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
-import React, { useState, useEffect } from 'react'
+import { Truck, RotateCcw, HelpCircle, ShieldCheck, FileText } from 'lucide-react'
+import { Metadata } from 'next'
+import PolicyNav from '@/components/client/Policy'
+
+export const metadata: Metadata = {
+  title: 'Shipping, Returns, FAQs & Policies',
+  description:
+    "Read lifestyle shopping.uk's shipping and delivery details, returns and exchanges policy, FAQs, privacy policy and terms of service for imported products delivered across Pakistan.",
+  alternates: {
+    canonical: '/policies',
+  },
+  openGraph: {
+    title: 'Shipping, Returns, FAQs & Policies | lifestyle shopping.uk',
+    description:
+      'Everything you need to know about delivery, returns, privacy and terms when shopping with lifestyle shopping.uk.',
+    url: '/policies',
+    siteName: 'lifestyle shopping.uk',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Shipping, Returns, FAQs & Policies | lifestyle shopping.uk',
+    description:
+      'Delivery, returns, privacy and terms for lifestyle shopping.uk.',
+  },
+}
 
 const PoliciesPage = () => {
-  const [activeHash, setActiveHash] = useState('#shipping')
-
-  const navLinks = [
-    { label: 'Shipping & delivery', href: '#shipping', icon: Truck },
-    { label: 'Returns & exchanges', href: '#returns', icon: RotateCcw },
-    { label: 'FAQs', href: '#faq', icon: HelpCircle },
-    { label: 'Privacy policy', href: '#privacy-policy', icon: ShieldCheck },
-    { label: 'Terms of service', href: '#terms', icon: FileText },
-  ]
-
-  // Track active section on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navLinks.map((link) => document.querySelector(link.href))
-      const scrollPosition = window.scrollY + 160
-
-      sections.forEach((section) => {
-        if (section) {
-          const top = (section as HTMLElement).offsetTop
-          const height = (section as HTMLElement).offsetHeight
-          const id = `#${section.getAttribute('id')}`
-
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveHash(id)
-          }
-        }
-      })
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <div className="bg-light-beige text-black min-h-screen py-16 pt-28 px-4 sm:px-6 lg:px-12 relative">
+    <main className="bg-light-beige text-black min-h-screen py-16 pt-28 px-4 sm:px-6 lg:px-12 relative">
       {/* Background Subtle Accent */}
       <div className="absolute inset-0 bg-[radial-gradient(#00000004_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        
+
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16 space-y-4 border-b border-black/10 pb-8 md:pb-12">
           <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-neutral-600 mb-2 inline-block">
@@ -61,62 +49,13 @@ const PoliciesPage = () => {
 
         {/* Main Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative">
-          
-          {/* STICKY SIDE NAVIGATION */}
-          <aside className="lg:col-span-4 relative lg:sticky lg:top-28 z-20 self-start">
-            <div className="bg-contrast-beige/80 backdrop-blur-sm border border-black/10 rounded-xl p-4 sm:p-6 shadow-sm">
-              <h3 className={`${aire.className} text-lg text-neutral-900 mb-4 tracking-wide`}>
-                Quick Navigation
-              </h3>
-              <nav className="flex flex-col space-y-1.5">
-                {navLinks.map((item) => {
-                  const Icon = item.icon
-                  const isActive = activeHash === item.href
 
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setActiveHash(item.href)}
-                      className={`group flex items-center justify-between p-3 rounded-lg text-xs font-medium transition-all duration-200 ${
-                        isActive
-                          ? 'bg-neutral-900 text-light-beige shadow-sm'
-                          : 'text-black hover:bg-neutral-900/10'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <Icon
-                          className={`w-4 h-4 transition-colors ${
-                            isActive ? 'text-light-beige' : 'text-neutral-500 group-hover:text-neutral-900'
-                          }`}
-                        />
-                        <span>{item.label}</span>
-                      </div>
-                      <ChevronRight
-                        className={`w-3.5 h-3.5 transition-all ${
-                          isActive ? 'text-light-beige opacity-100 translate-x-0.5' : 'opacity-40 group-hover:opacity-100'
-                        }`}
-                      />
-                    </Link>
-                  )
-                })}
-              </nav>
+          {/* Sticky side navigation (client component) */}
+          <PolicyNav />
 
-              <div className="mt-6 pt-6 border-t border-black/10 text-center space-y-2">
-                <p className="text-[11px] text-neutral-500">Need immediate assistance?</p>
-                <Link
-                  href="/contact"
-                  className="inline-block text-xs font-semibold text-neutral-900 underline underline-offset-4 hover:text-neutral-700"
-                >
-                  Contact Concierge Support
-                </Link>
-              </div>
-            </div>
-          </aside>
+          {/* Policy content */}
+          <div className="lg:col-span-8 space-y-16">
 
-          {/* POLICY CONTENT SECTIONS */}
-          <main className="lg:col-span-8 space-y-16">
-            
             {/* 1. Shipping & Delivery */}
             <section id="shipping" className="bg-contrast-beige/40 border border-black/10 rounded-xl p-6 sm:p-10 space-y-6 scroll-mt-28">
               <div className="flex items-center gap-3 border-b border-black/10 pb-4">
@@ -174,15 +113,15 @@ const PoliciesPage = () => {
               </div>
               <div className="space-y-6 text-[13px] text-black">
                 <div className="space-y-1.5">
-                  <h4 className="font-semibold text-black">Are lifestyle shopping.uk watches and jewelry authentic?</h4>
-                  <p className="text-black leading-relaxed">Yes. Every piece in our men's watches, women's watches, clothing, and accessories collection is authentically imported straight from authorized British brand houses.</p>
+                  <h3 className="font-semibold text-black">Are lifestyle shopping.uk watches and jewelry authentic?</h3>
+                  <p className="text-black leading-relaxed">Yes. Every piece in our men&apos;s watches, women&apos;s watches, clothing, and accessories collection is authentically imported straight from authorized British brand houses.</p>
                 </div>
                 <div className="space-y-1.5">
-                  <h4 className="font-semibold text-black">Will I have to pay any extra customs tax upon delivery?</h4>
+                  <h3 className="font-semibold text-black">Will I have to pay any extra customs tax upon delivery?</h3>
                   <p className="text-black leading-relaxed">Never. lifestyle shopping.uk covers 100% of international import duties and taxes. What you see at checkout is all you pay.</p>
                 </div>
                 <div className="space-y-1.5">
-                  <h4 className="font-semibold text-black">How do I track my planted tree?</h4>
+                  <h3 className="font-semibold text-black">How do I track my planted tree?</h3>
                   <p className="text-black leading-relaxed">With every completed order, our environmental partnership records your tree planting milestone directly in your customer portal profile.</p>
                 </div>
               </div>
@@ -229,12 +168,10 @@ const PoliciesPage = () => {
               </div>
             </section>
 
-          </main>
-
+          </div>
         </div>
-
       </div>
-    </div>
+    </main>
   )
 }
 

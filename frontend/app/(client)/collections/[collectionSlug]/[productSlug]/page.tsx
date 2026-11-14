@@ -23,7 +23,6 @@ export async function generateMetadata({
 }: {
   params: Params
 }): Promise<Metadata> {
-  try {
     const { productSlug } = await params
     const product = await getProductBySlug(productSlug)
 
@@ -31,6 +30,10 @@ export async function generateMetadata({
       return {
         title: "Product Not Found",
         description: "The product you are looking for is not available.",
+        robots: {
+          index: false,
+          follow: false
+        }
       }
     }
 
@@ -41,7 +44,7 @@ export async function generateMetadata({
 
     const image =
       product.variants?.[0]?.images?.[0] ||
-      "/og-image.jpg"
+      "/og-image.jfif"
 
     return {
       title,
@@ -61,7 +64,7 @@ export async function generateMetadata({
         type: "website",
         locale: "en_PK",
         siteName: "Lifestyle Shopping UK",
-        url: `https://www.lifestyleshoppinguk.com/product/${product.slug}`,
+        url: `https://www.lifestyleshoppinguk.com/collections/${product.category}/${product.slug}`,
         images: [
           {
             url: image,
@@ -80,16 +83,10 @@ export async function generateMetadata({
       },
 
       alternates: {
-        canonical: `https://www.lifestyleshoppinguk.com/product/${product.slug}`,
+        canonical: `https://www.lifestyleshoppinguk.com/collections/${product.category}/${product.slug}`,
       },
     }
-  } catch {
-    return {
-      title: "Product | Lifestyle Shopping UK",
-      description: "Premium lifestyle products imported from the UK.",
-    }
   }
-}
 
 
 type Params = Promise<{ productSlug: string }>

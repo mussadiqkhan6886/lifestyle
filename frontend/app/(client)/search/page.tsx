@@ -12,8 +12,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const query = q?.trim() || "";
 
   const title = query
-    ? `Search results for "${query}" | Lifestyle Shopping UK`
-    : "Search Products | Lifestyle Shopping UK";
+    ? `Search results for "${query}"`
+    : "Search Products";
 
   const description = query
     ? `Find "${query}" and more premium UK-imported fashion, clothing & lifestyle products at Lifestyle Shopping UK. Fast shipping across Pakistan.`
@@ -34,19 +34,22 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
         : "https://www.lifestyleshoppinguk.com/search",
       images: [
         {
-          url: "/og-image.jpg",
+          url: "/og-image.jfif",
           width: 1200,
           height: 630,
           alt: "Lifestyle Shopping UK - Search",
         },
       ],
     },
-
+    robots: {
+        index: false,
+        follow: false,
+    },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.jpg"],
+      images: ["/og-image.jfif"],
     },
 
     alternates: {

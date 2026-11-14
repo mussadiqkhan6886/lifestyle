@@ -128,3 +128,11 @@ export type CreateOrderInput = {
   }[]
 }
 
+export type ContactPayload = {
+  name: string
+  email: string
+  phone: string
+  orderNumber: string
+  subject: string
+  message: string
+}

@@ -5,6 +5,32 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description:
+    'Lifestyle Shopping UK brings authentic, quality-checked pre-loved fashion, watches and accessories from the UK, USA and UAE to Pakistan at honest prices, delivered to your door.',
+  alternates: {
+    canonical: '/about-us',
+  },
+  openGraph: {
+    title: 'About Us | Lifestyle Shopping UK',
+    description:
+      'Meet the team behind Lifestyle Shopping UK: authentic imported finds from the UK, USA and UAE, delivered across Pakistan.',
+    url: '/about-us',
+    siteName: 'Lifestyle Shopping UK',
+    type: 'website',
+    locale: 'en_PK',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'About Us | Lifestyle Shopping UK',
+    description:
+      'Authentic imported finds from the UK, USA and UAE, delivered across Pakistan.',
+  },
+}
+
 const AboutUs = () => {
   const brandPillars = [
     {

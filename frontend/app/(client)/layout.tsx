@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.lifestyleshoppinguk.com"), 
 
   title: {
-    default: "Lifestyle Shopping UK | Premium Fashion, Home & Lifestyle",
+    default: "Lifestyle Shopping UK | Premium imports from UK, USA & UAE",
     template: "%s | Lifestyle Shopping UK",
   },
 
   description:
-    "Discover premium fashion, men watches, women watches, women footwear, bags and clothing products at Lifestyle Shopping UK imported from the UK. Free delivery on orders. Shop the latest trends today.",
+    "Discover premium fashion, men watches, women watches, women footwear, bags and clothing products at Lifestyle Shopping UK imported from the UK, USA & UAE. Shop the latest trends today.",
 
   keywords: [
     "lifestyle shopping uk",
@@ -44,12 +44,12 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: "https://www.lifestyleshoppinguk.com",
     siteName: "Lifestyle Shopping UK",
-    title: "Lifestyle Shopping UK | Premium Fashion, Home & Lifestyle",
+    title: "Lifestyle Shopping UK | Premium imports from UK, USA & UAE",
     description:
-      "Shop premium fashion, clothing and lifestyle products, UK imported free delivery on orders.",
+      "Shop premium fashion, clothing and lifestyle products, UK, USA & UAE imported.",
     images: [
       {
-        url: "/og-image.jpg", // 1200×630 recommended
+        url: "/og-image.jfif",
         width: 1200,
         height: 630,
         alt: "Lifestyle Shopping UK",
@@ -59,10 +59,10 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Lifestyle Shopping UK | Premium Fashion, Home & Lifestyle",
+    title: "Lifestyle Shopping UK | Premium imports from UK, USA & UAE",
     description:
-      "Shop premium fashion, clothing and lifestyle products, UK imported free delivery on orders.",
-    images: ["/og-image.jpg"],
+      "Shop premium fashion, clothing and lifestyle products, UK , USA & UAE.",
+    images: ["/og-image.jfif"],
   },
 
   alternates: {
@@ -72,8 +72,6 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },

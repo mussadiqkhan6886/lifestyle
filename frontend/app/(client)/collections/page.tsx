@@ -6,7 +6,26 @@ import Link from 'next/link'
 import { aire } from '@/lib/fonts';
 
 export const metadata: Metadata = {
-  title: 'All Collections',
+  title: 'Shop All Collections',
+  description:
+    'Browse all pre-loved collections at lifestyle shopping.uk: authentic, quality-checked fashion, accessories and lifestyle finds imported from the UK, USA and UAE, delivered across Pakistan.',
+  alternates: {
+    canonical: '/collections',
+  },
+  openGraph: {
+    title: 'Shop All Collections | LifeStyle Shopping UK',
+    description:
+      'Authentic pre-loved finds imported from the UK, USA and UAE at a fraction of retail price.',
+    url: '/collections',
+    siteName: 'LifeStyle Shopping UK',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Shop All Collections | LifeStyle Shopping UK',
+    description:
+      'Pre-loved finds from the UK, USA and UAE, delivered across Pakistan.',
+  },
 }
 
 const Page = () => {

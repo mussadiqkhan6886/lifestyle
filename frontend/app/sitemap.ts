@@ -2,7 +2,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllProducts } from '@/server/product'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!
+const BASE_URL = "https://www.lifestyleshoppinguk.com/"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all products using pagination
