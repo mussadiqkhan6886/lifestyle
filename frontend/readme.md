@@ -59,45 +59,25 @@ Lifestyle Shopping UK is a Pakistan-based e-commerce business. It sources origin
 
 **Core workflows**
 
-- Customers browse collections, search products, pick a product variant, add it to a cart, and check out as a guest using Cash on Delivery.
-- The store owner receives an email for each new order and manages products, orders, payment status, and reviews from a protected admin area.
+- Customers browse collections, search products, pick a product variant, add it to a cart, and check out as a guest using Cash on Delivery or manually online payment.
+- The store owner receives an email and customer order confirmation email for each new order and manages products, orders, payment status, and reviews from a protected admin area.
 - Prices are stored in whole Pakistani rupees (PKR). Delivery is a flat fee calculated from the delivery city.
 
 **Engineering scope**
 
-The project covers a decoupled Next.js and Express architecture, a relational data model with product variants and order snapshots, cookie-based JWT authentication with silent token refresh, transactional checkout with stock protection, image upload to Cloudinary, dynamic SEO metadata, and an AI-assisted product description generator for admins.
+The project covers a decoupled Next.js and Express architecture, a relational data model with product variants and order snapshots, cookie-based JWT authentication with silent token refresh, transactional checkout with stock protection, image upload to Cloudinary, dynamic SEO metadata, and an AI-assisted product description generator for admins using gemini AI api.
 
 ---
 
 ## Application Screenshots
 
-The repository does not yet contain screenshots. Add images to `docs/screenshots/` using the file names below, then uncomment the gallery.
-
-| Screen | Expected file |
-|---|---|
-| Homepage | `docs/screenshots/home.png` |
-| Collection page | `docs/screenshots/collection.png` |
-| Product details | `docs/screenshots/product-detail.png` |
-| Cart | `docs/screenshots/cart.png` |
-| Checkout | `docs/screenshots/checkout.png` |
-| Admin login | `docs/screenshots/admin-login.png` |
-| Admin product management | `docs/screenshots/admin-products.png` |
-| Admin order management | `docs/screenshots/admin-orders.png` |
-
-<!--
-<p align="center">
-  <img src="docs/screenshots/home.png" width="48%" alt="Homepage" />
-  <img src="docs/screenshots/collection.png" width="48%" alt="Collection page" />
-</p>
-<p align="center">
-  <img src="docs/screenshots/product-detail.png" width="48%" alt="Product details" />
-  <img src="docs/screenshots/checkout.png" width="48%" alt="Checkout" />
-</p>
-<p align="center">
-  <img src="docs/screenshots/admin-products.png" width="48%" alt="Admin product management" />
-  <img src="docs/screenshots/admin-orders.png" width="48%" alt="Admin order management" />
-</p>
--->
+| HOMEPAGE | CART |
+| :---: | :---: |
+| ![HomePage](./public/homepage.png) | ![Collections](./public/cart.png) |
+| PRODUCT | CHECKOUT |
+| ![product](./public/product.png) | ![checkout](./public/checkout.png) |
+| ADMIN PRODUCTS | ADMIN ORDERS |
+| ![Admin Products](./public/admin-products.png) | ![Admin orders](./public/admin-order.png) |
 
 ---
 
@@ -129,7 +109,7 @@ The repository does not yet contain screenshots. Add images to `docs/screenshots
 - Cart state lives in a React Context and is persisted to `localStorage`, with stock-aware quantity limits.
 - Guest checkout with React Hook Form and Zod, including Pakistani mobile number validation.
 - The client sends only SKUs and quantities. The server recalculates prices and verifies stock.
-- Payment method is Cash on Delivery. Delivery fee is PKR 400 for Lahore and PKR 450 for other cities.
+- Payment method is Cash on Delivery & Online payment. Delivery fee is PKR 400 for Lahore and PKR 450 for other cities.
 - Order confirmation page and email notifications.
 
 ### Authentication and Authorization
@@ -567,7 +547,8 @@ These measures reduce common risks but do not make the application invulnerable.
 - **Search Console.** A Google site verification tag is set in the root layout.
 - **Database.** Indexes on the order tables, and a single shared Prisma client.
 
-No Lighthouse or load-test figures are claimed.
+![desktop Pagespeed](./public/desktop.png)
+![mobile pagespeed](./public/mobile.png)
 
 ---
 
@@ -594,12 +575,12 @@ No Lighthouse or load-test figures are claimed.
 ## Deployment and Production
 
 - **Live site:** https://www.lifestyleshoppinguk.com/
-- **Frontend and API are deployed separately.** `frontend/next.config.ts` rewrites `/api/:path*` to a deployed API on a `vercel.app` domain, and `frontend/.vercel` is git-ignored.
+- **Frontend and API are deployed separately.** frontend and backend is hosted differently on vercel
 - **Database:** Neon PostgreSQL.
+- **Domain:** Domain from Godaddy using nameservers of vercel.
 - **API build:** `npm run build` compiles TypeScript to `backend/dist`; `npm start` runs `node dist/src/server.js`.
 - **Frontend build:** `npm run build` then `npm start` (`next build` / `next start`).
 - **Configuration:** environment variables are supplied through `.env` locally and the hosting provider's settings in production.
-- **CI/CD:** no GitHub Actions workflows, Dockerfiles, or other pipeline configuration are included in the repository.
 
 ---
 
@@ -661,21 +642,19 @@ No Lighthouse or load-test figures are claimed.
 
 These are ideas, not current functionality.
 
-- Automated tests (API integration tests and end-to-end checkout tests) and a CI workflow that lints, type-checks, and builds both apps.
-- Restrict the CORS origin callback to the configured allow-list.
-- Online payment options beyond Cash on Delivery.
-- Customer accounts with order history.
-- Database-level price sorting so ordering is consistent across pages.
-- Server-side caching for hot catalogue queries.
-- Admin user management and role-based permissions.
-- API documentation with OpenAPI/Swagger.
+- Automated testing with API integration tests and end-to-end checkout workflows, supported by CI pipelines for linting, type-checking, and production builds.
+- Third-party payment gateway integrations, such as Stripe or PayFast.
+- Customer accounts with order history and order tracking.
+- Redis caching to reduce database load and improve API response times.
+- Admin user management with role-based access control (RBAC).
+- Interactive API documentation using OpenAPI and Swagger.
 
 ---
 
 ## Developer
 
 **Mussadiq Khan**
-Full-Stack Developer
+Full-Stack Engineer
 
 - GitHub: https://github.com/mussadiqkhan6886
 - Portfolio: http://mussadiqkhan.vercel.app/
