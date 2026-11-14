@@ -10,7 +10,7 @@ const CollectionsTwo = () => {
         <h3 className={`${aire.className} mb-5 text-2xl uppercase text-black/80 tracking-widest px-3 sm:px-10`}>Collections</h3>
         <div className='grid grid-cols-1 md:grid-cols-2'>
 
-      {collections.slice(4, 6).map((item) => (
+      {collections.slice(4, 8).map((item) => (
           <Link href={item.link} key={item.link} className='relative h-screen w-full'>
           <Image 
             src={item.image} 

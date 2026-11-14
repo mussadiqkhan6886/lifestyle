@@ -7,38 +7,58 @@
 export const collections = [
   {
     image: "/men-watches.webp",
-    title: "Men Watches",
-    description: "Explore premium men's watches featuring timeless designs, elegant finishes, and versatile styles for every occasion.",
+    title: "Men's Watches",
+    description:
+      "Explore premium men's watches featuring timeless designs, elegant finishes, and versatile styles for every occasion.",
     link: "/collections/men-watches",
   },
   {
     image: "/women-watches.webp",
-    title: "Women Watches",
-    description: "Discover elegant women's watches with sophisticated designs that complement everyday outfits and special occasions.",
+    title: "Women's Watches",
+    description:
+      "Discover elegant women's watches with sophisticated designs that complement everyday outfits and special occasions.",
     link: "/collections/women-watches",
   },
   {
     image: "/clothing.webp",
-    title: "Clothing",
-    description: "Shop stylish clothing with versatile designs, quality fabrics, and effortless everyday fashion for every wardrobe.",
-    link: "/collections/clothing",
+    title: "Men's Clothing",
+    description:
+      "Explore contemporary men's clothing featuring versatile styles, quality fabrics, and effortless everyday essentials.",
+    link: "/collections/men-clothing",
+  },
+  {
+    image: "/clothing.webp",
+    title: "Women's Clothing",
+    description:
+      "Discover stylish women's clothing with elegant designs, quality fabrics, and versatile pieces for every occasion.",
+    link: "/collections/women-clothing",
   },
   {
     image: "/bags-2.webp",
     title: "Bags",
-    description: "Discover stylish handbags and everyday bags that combine practical functionality with timeless fashion and elegance.",
+    description:
+      "Discover stylish handbags and everyday bags that combine practical functionality with timeless fashion and elegance.",
     link: "/collections/bags",
   },
   {
-    image: "/wallets-and-belts.webp",
-    title: "Wallets & Belts",
-    description: "Explore premium wallets and belts with refined details, practical designs, and timeless everyday appeal.",
-    link: "/collections/wallet-and-belts",
+    image: "/men-accessories.webp",
+    title: "Men's Accessories",
+    description:
+      "Explore premium men's wallets and belts featuring refined details, practical designs, and timeless everyday appeal.",
+    link: "/collections/men-accessories",
+  },
+  {
+    image: "/women-wallets.webp",
+    title: "Women's Wallets",
+    description:
+      "Discover elegant women's wallets combining sophisticated designs, practical storage, and everyday functionality.",
+    link: "/collections/women-wallets",
   },
   {
     image: "/footwear.webp",
-    title: "Women Footwear",
-    description: "Step into stylish women's footwear featuring versatile designs, everyday comfort, and elegant finishing touches.",
+    title: "Women's Footwear",
+    description:
+      "Step into stylish women's footwear featuring versatile designs, everyday comfort, and elegant finishing touches.",
     link: "/collections/women-footwear",
   },
 ];
