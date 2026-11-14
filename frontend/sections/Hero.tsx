@@ -18,14 +18,14 @@ const Hero = () => {
         <div className="absolute inset-0 w-full h-full bg-black/20 block md:hidden" />
 
       <div className="relative z-10 max-w-3xl p-6 sm:p-12 md:p-14 space-y-6 mb-4">
-        <h1 className={`text-[32px] font-medium sm:text-5xl md:text-6xl lg:text-7xl text-white leading-10 sm:leading-16 md:leading-20 tracking-widest ${aire.className}`}>
+        <h1 className={`font-semibold lg:font-medium text-5xl md:text-6xl lg:text-7xl text-white leading-13 sm:leading-16 md:leading-20 tracking-wider sm:tracking-widest ${aire.className}`}>
           Future-Ready
           <br />
           <span className=" text-gray-200">Fashion</span>
         </h1>
 
-        <p className="text-white/80 sm:text-white/75 text-[13px] sm:text-[17px] font-light leading-relaxed sm:mr-10">
-          Discover a curated collection of watches, clothing, bags, and accessories, imported from the UK to bring timeless style and quality to your everyday look.
+        <p className="text-white sm:text-white/90 text-[14px] sm:text-[17px] sm:font-light leading-relaxed sm:mr-10">
+          Authentic, quality-checked finds imported from the UK, USA and UAE, delivered to your door.
         </p>
 
         <div className="pt-2">

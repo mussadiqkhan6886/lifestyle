@@ -65,7 +65,6 @@ const getOrderSummaryHtml = (order: any): string => `
   <div style="margin-top:20px;text-align:right;">
     <p>Subtotal: <strong>${formatPKR(order.subtotal)}</strong></p>
     <p>Delivery: <strong>FREE</strong></p>
-    <p>Discount: <strong>${formatPKR(order.discount)}</strong></p>
     <h2>Total: ${formatPKR(order.total)}</h2>
   </div>
 `

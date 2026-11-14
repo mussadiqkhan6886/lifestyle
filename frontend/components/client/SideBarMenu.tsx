@@ -56,7 +56,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
     >
       {/* Backdrop that wipes down from the top */}
       <div
-        className={`absolute inset-0 bg-contrast-beige origin-top transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`absolute inset-0 bg-light-beige origin-top transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           open ? 'scale-y-100' : 'scale-y-0'
         }`}
       >
@@ -88,12 +88,12 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                     >
                       <span className="flex items-baseline gap-4">
                         <span
-                          className={`${aire.className} text-3xl tracking-tight text-white transition-transform duration-300 group-active:translate-x-2`}
+                          className={`${aire.className} text-3xl tracking-tight text-black transition-transform duration-300 group-active:translate-x-2`}
                         >
                           {item.title}
                         </span>
                       </span>
-                      <ArrowUpRight className="w-5 h-5 text-white" />
+                      <ArrowUpRight className="w-5 h-5 text-black" />
                     </Link>
                   ) : (
                     <div>
@@ -104,18 +104,16 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                       >
                         <span className="flex items-baseline gap-4">
                           <span
-                            className={`${aire.className} text-3xl tracking-tight transition-colors duration-300 ${
-                              isOpen ? 'text-light-beige' : 'text-white'
-                            }`}
+                            className={`${aire.className} text-3xl tracking-tight transition-colors duration-300 text-black`}
                           >
                             {item.title}
                           </span>
                         </span>
                         <span
-                          className={`h-9 w-9 rounded-full border flex items-center justify-center transition-all duration-500 ${
+                          className={`h-9 border-black w-9 rounded-full text-black border flex items-center justify-center transition-all duration-500 ${
                             isOpen
-                              ? 'rotate-45 border-light-beige text-light-beige'
-                              : 'border-white text-white'
+                              ? 'rotate-45'
+                              : ''
                           }`}
                         >
                           <Plus className="w-4 h-4" />
@@ -142,13 +140,13 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                                   <Link
                                     href={child.link || '#'}
                                     onClick={handleNavigate}
-                                    className="group flex items-center justify-between py-2.5 text-base font-light text-white active:text-white"
+                                    className="group flex items-center justify-between py-2.5 text-base font-light text-black active:text-black"
                                   >
                                     <span className="flex items-center gap-3">
-                                      <span className="h-px w-4 bg-white/25 transition-all duration-300 group-active:w-7 group-active:bg-amber-500" />
+                                      <span className="h-px w-4 bg-black transition-all duration-300 group-active:w-7 group-active:bg-amber-500" />
                                       {child.title}
                                     </span>
-                                    <ArrowUpRight className="w-4 h-4 text-white/30" />
+                                    <ArrowUpRight className="w-4 h-4 text-black/30" />
                                   </Link>
                                 </li>
                               ))}
@@ -169,7 +167,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
           style={reveal(navbarData.length + 2)}
           className={`mt-10 space-y-6 transition-all duration-700 ${revealClass}`}
         >
-          <div className="flex items-center justify-center md:justify-between text-xs text-white/90">
+          <div className="flex items-center justify-center md:justify-between text-xs text-black/90">
             <div className="flex gap-5">
               {socials.map((s) => (
                 <Link
@@ -177,7 +175,7 @@ const SideBarMenu = ({ open, onClose }: Props) => {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-black transition-colors"
                 >
                   {s.label}
                 </Link>
