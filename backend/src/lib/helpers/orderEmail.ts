@@ -168,7 +168,7 @@ export const createCustomerEmail = (order: any): string =>
     <div style="background:#f5f5f5;padding:18px;margin-top:20px;">
 
       <p><strong>Payment:</strong> Cash on Delivery</p>
-      <p><strong>Delivery:</strong>$${order.shippingCost}</p>
+      <p><strong>Delivery:</strong>${formatPKR(order.shippingCost)}</p>
 
       <p>
         <strong>Total to pay on delivery:</strong>
