@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { AlertTriangle, Flame, Loader2, Package, Pencil, Plus, Search, Trash2, X } from 'lucide-react'
 
@@ -98,10 +98,30 @@ export default function AdminProductsPage() {
   const [category, setCategory] = useState('all')
   const [toDelete, setToDelete] = useState<productType | null>(null)
 
-  const { data, isLoading, isError, error, refetch, isFetching } = useQuery<ProductsResponse>({
-    queryKey: ['products'],
-    queryFn: () => getAllProducts(48),
-  })
+  
+    const {
+      data,
+      isLoading,
+      isError,
+      error,
+      refetch,
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+      isFetching,
+    } = useInfiniteQuery({
+      queryKey: ['products'],
+      queryFn: ({ pageParam }) =>
+        getAllProducts(48, undefined, undefined, pageParam),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) =>
+        lastPage.hasMore ? lastPage.currentPage + 1 : undefined,
+    })
+
+    const products = data?.pages.flatMap(
+      (page) => page.products
+    ) ?? []
+
 
   const { mutate: removeProduct, isPending: isDeleting } = useMutation({
     mutationFn: (id: string) => deleteProduct(id),
@@ -113,7 +133,6 @@ export default function AdminProductsPage() {
     onError: (err: Error) => toast.error(err.message || 'Could not delete product'),
   })
 
-  const products : productType[] = data?.products ?? []
 
   const categories = useMemo(() => Array.from(new Set(products.map((p) => p.category))).sort(), [products])
 
@@ -344,6 +363,17 @@ export default function AdminProductsPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      {hasNextPage && (
+        <div className="flex justify-center mt-12">
+          <button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="rounded-full bg-contrast-beige cursor-pointer text-light-beige px-8 py-3 text-xs uppercase tracking-[0.25em] font-medium disabled:opacity-60"
+          >
+            {isFetchingNextPage ? "Loading..." : "Load More"}
+          </button>
         </div>
       )}
     </main>

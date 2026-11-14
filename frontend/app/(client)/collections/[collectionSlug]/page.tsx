@@ -3,7 +3,20 @@ import React, { Suspense } from 'react'
 import PageSkeleton from '@/components/client/LoadingSkeletonGlobal'
 import CollectionComp from '@/components/client/CollectionComp'
 import { Metadata } from 'next'
+import { getAllProducts } from '@/server/product'
 
+
+export const generateStaticParams = async () => {
+  const { products } = await getAllProducts()
+
+  const categories = [...new Set(
+    products.map(p => p.category)
+  )]
+
+  return categories.map(category => ({
+    collectionSlug: category
+  }))
+}
 
 export async function generateMetadata({
   params,

@@ -1,4 +1,3 @@
-import PageSkeleton from '@/components/client/LoadingSkeletonGlobal'
 import ProductCard from '@/components/client/ProductCard'
 import ProductDetail from '@/components/client/ProductDetail'
 import { collections } from '@/lib/constants'
@@ -9,6 +8,15 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React, { Suspense } from 'react'
 import {Metadata} from "next"
+import ProductDetailSkeleton from '@/components/client/ProductSkeleton'
+
+export const generateStaticParams = async () => {
+  const products = await getAllProducts()
+
+  return products.products.map(p => ({
+    productSlug: p.slug
+  }))
+}
 
 export async function generateMetadata({
   params,
@@ -135,7 +143,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
 
 const Page = async ({ params }: { params: Params }) => {
   return (
-    <Suspense fallback={<PageSkeleton />}>
+    <Suspense fallback={<ProductDetailSkeleton />}>
       <ProductPage params={params} />
     </Suspense>
   )

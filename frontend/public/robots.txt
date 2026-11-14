@@ -1,0 +1,18 @@
+User-agent: *
+
+
+Disallow: /admin/
+Disallow: /checkout
+Disallow: /order-success
+Disallow: /login
+Disallow: /search
+Disallow: /cart
+
+Allow: /
+Allow: /collections/
+Allow: /about-us
+Allow: /add-review
+Allow: /contact-us
+Allow: /policies
+
+Sitemap: https://www.lifestyleshoppinguk.com/sitemap.xml

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import { ProductCardSkeletonGrid } from "@/components/client/LoadingSkeleton";
 import ShowSearch from "@/components/client/SearchResult";
 import { Metadata } from "next";
+import PageSkeleton from "@/components/client/LoadingSkeletonGlobal";
 
 type Props = {
   searchParams: Promise<{ q?: string }>;
@@ -67,7 +67,7 @@ export default function SearchPage(props: Props) {
   return (
     <main className="bg-light-beige min-h-screen py-12 px-1 sm:px-6 lg:px-12 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
-        <Suspense fallback={<ProductCardSkeletonGrid count={8} />}>
+        <Suspense fallback={<PageSkeleton cards={8}  />}>
           <SearchContent {...props} />
         </Suspense>
       </div>

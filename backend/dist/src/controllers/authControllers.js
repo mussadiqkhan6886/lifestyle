@@ -45,7 +45,7 @@ const login = async (req, res) => {
     const cookieOptions = {
         httpOnly: true,
         secure: isProduction,
-        sameSite: 'strict',
+        sameSite: 'lax',
         path: '/'
     };
     res.cookie("accessToken", accessToken, {
@@ -68,7 +68,7 @@ const logout = async (req, res) => {
     const cookieOptions = {
         httpOnly: true,
         secure: isProduction,
-        sameSite: 'strict',
+        sameSite: 'lax',
         path: '/'
     };
     res.clearCookie("accessToken", {
@@ -109,7 +109,7 @@ const refresh = async (req, res) => {
         const cookieOptions = {
             httpOnly: true,
             secure: isProduction,
-            sameSite: 'strict',
+            sameSite: 'lax',
             path: '/'
         };
         res.cookie("accessToken", accessToken, {
