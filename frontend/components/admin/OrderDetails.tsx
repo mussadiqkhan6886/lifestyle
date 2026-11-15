@@ -66,17 +66,27 @@ const OrderDetails = ({ order }: { order: Order }) => {
               key={item.id}
               className="flex gap-4 rounded-lg border border-neutral-200 bg-white p-3"
             >
+              <div className="flex gap-2 items-center">
+
               {item.image ? (
                 <img
-                  src={item.image}
+                src={item.image}
                   alt={item.productName}
                   className="h-20 w-20 shrink-0 rounded-md border border-neutral-200 object-cover"
-                />
-              ) : (
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-neutral-100">
+                  />
+                ) : (
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-neutral-100">
                   <Package className="text-neutral-400" />
                 </div>
               )}
+              {order.paymentProofUrl && (
+                <img
+                src={order.paymentProofUrl}
+                alt={"payment proof"}
+                className="h-20 w-20 shrink-0 rounded-md border border-neutral-200 object-cover"
+                />
+              )}
+                </div>
 
               <div className="min-w-0 flex-1">
                 <p className="font-medium text-neutral-900">
@@ -86,6 +96,9 @@ const OrderDetails = ({ order }: { order: Order }) => {
                 <p className="mt-1 text-sm text-neutral-500">
                   Variant: {item.variantLabel}
                 </p>
+                {item.isPreOrder && <p className="my-1 px-2 py-1 rounded-md text-sm bg-red-700 text-white">
+                  PreOrder
+                </p>}
 
                 <p className="text-xs text-neutral-400">
                   SKU: {item.variantSku}

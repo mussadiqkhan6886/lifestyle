@@ -106,6 +106,7 @@ export type Order = {
   isPreOrder: boolean
   paymentMethod: "CASH_ON_DELIVERY" | "BANK_TRANSFER"
   paymentStatus: PaymentStatus
+  paymentProofUrl?: string
   status: OrderStatus
 
   currency: string
