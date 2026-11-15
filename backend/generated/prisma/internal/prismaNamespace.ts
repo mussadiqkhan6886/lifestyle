@@ -922,7 +922,8 @@ export const ProductScalarFieldEnum = {
   category: 'category',
   description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  preOrder: 'preOrder'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -969,6 +970,7 @@ export const OrderScalarFieldEnum = {
   customerNotes: 'customerNotes',
   paymentMethod: 'paymentMethod',
   paymentStatus: 'paymentStatus',
+  paymentProofUrl: 'paymentProofUrl',
   status: 'status',
   subtotal: 'subtotal',
   shippingCost: 'shippingCost',
@@ -990,6 +992,7 @@ export const OrderItemScalarFieldEnum = {
   variantSku: 'variantSku',
   variantLabel: 'variantLabel',
   image: 'image',
+  isPreOrder: 'isPreOrder',
   unitPrice: 'unitPrice',
   quantity: 'quantity',
   lineTotal: 'lineTotal',

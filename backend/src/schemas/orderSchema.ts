@@ -19,14 +19,9 @@ const pakistanPhoneSchema = z
 export const createOrderSchema = z.object({
   checkoutToken: z.string().uuid(),
 
-  customerName: z
-    .string()
-    .trim()
-    .min(2, "Name must contain at least 2 characters")
-    .max(100),
+  customerName: z.string().trim().min(2).max(100),
 
-  email: z
-    .string()
+  email: z.string()
     .trim()
     .email("Enter a valid email address")
     .max(254)
@@ -35,73 +30,55 @@ export const createOrderSchema = z.object({
 
   phone: pakistanPhoneSchema,
 
-  addressLine1: z
-    .string()
-    .trim()
-    .min(5, "Please enter a complete address")
-    .max(200),
+  addressLine1: z.string().trim().min(5).max(200),
 
-  addressLine2: z
-    .string()
+  addressLine2: z.string().trim().max(200).optional().or(z.literal("")),
+
+  city: z.string().trim().min(2).max(80),
+
+  province: z.string().trim().min(2).max(80),
+
+  postalCode: z.string().trim().max(20).optional().or(z.literal("")),
+
+  customerNotes: z.string().trim().max(500).optional().or(z.literal("")),
+
+  paymentMethod: z.enum([
+    "CASH_ON_DELIVERY",
+    "BANK_TRANSFER",
+  ]),
+
+  paymentReference: z.string()
     .trim()
-    .max(200)
+    .max(100)
     .optional()
     .or(z.literal("")),
 
-  city: z
-    .string()
-    .trim()
-    .min(2)
-    .max(80),
-
-  province: z
-    .string()
-    .trim()
-    .min(2)
-    .max(80),
-
-  postalCode: z
-    .string()
-    .trim()
-    .max(20)
-    .optional()
-    .or(z.literal("")),
-
-  customerNotes: z
-    .string()
-    .trim()
-    .max(500)
-    .optional()
-    .or(z.literal("")),
-
-  items: z
-    .array(
-      z.object({
-        sku: z.string().trim().min(1).max(100),
-        quantity: z.number().int().min(1).max(20),
-      }).strict()
-    )
+  items: z.array(
+    z.object({
+      sku: z.string().trim().min(1).max(100),
+      quantity: z.number().int().min(1).max(20),
+    }).strict()
+  )
     .min(1, "Your cart is empty")
     .max(20, "You can order up to 20 different variants at once"),
 }).strict().superRefine((data, ctx) => {
-  const quantities = new Map<string, number>()
+  const quantities = new Map<string, number>();
 
   for (const item of data.items) {
-    const total = (quantities.get(item.sku) ?? 0) + item.quantity
-    quantities.set(item.sku, total)
+    const total = (quantities.get(item.sku) ?? 0) + item.quantity;
+    quantities.set(item.sku, total);
 
     if (total > 20) {
       ctx.addIssue({
         code: "custom",
         message: `Maximum quantity for SKU ${item.sku} is 20`,
         path: ["items"],
-      })
+      });
     }
   }
-})
+});
 
-
-export type CreateOrderInput = z.infer<typeof createOrderSchema>
+export type CreateOrderInput = z.infer<typeof createOrderSchema>;
 
 
 export const updateOrderSchema = z.object({
@@ -116,9 +93,11 @@ export const updateOrderSchema = z.object({
 
   paymentStatus: z.enum([
     "UNPAID",
+    "PENDING_VERIFICATION",
     "PAID",
+    "REJECTED",
   ]).optional(),
 }).refine(
   data => data.status !== undefined || data.paymentStatus !== undefined,
   { message: "At least one field must be provided" }
-)
+);

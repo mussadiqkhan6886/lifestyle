@@ -64,12 +64,12 @@ const [cartOpen, setCartOpen] = useState(false);
     <header className="fixed top-0 left-0 w-full z-50 text-white pointer-events-none">
       {/* Floating bar */}
       <div
-        className={`relative z-10 px-3 sm:px-5 pt-3 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`relative z-10 px-1.5 sm:px-5 pt-3 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           hidden && !keepVisible ? '-translate-y-[130%]' : 'translate-y-0'
         }`}
       >
         <div
-          className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-xl border px-3 sm:px-4 lg:px-6 flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
+          className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-xl border px-2 sm:px-4 lg:px-6 flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
             scrolled || mobileMenuOpen || pathname !== "/"
               ? 'bg-neutral-950/85 border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)]'
               : 'bg-white/5 border-white/15'
@@ -154,28 +154,42 @@ const [cartOpen, setCartOpen] = useState(false);
             </ul>
           </nav>
 
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search"
+              className="group lg:hidden flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+            >
+              <Search className="w-[18px] h-[18px]" />
+              <span className="hidden sm:block text-xs text-white/50 group-hover:text-white/80 transition-colors">
+                Search
+              </span>
+              <kbd className="hidden lg:block rounded-md border border-white/15 px-1.5 py-0.5 text-[10px] text-white/40">
+                Ctrl K
+              </kbd>
+            </button>
+
           {/* ── Center: logo ── */}
-          <Link href="/" className="flex items-center justify-self-center" aria-label="Lifestyle Shopping UK home">
+          <Link href="/" className="flex items-center gap-2 justify-self-center" aria-label="Lifestyle Shopping UK home">
             <Image
               src="/logo.jpg"
               alt="Lifestyle Shopping logo"
               width={80}
               height={80}
-              className="block sm:hidden h-10 w-10 rounded-full object-cover object-center"
+              className="block sm:hidden h-10 w-10 rounded-lg object-cover object-center"
             />
             <span
-              className={`hidden sm:inline-block uppercase tracking-[0.25em] text-sm lg:text-base whitespace-nowrap ${aire.className}`}
+              className={`inline-block uppercase tracking-[0.25em] text-[11px] sm:text-sm lg:text-base whitespace-nowrap ${aire.className}`}
             >
               Lifestyle Shopping.uk
             </span>
           </Link>
 
           {/* ── Right: actions ── */}
-          <div className="flex items-center gap-1.5 sm:gap-2 md:justify-self-end">
+          <div className="flex items-center gap-1 sm:gap-2 md:justify-self-end">
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
-              className="group flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+              className="group hidden lg:flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
             >
               <Search className="w-[18px] h-[18px]" />
               <span className="hidden sm:block text-xs text-white/50 group-hover:text-white/80 transition-colors">
@@ -191,7 +205,7 @@ const [cartOpen, setCartOpen] = useState(false);
                 aria-label="Shopping cart"
                 className="relative h-10 w-10 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none"
                 >
-                <ShoppingBag className="w-[19px] h-[19px]" />
+                <ShoppingBag className="w-[16px] sm:w-[19px] h-[16px] sm:h-[19px]" />
             </button>
 
             {/* Animated hamburger (mobile) */}
@@ -202,12 +216,12 @@ const [cartOpen, setCartOpen] = useState(false);
               className="lg:hidden relative h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none"
             >
               <span
-                className={`absolute left-1/2 top-1/2 h-px w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
+                className={`absolute left-1/2 top-1/2 h-px w-4 sm:w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
                   mobileMenuOpen ? 'rotate-45 translate-y-0' : '-translate-y-[4px]'
                 }`}
               />
               <span
-                className={`absolute left-1/2 top-1/2 h-px w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
+                className={`absolute left-1/2 top-1/2 h-px w-4 sm:w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
                   mobileMenuOpen ? '-rotate-45 translate-y-0' : 'translate-y-[4px]'
                 }`}
               />

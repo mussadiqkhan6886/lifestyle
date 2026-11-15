@@ -6,6 +6,7 @@ import Link from 'next/link'
 const ProductCard = ({
   name,
   slug,
+  preOrder,
   category,
   variants,
   tag
@@ -58,6 +59,13 @@ const ProductCard = ({
           ) : onSale ? (
             <span className="bg-red-600 text-white text-[11px] uppercase tracking-wider font-medium px-3 py-1 rounded-md shadow-sm">
               Sale
+            </span>
+          ) : null}
+        </div>
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+          {preOrder ? (
+            <span className="bg-black/80 backdrop-blur-md text-white text-[11px] uppercase tracking-wider font-medium px-3 py-1 rounded-md shadow-sm">
+              Pre Order
             </span>
           ) : null}
         </div>

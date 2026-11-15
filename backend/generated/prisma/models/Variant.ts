@@ -278,11 +278,11 @@ export type VariantOrderByWithRelationInput = {
 
 export type VariantWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  label?: string
   sku?: string
   AND?: Prisma.VariantWhereInput | Prisma.VariantWhereInput[]
   OR?: Prisma.VariantWhereInput[]
   NOT?: Prisma.VariantWhereInput | Prisma.VariantWhereInput[]
+  label?: Prisma.StringFilter<"Variant"> | string
   stock?: Prisma.IntFilter<"Variant"> | number
   price?: Prisma.IntFilter<"Variant"> | number
   onSale?: Prisma.BoolFilter<"Variant"> | boolean
@@ -290,7 +290,7 @@ export type VariantWhereUniqueInput = Prisma.AtLeast<{
   images?: Prisma.StringNullableListFilter<"Variant">
   productId?: Prisma.IntFilter<"Variant"> | number
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
-}, "id" | "label" | "sku">
+}, "id" | "sku">
 
 export type VariantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

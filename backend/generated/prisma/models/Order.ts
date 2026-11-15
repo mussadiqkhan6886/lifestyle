@@ -57,6 +57,7 @@ export type OrderMinAggregateOutputType = {
   customerNotes: string | null
   paymentMethod: $Enums.PaymentMethod | null
   paymentStatus: $Enums.PaymentStatus | null
+  paymentProofUrl: string | null
   status: $Enums.OrderStatus | null
   subtotal: number | null
   shippingCost: number | null
@@ -81,6 +82,7 @@ export type OrderMaxAggregateOutputType = {
   customerNotes: string | null
   paymentMethod: $Enums.PaymentMethod | null
   paymentStatus: $Enums.PaymentStatus | null
+  paymentProofUrl: string | null
   status: $Enums.OrderStatus | null
   subtotal: number | null
   shippingCost: number | null
@@ -105,6 +107,7 @@ export type OrderCountAggregateOutputType = {
   customerNotes: number
   paymentMethod: number
   paymentStatus: number
+  paymentProofUrl: number
   status: number
   subtotal: number
   shippingCost: number
@@ -147,6 +150,7 @@ export type OrderMinAggregateInputType = {
   customerNotes?: true
   paymentMethod?: true
   paymentStatus?: true
+  paymentProofUrl?: true
   status?: true
   subtotal?: true
   shippingCost?: true
@@ -171,6 +175,7 @@ export type OrderMaxAggregateInputType = {
   customerNotes?: true
   paymentMethod?: true
   paymentStatus?: true
+  paymentProofUrl?: true
   status?: true
   subtotal?: true
   shippingCost?: true
@@ -195,6 +200,7 @@ export type OrderCountAggregateInputType = {
   customerNotes?: true
   paymentMethod?: true
   paymentStatus?: true
+  paymentProofUrl?: true
   status?: true
   subtotal?: true
   shippingCost?: true
@@ -306,6 +312,7 @@ export type OrderGroupByOutputType = {
   customerNotes: string | null
   paymentMethod: $Enums.PaymentMethod
   paymentStatus: $Enums.PaymentStatus
+  paymentProofUrl: string | null
   status: $Enums.OrderStatus
   subtotal: number
   shippingCost: number
@@ -353,6 +360,7 @@ export type OrderWhereInput = {
   customerNotes?: Prisma.StringNullableFilter<"Order"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Order"> | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.StringNullableFilter<"Order"> | string | null
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   subtotal?: Prisma.IntFilter<"Order"> | number
   shippingCost?: Prisma.IntFilter<"Order"> | number
@@ -378,6 +386,7 @@ export type OrderOrderByWithRelationInput = {
   customerNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingCost?: Prisma.SortOrder
@@ -406,6 +415,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   customerNotes?: Prisma.StringNullableFilter<"Order"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Order"> | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Order"> | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.StringNullableFilter<"Order"> | string | null
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   subtotal?: Prisma.IntFilter<"Order"> | number
   shippingCost?: Prisma.IntFilter<"Order"> | number
@@ -431,6 +441,7 @@ export type OrderOrderByWithAggregationInput = {
   customerNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingCost?: Prisma.SortOrder
@@ -463,6 +474,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   customerNotes?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodWithAggregatesFilter<"Order"> | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Order"> | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
   subtotal?: Prisma.IntWithAggregatesFilter<"Order"> | number
   shippingCost?: Prisma.IntWithAggregatesFilter<"Order"> | number
@@ -486,6 +498,7 @@ export type OrderCreateInput = {
   customerNotes?: string | null
   paymentMethod?: $Enums.PaymentMethod
   paymentStatus?: $Enums.PaymentStatus
+  paymentProofUrl?: string | null
   status?: $Enums.OrderStatus
   subtotal: number
   shippingCost?: number
@@ -511,6 +524,7 @@ export type OrderUncheckedCreateInput = {
   customerNotes?: string | null
   paymentMethod?: $Enums.PaymentMethod
   paymentStatus?: $Enums.PaymentStatus
+  paymentProofUrl?: string | null
   status?: $Enums.OrderStatus
   subtotal: number
   shippingCost?: number
@@ -535,6 +549,7 @@ export type OrderUpdateInput = {
   customerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   subtotal?: Prisma.IntFieldUpdateOperationsInput | number
   shippingCost?: Prisma.IntFieldUpdateOperationsInput | number
@@ -560,6 +575,7 @@ export type OrderUncheckedUpdateInput = {
   customerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   subtotal?: Prisma.IntFieldUpdateOperationsInput | number
   shippingCost?: Prisma.IntFieldUpdateOperationsInput | number
@@ -585,6 +601,7 @@ export type OrderCreateManyInput = {
   customerNotes?: string | null
   paymentMethod?: $Enums.PaymentMethod
   paymentStatus?: $Enums.PaymentStatus
+  paymentProofUrl?: string | null
   status?: $Enums.OrderStatus
   subtotal: number
   shippingCost?: number
@@ -608,6 +625,7 @@ export type OrderUpdateManyMutationInput = {
   customerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   subtotal?: Prisma.IntFieldUpdateOperationsInput | number
   shippingCost?: Prisma.IntFieldUpdateOperationsInput | number
@@ -632,6 +650,7 @@ export type OrderUncheckedUpdateManyInput = {
   customerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   subtotal?: Prisma.IntFieldUpdateOperationsInput | number
   shippingCost?: Prisma.IntFieldUpdateOperationsInput | number
@@ -656,6 +675,7 @@ export type OrderCountOrderByAggregateInput = {
   customerNotes?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingCost?: Prisma.SortOrder
@@ -688,6 +708,7 @@ export type OrderMaxOrderByAggregateInput = {
   customerNotes?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingCost?: Prisma.SortOrder
@@ -712,6 +733,7 @@ export type OrderMinOrderByAggregateInput = {
   customerNotes?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
+  paymentProofUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   shippingCost?: Prisma.SortOrder
@@ -778,6 +800,7 @@ export type OrderCreateWithoutItemsInput = {
   customerNotes?: string | null
   paymentMethod?: $Enums.PaymentMethod
   paymentStatus?: $Enums.PaymentStatus
+  paymentProofUrl?: string | null
   status?: $Enums.OrderStatus
   subtotal: number
   shippingCost?: number
@@ -802,6 +825,7 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   customerNotes?: string | null
   paymentMethod?: $Enums.PaymentMethod
   paymentStatus?: $Enums.PaymentStatus
+  paymentProofUrl?: string | null
   status?: $Enums.OrderStatus
   subtotal: number
   shippingCost?: number
@@ -841,6 +865,7 @@ export type OrderUpdateWithoutItemsInput = {
   customerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   subtotal?: Prisma.IntFieldUpdateOperationsInput | number
   shippingCost?: Prisma.IntFieldUpdateOperationsInput | number
@@ -865,6 +890,7 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   customerNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paymentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   subtotal?: Prisma.IntFieldUpdateOperationsInput | number
   shippingCost?: Prisma.IntFieldUpdateOperationsInput | number
@@ -920,6 +946,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   customerNotes?: boolean
   paymentMethod?: boolean
   paymentStatus?: boolean
+  paymentProofUrl?: boolean
   status?: boolean
   subtotal?: boolean
   shippingCost?: boolean
@@ -946,6 +973,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   customerNotes?: boolean
   paymentMethod?: boolean
   paymentStatus?: boolean
+  paymentProofUrl?: boolean
   status?: boolean
   subtotal?: boolean
   shippingCost?: boolean
@@ -970,6 +998,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   customerNotes?: boolean
   paymentMethod?: boolean
   paymentStatus?: boolean
+  paymentProofUrl?: boolean
   status?: boolean
   subtotal?: boolean
   shippingCost?: boolean
@@ -994,6 +1023,7 @@ export type OrderSelectScalar = {
   customerNotes?: boolean
   paymentMethod?: boolean
   paymentStatus?: boolean
+  paymentProofUrl?: boolean
   status?: boolean
   subtotal?: boolean
   shippingCost?: boolean
@@ -1003,7 +1033,7 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "checkoutToken" | "customerName" | "email" | "phone" | "addressLine1" | "addressLine2" | "city" | "province" | "postalCode" | "customerNotes" | "paymentMethod" | "paymentStatus" | "status" | "subtotal" | "shippingCost" | "discount" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "checkoutToken" | "customerName" | "email" | "phone" | "addressLine1" | "addressLine2" | "city" | "province" | "postalCode" | "customerNotes" | "paymentMethod" | "paymentStatus" | "paymentProofUrl" | "status" | "subtotal" | "shippingCost" | "discount" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -1031,6 +1061,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     customerNotes: string | null
     paymentMethod: $Enums.PaymentMethod
     paymentStatus: $Enums.PaymentStatus
+    paymentProofUrl: string | null
     status: $Enums.OrderStatus
     subtotal: number
     shippingCost: number
@@ -1476,6 +1507,7 @@ export interface OrderFieldRefs {
   readonly customerNotes: Prisma.FieldRef<"Order", 'String'>
   readonly paymentMethod: Prisma.FieldRef<"Order", 'PaymentMethod'>
   readonly paymentStatus: Prisma.FieldRef<"Order", 'PaymentStatus'>
+  readonly paymentProofUrl: Prisma.FieldRef<"Order", 'String'>
   readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
   readonly subtotal: Prisma.FieldRef<"Order", 'Int'>
   readonly shippingCost: Prisma.FieldRef<"Order", 'Int'>

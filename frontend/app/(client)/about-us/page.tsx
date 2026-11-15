@@ -139,7 +139,7 @@ const AboutUs = () => {
             </p>
 
             {/* Metric Banner */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-4 border-t border-black/10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 pt-4 border-t border-black/10">
               <div>
                 <span className={`${aire.className} text-2xl sm:text-3xl font-semibold text-neutral-900 block`}>
                   3
@@ -156,12 +156,20 @@ const AboutUs = () => {
                   In-Stock Delivery
                 </span>
               </div>
-              <div className="col-span-2 sm:col-span-1">
+              <div>
                 <span className={`${aire.className} text-2xl sm:text-3xl font-semibold text-neutral-900 block`}>
                   1 Year
                 </span>
                 <span className="text-[11px] text-neutral-500 uppercase tracking-wider font-medium">
                   Watch Guarantee
+                </span>
+              </div>
+              <div>
+                <span className={`${aire.className} text-2xl sm:text-3xl font-semibold text-neutral-900 block`}>
+                  Pre-Order
+                </span>
+                <span className="text-[11px] text-neutral-500 uppercase tracking-wider font-medium">
+                  2-3 weeks delivery time
                 </span>
               </div>
             </div>

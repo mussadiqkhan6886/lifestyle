@@ -54,6 +54,7 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
       productId: product.id,
       name: product.name,
       slug: product.slug,
+      isPreOrder: product.preOrder,
       image: variant.images[0],
       quantity,
       variant: {
@@ -123,6 +124,11 @@ const ProductDetail = ({ product, collectionTitle }: Props) => {
             {product.hotSeller && (
               <span className="inline-block rounded-lg bg-red-700 text-white px-3 py-1 text-[9px] uppercase tracking-[0.25em] font-semibold">
                 Hot seller
+              </span>
+            )}
+            {product.preOrder && (
+              <span className="inline-block rounded-lg bg-red-700 text-white px-3 py-1 text-[9px] uppercase tracking-[0.25em] font-semibold">
+                Pre Order
               </span>
             )}
             <h1 className={`${aire.className} text-[25px] sm:text-4xl mt-3 leading-tight tracking-tight capitalize`}>{product.name}</h1>

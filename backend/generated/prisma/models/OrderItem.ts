@@ -53,6 +53,7 @@ export type OrderItemMinAggregateOutputType = {
   variantSku: string | null
   variantLabel: string | null
   image: string | null
+  isPreOrder: boolean | null
   unitPrice: number | null
   quantity: number | null
   lineTotal: number | null
@@ -68,6 +69,7 @@ export type OrderItemMaxAggregateOutputType = {
   variantSku: string | null
   variantLabel: string | null
   image: string | null
+  isPreOrder: boolean | null
   unitPrice: number | null
   quantity: number | null
   lineTotal: number | null
@@ -83,6 +85,7 @@ export type OrderItemCountAggregateOutputType = {
   variantSku: number
   variantLabel: number
   image: number
+  isPreOrder: number
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -118,6 +121,7 @@ export type OrderItemMinAggregateInputType = {
   variantSku?: true
   variantLabel?: true
   image?: true
+  isPreOrder?: true
   unitPrice?: true
   quantity?: true
   lineTotal?: true
@@ -133,6 +137,7 @@ export type OrderItemMaxAggregateInputType = {
   variantSku?: true
   variantLabel?: true
   image?: true
+  isPreOrder?: true
   unitPrice?: true
   quantity?: true
   lineTotal?: true
@@ -148,6 +153,7 @@ export type OrderItemCountAggregateInputType = {
   variantSku?: true
   variantLabel?: true
   image?: true
+  isPreOrder?: true
   unitPrice?: true
   quantity?: true
   lineTotal?: true
@@ -250,6 +256,7 @@ export type OrderItemGroupByOutputType = {
   variantSku: string
   variantLabel: string
   image: string | null
+  isPreOrder: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -288,6 +295,7 @@ export type OrderItemWhereInput = {
   variantSku?: Prisma.StringFilter<"OrderItem"> | string
   variantLabel?: Prisma.StringFilter<"OrderItem"> | string
   image?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  isPreOrder?: Prisma.BoolFilter<"OrderItem"> | boolean
   unitPrice?: Prisma.IntFilter<"OrderItem"> | number
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   lineTotal?: Prisma.IntFilter<"OrderItem"> | number
@@ -304,6 +312,7 @@ export type OrderItemOrderByWithRelationInput = {
   variantSku?: Prisma.SortOrder
   variantLabel?: Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPreOrder?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   lineTotal?: Prisma.SortOrder
@@ -323,6 +332,7 @@ export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
   variantSku?: Prisma.StringFilter<"OrderItem"> | string
   variantLabel?: Prisma.StringFilter<"OrderItem"> | string
   image?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  isPreOrder?: Prisma.BoolFilter<"OrderItem"> | boolean
   unitPrice?: Prisma.IntFilter<"OrderItem"> | number
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   lineTotal?: Prisma.IntFilter<"OrderItem"> | number
@@ -339,6 +349,7 @@ export type OrderItemOrderByWithAggregationInput = {
   variantSku?: Prisma.SortOrder
   variantLabel?: Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPreOrder?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   lineTotal?: Prisma.SortOrder
@@ -362,6 +373,7 @@ export type OrderItemScalarWhereWithAggregatesInput = {
   variantSku?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   variantLabel?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   image?: Prisma.StringNullableWithAggregatesFilter<"OrderItem"> | string | null
+  isPreOrder?: Prisma.BoolWithAggregatesFilter<"OrderItem"> | boolean
   unitPrice?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
   quantity?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
   lineTotal?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
@@ -375,6 +387,7 @@ export type OrderItemCreateInput = {
   variantSku: string
   variantLabel: string
   image?: string | null
+  isPreOrder?: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -391,6 +404,7 @@ export type OrderItemUncheckedCreateInput = {
   variantSku: string
   variantLabel: string
   image?: string | null
+  isPreOrder?: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -404,6 +418,7 @@ export type OrderItemUpdateInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -420,6 +435,7 @@ export type OrderItemUncheckedUpdateInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -435,6 +451,7 @@ export type OrderItemCreateManyInput = {
   variantSku: string
   variantLabel: string
   image?: string | null
+  isPreOrder?: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -448,6 +465,7 @@ export type OrderItemUpdateManyMutationInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -463,6 +481,7 @@ export type OrderItemUncheckedUpdateManyInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -488,6 +507,7 @@ export type OrderItemCountOrderByAggregateInput = {
   variantSku?: Prisma.SortOrder
   variantLabel?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  isPreOrder?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   lineTotal?: Prisma.SortOrder
@@ -512,6 +532,7 @@ export type OrderItemMaxOrderByAggregateInput = {
   variantSku?: Prisma.SortOrder
   variantLabel?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  isPreOrder?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   lineTotal?: Prisma.SortOrder
@@ -527,6 +548,7 @@ export type OrderItemMinOrderByAggregateInput = {
   variantSku?: Prisma.SortOrder
   variantLabel?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  isPreOrder?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   lineTotal?: Prisma.SortOrder
@@ -591,6 +613,7 @@ export type OrderItemCreateWithoutOrderInput = {
   variantSku: string
   variantLabel: string
   image?: string | null
+  isPreOrder?: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -605,6 +628,7 @@ export type OrderItemUncheckedCreateWithoutOrderInput = {
   variantSku: string
   variantLabel: string
   image?: string | null
+  isPreOrder?: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -649,6 +673,7 @@ export type OrderItemScalarWhereInput = {
   variantSku?: Prisma.StringFilter<"OrderItem"> | string
   variantLabel?: Prisma.StringFilter<"OrderItem"> | string
   image?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  isPreOrder?: Prisma.BoolFilter<"OrderItem"> | boolean
   unitPrice?: Prisma.IntFilter<"OrderItem"> | number
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   lineTotal?: Prisma.IntFilter<"OrderItem"> | number
@@ -663,6 +688,7 @@ export type OrderItemCreateManyOrderInput = {
   variantSku: string
   variantLabel: string
   image?: string | null
+  isPreOrder?: boolean
   unitPrice: number
   quantity: number
   lineTotal: number
@@ -676,6 +702,7 @@ export type OrderItemUpdateWithoutOrderInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -690,6 +717,7 @@ export type OrderItemUncheckedUpdateWithoutOrderInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -704,6 +732,7 @@ export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
   variantSku?: Prisma.StringFieldUpdateOperationsInput | string
   variantLabel?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPreOrder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   lineTotal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -721,6 +750,7 @@ export type OrderItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   variantSku?: boolean
   variantLabel?: boolean
   image?: boolean
+  isPreOrder?: boolean
   unitPrice?: boolean
   quantity?: boolean
   lineTotal?: boolean
@@ -737,6 +767,7 @@ export type OrderItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   variantSku?: boolean
   variantLabel?: boolean
   image?: boolean
+  isPreOrder?: boolean
   unitPrice?: boolean
   quantity?: boolean
   lineTotal?: boolean
@@ -753,6 +784,7 @@ export type OrderItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   variantSku?: boolean
   variantLabel?: boolean
   image?: boolean
+  isPreOrder?: boolean
   unitPrice?: boolean
   quantity?: boolean
   lineTotal?: boolean
@@ -769,13 +801,14 @@ export type OrderItemSelectScalar = {
   variantSku?: boolean
   variantLabel?: boolean
   image?: boolean
+  isPreOrder?: boolean
   unitPrice?: boolean
   quantity?: boolean
   lineTotal?: boolean
   createdAt?: boolean
 }
 
-export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "productId" | "productName" | "productSlug" | "variantSku" | "variantLabel" | "image" | "unitPrice" | "quantity" | "lineTotal" | "createdAt", ExtArgs["result"]["orderItem"]>
+export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "productId" | "productName" | "productSlug" | "variantSku" | "variantLabel" | "image" | "isPreOrder" | "unitPrice" | "quantity" | "lineTotal" | "createdAt", ExtArgs["result"]["orderItem"]>
 export type OrderItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
 }
@@ -800,6 +833,7 @@ export type $OrderItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     variantSku: string
     variantLabel: string
     image: string | null
+    isPreOrder: boolean
     unitPrice: number
     quantity: number
     lineTotal: number
@@ -1236,6 +1270,7 @@ export interface OrderItemFieldRefs {
   readonly variantSku: Prisma.FieldRef<"OrderItem", 'String'>
   readonly variantLabel: Prisma.FieldRef<"OrderItem", 'String'>
   readonly image: Prisma.FieldRef<"OrderItem", 'String'>
+  readonly isPreOrder: Prisma.FieldRef<"OrderItem", 'Boolean'>
   readonly unitPrice: Prisma.FieldRef<"OrderItem", 'Int'>
   readonly quantity: Prisma.FieldRef<"OrderItem", 'Int'>
   readonly lineTotal: Prisma.FieldRef<"OrderItem", 'Int'>

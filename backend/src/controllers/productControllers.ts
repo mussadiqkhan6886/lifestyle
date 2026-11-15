@@ -191,6 +191,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         const validation = createProductSchema.safeParse({
                 ...req.body,
                 hotSeller: req.body.hotSeller ?? false,
+                preOrder: req.body.preOrder ?? false,
                 variants,
             });
 
@@ -209,6 +210,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                 description,
                 slug: rawSlug,
                 hotSeller,
+                preOrder,
                 variants: validatedVariants,
             } = validation.data;
 
@@ -232,7 +234,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                 return {
                     file,
                     index,
-                    url: uploadRes.secure_url,
+                    url: uploadRes.url,
                 };
             })
         );
@@ -257,6 +259,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
                     name: name.trim(),
                     slug,
                     hotSeller,
+                    preOrder,
                     category: category.trim(),
                     description: description.trim(),
                 }
@@ -381,6 +384,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 description,
                 slug,
                 hotSeller,
+                preOrder,
                 variants: validatedVariants,
             } = validation.data;
 
@@ -394,7 +398,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 return {
                     file,
                     index,
-                    url: uploadRes.secure_url,
+                    url: uploadRes.url,
                 };
             })
         );
@@ -417,6 +421,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
                 name?: string;
                 slug?: string;
                 hotSeller?: boolean;
+                preOrder?: boolean;
                 category?: string;
                 description?: string;
             } = {};
@@ -424,6 +429,7 @@ export const UpdateProduct = async (req: Request, res: Response): Promise<void> 
             if (updatedName !== undefined) productUpdateData.name = updatedName.trim();
             if (slug !== undefined) productUpdateData.slug = slug;
             if (hotSeller !== undefined) productUpdateData.hotSeller = hotSeller;
+            if (preOrder !== undefined) productUpdateData.preOrder = preOrder;
             if (category !== undefined) productUpdateData.category = category.trim();
             if (description !== undefined) productUpdateData.description = description.trim();
 

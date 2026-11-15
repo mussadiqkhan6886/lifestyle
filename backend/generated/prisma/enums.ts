@@ -22,7 +22,8 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 
 export const PaymentMethod = {
-  CASH_ON_DELIVERY: 'CASH_ON_DELIVERY'
+  CASH_ON_DELIVERY: 'CASH_ON_DELIVERY',
+  BANK_TRANSFER: 'BANK_TRANSFER'
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
@@ -30,7 +31,9 @@ export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 export const PaymentStatus = {
   UNPAID: 'UNPAID',
-  PAID: 'PAID'
+  PAID: 'PAID',
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  REJECTED: 'REJECTED'
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]

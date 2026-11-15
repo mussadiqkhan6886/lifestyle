@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 const contactMethods = [
   {
     title: 'Concierge WhatsApp',
-    value: '03224204456',
+    value: '+923224204456',
     description: 'Instant support for sizing, stock availability, & orders.',
     href: 'https://wa.me/923224204456',
     icon: MessageSquare,

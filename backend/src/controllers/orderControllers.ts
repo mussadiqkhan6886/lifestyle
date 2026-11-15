@@ -5,7 +5,9 @@ import { createOrderSchema, updateOrderSchema} from "../schemas/orderSchema"
 import { generateOrderNumber } from "../lib/helpers/index";
 import { transporter } from "../config/nodemailer";
 import { createAdminEmail, createCustomerEmail } from "../lib/helpers/orderEmail";
-import { orderVariantMap, VariantInput } from "../types/global";
+import { orderVariantMap } from "../types/global";
+import cloudinary from "../config/cloudinary";
+import { uploadToCloudinary } from './../lib/helpers/uploadToCloudinary';
 
 class CheckoutError extends Error {
   constructor(
@@ -34,7 +36,32 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     return
   }
 
-  const data = parsed.data
+  const data = parsed.data;
+  const file = req.file;
+
+  const isOnlinePayment =
+    data.paymentMethod !== "CASH_ON_DELIVERY";
+
+  if (isOnlinePayment && !file) {
+    res.status(400).json({
+      success: false,
+      message: "Please upload your payment screenshot",
+    });
+    return;
+  }
+
+  if (!isOnlinePayment && file) {
+    res.status(400).json({
+      success: false,
+      message: "Payment screenshot is not required for COD",
+    });
+    return;
+  }
+
+   let uploadedProof: {
+      url: string;
+      public_id:string
+    } | null = null;
 
   try {
     // Return the existing order if the same checkout request is retried.
@@ -67,6 +94,11 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       quantity,
     }))
 
+   
+
+    if (file) {
+      uploadedProof = await uploadToCloudinary(file.buffer);
+    }
     const order = await prisma.$transaction(async (tx:any) => {
       const variants = await tx.variant.findMany({
         where: {
@@ -151,6 +183,17 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 
       const shippingCost = data.city.toLowerCase() === "lahore" ? 400 : 450
       const total = subtotal + shippingCost
+      const ONLINE_PAYMENT_THRESHOLD = 30000;
+
+        if (
+          total > ONLINE_PAYMENT_THRESHOLD &&
+          data.paymentMethod === "CASH_ON_DELIVERY"
+        ) {
+          throw new CheckoutError(
+            400,
+            "Cash on Delivery is unavailable for orders above PKR 30,000. Please select online payment."
+          );
+        }
 
       for (const item of requestedItems) {
         const stockUpdate = await tx.variant.updateMany({
@@ -191,8 +234,14 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
           postalCode: data.postalCode || null,
           customerNotes: data.customerNotes || null,
 
-          paymentMethod: "CASH_ON_DELIVERY",
-          paymentStatus: "UNPAID",
+          paymentMethod: data.paymentMethod,
+          paymentStatus:
+            data.paymentMethod === "CASH_ON_DELIVERY"
+              ? "UNPAID"
+              : "PENDING_VERIFICATION",
+
+          paymentProofUrl: uploadedProof?.url ?? null,
+
           status: "PENDING",
 
           subtotal,
@@ -262,6 +311,13 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
         })
         return
       }
+    }
+    if (uploadedProof) {
+      await cloudinary.uploader.destroy(
+        uploadedProof.public_id
+      ).catch((cleanupError) => {
+        console.error("Payment proof cleanup failed:", cleanupError);
+      });
     }
 
     if (error instanceof Error) {

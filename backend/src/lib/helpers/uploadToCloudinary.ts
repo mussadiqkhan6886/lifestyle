@@ -1,10 +1,9 @@
 
-import { UploadApiResponse } from "cloudinary";
 import cloudinary from "../../config/cloudinary";
 
 export const uploadToCloudinary = (
     buffer: Buffer
-): Promise<UploadApiResponse> => {
+): Promise<{url:string, public_id:string}> => {
     return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
             {
@@ -22,7 +21,10 @@ export const uploadToCloudinary = (
                     return;
                 }
 
-                resolve(result);
+                resolve({
+                    url: result.secure_url,
+                    public_id:result.public_id
+                });
             }
         );
 

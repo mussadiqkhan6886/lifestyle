@@ -10,23 +10,44 @@ export const getAllOrders = async () : Promise<Order[]> => {
     return res.orders
 }
 
-export type CreateOrderResponse = {
-  success: boolean
-  order: {
-    orderNumber: string
-    total: number
-    status: string
-  }
-}
+export type CreateOrderRequest = CreateOrderInput & {
+  paymentProof?: File;
+};
 
-export const createNewOrder = async (payload: CreateOrderInput) => {
-    const res = await fetchHelperNoCookies<CreateOrderResponse>("orders", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {"Content-Type": "application/json"}
-    })
-    return res.order
-}
+export type CreateOrderResponse = {
+  success: boolean;
+  order: {
+    orderNumber: string;
+    total: number;
+    status: string;
+    paymentStatus: PaymentStatus;
+  };
+};
+
+export const createNewOrder = async (
+  payload: CreateOrderRequest
+) => {
+  const formData = new FormData();
+
+  const { paymentProof, ...orderData } = payload;
+
+  formData.append("data", JSON.stringify(orderData));
+
+  if (paymentProof) {
+    formData.append("paymentProof", paymentProof);
+  }
+
+  const res = await fetchHelperNoCookies<CreateOrderResponse>(
+    "orders",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  return res.order;
+};
+
 
 export const getSingleOrder = async (id: number) => {
     const res = await fetchHelperNoCookies<{success:boolean, order:Order}>(`orders/${id}`, {method: "GET"})

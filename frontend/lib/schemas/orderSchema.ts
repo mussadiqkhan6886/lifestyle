@@ -48,4 +48,9 @@ export const checkoutSchema = z.object({
     .trim()
     .max(500, 'Maximum 500 characters allowed')
     .optional(),
+
+  paymentMethod: z.enum([
+    "CASH_ON_DELIVERY",
+    "BANK_TRANSFER",
+  ]),
 })

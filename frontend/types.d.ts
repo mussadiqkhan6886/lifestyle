@@ -13,6 +13,7 @@ export interface productType {
   name: string;
   slug: string;
   hotSeller: boolean;
+  preOrder: boolean;
   category: string;
   description: string;
   variants: Variant[];
@@ -24,6 +25,7 @@ export interface ProductCardT {
   name: string;
   category: string;
   slug: string;
+  preOrder: boolean,
   variants: Variant[];
   tag: "row" | "col"
 }
@@ -42,7 +44,7 @@ export type CartItem = {
   slug: string
 
   image: string
-
+  isPreOrder: boolean
   variant: {
     variantId: string
     label: string
@@ -63,6 +65,7 @@ export type OrderItem = {
   productName: string
   productSlug: string
   variantSku: string
+  isPreOrder: boolean
   variantLabel: string
   image: string | null
   unitPrice: number
@@ -77,6 +80,12 @@ export type OrderStatus =  "PENDING"
     | "SHIPPED"
     | "DELIVERED"
     | "CANCELLED"
+
+    export type PaymentStatus =
+  | "UNPAID"
+  | "PENDING_VERIFICATION"
+  | "PAID"
+  | "REJECTED";
 
 export type Order = {
   id: number
@@ -94,9 +103,9 @@ export type Order = {
   postalCode: string | null
   country: string
   customerNotes: string | null
-
-  paymentMethod: "CASH_ON_DELIVERY"
-  paymentStatus: "UNPAID" | "PAID"
+  isPreOrder: boolean
+  paymentMethod: "CASH_ON_DELIVERY" | "BANK_TRANSFER"
+  paymentStatus: PaymentStatus
   status: OrderStatus
 
   currency: string
@@ -126,6 +135,8 @@ export type CreateOrderInput = {
     sku: string
     quantity: number
   }[]
+  paymentMethod: PaymentMethod;
+paymentReference?: string;
 }
 
 export type ContactPayload = {

@@ -13,6 +13,7 @@ import { collections } from '@/lib/constants'
 import { getProductBySlug, updateProduct } from '@/server/product'
 import { productType } from '@/types'
 import { ProductFormValues, productSchema } from '@/lib/schemas/productSchema'
+import GenerateDesc from '@/components/admin/GenerateDesc'
 
 const MAX_IMAGES = 20
 
@@ -150,6 +151,7 @@ function EditProductForm({ product }: { product: productType }) {
     category: product.category,
     description: product.description,
     hotSeller: product.hotSeller ?? false,
+    preOrder: product.preOrder ?? false,
     variants: product.variants.map((v) => ({
       label: v.label,
       sku: v.sku ?? '',
@@ -175,6 +177,16 @@ function EditProductForm({ product }: { product: productType }) {
 
   const { fields, append, remove } = useFieldArray({ control, name: 'variants' })
   const watchedVariants = useWatch({ control, name: 'variants' })
+
+  const productName = useWatch({
+    control,
+    name: 'name',
+  })
+
+  const description = useWatch({
+    control,
+    name: 'description',
+  })
 
   const mutation = useMutation({
     mutationFn: (formData: FormData) => updateProduct(product.id, formData),
@@ -250,6 +262,7 @@ function EditProductForm({ product }: { product: productType }) {
     formData.append('category', values.category)
     formData.append('description', values.description)
     formData.append('hotSeller', String(values.hotSeller))
+    formData.append('preOrder', String(values.preOrder))
 
     const variantsForBackend = values.variants.map(({ images, ...variant }) => ({
       ...variant,
@@ -349,17 +362,34 @@ function EditProductForm({ product }: { product: productType }) {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                  Product Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  {...register('description')}
-                  rows={5}
-                  placeholder="Write a detailed description of your product..."
-                  className={`${'inputClass'} resize-y`}
-                />
-                {errors.description && <p className="mt-2 text-xs text-red-500">{errors.description.message}</p>}
-              </div>
+                  <label className="mb-2 flex items-start gap-2 text-sm font-semibold text-gray-700">
+                    Product Description <span className="text-red-500">*</span>
+
+                    <GenerateDesc
+                      productName={productName}
+                      description={description}
+                      onGenerated={(generatedDescription) => {
+                        setValue('description', generatedDescription, {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        })
+                      }}
+                    />
+                  </label>
+
+                  <textarea
+                    {...register('description')}
+                    rows={5}
+                    placeholder="Write a detailed description of your product..."
+                    className="inputClass resize-y"
+                  />
+
+                  {errors.description && (
+                    <p className="mt-2 text-xs text-red-500">
+                      {errors.description.message}
+                    </p>
+                  )}
+                </div>
 
               <div className="sm:col-span-2">
                 <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4 transition hover:border-blue-200 hover:bg-blue-50/40">
@@ -370,6 +400,24 @@ function EditProductForm({ product }: { product: productType }) {
                   <input type="checkbox" {...register('hotSeller')} className="h-5 w-5 cursor-pointer accent-blue-600" />
                 </label>
               </div>
+            </div>
+            <div className="sm:col-span-2">
+              <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-amber-200 bg-amber-50/50 p-4 transition hover:border-amber-300 hover:bg-amber-50">
+                <div>
+                  <p className="text-sm font-semibold text-gray-800">
+                    Enable Pre-Order
+                  </p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Allow customers to order this product before it becomes available.
+                  </p>
+                </div>
+
+                <input
+                  type="checkbox"
+                  {...register('preOrder')}
+                  className="h-5 w-5 cursor-pointer accent-amber-600"
+                />
+              </label>
             </div>
           </section>
 

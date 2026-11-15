@@ -74,6 +74,7 @@ const productFields = {
     category: z.string().trim().min(1, "Category is required"),
     description: z.string().trim().min(1, "Description is required"),
     hotSeller: booleanFromForm,
+    preOrder: booleanFromForm,
 };
 
 export const createProductSchema = z.object({
@@ -88,6 +89,7 @@ export const updateProductSchema = z.object({
     category: productFields.category.optional(),
     description: productFields.description.optional(),
     hotSeller: booleanFromForm.optional(),
+    preOrder: booleanFromForm.optional(),
     variants: z.array(variantSchema)
         .min(1, "At least one variant is required")
         .optional(),

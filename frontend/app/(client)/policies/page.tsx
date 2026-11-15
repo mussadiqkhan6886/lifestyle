@@ -2,6 +2,7 @@ import { aire } from '@/lib/fonts'
 import { Truck, RotateCcw, HelpCircle, ShieldCheck, FileText } from 'lucide-react'
 import { Metadata } from 'next'
 import PolicyNav from '@/components/client/Policy'
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: 'Shipping, Returns, FAQs & Policies',
@@ -211,7 +212,7 @@ const PoliciesPage = () => {
     </div>
     <div className="space-y-2 text-[13px] text-black leading-relaxed">
       <p><strong>Address:</strong> Phase 3, DHA, Lahore, Pakistan</p>
-      <p><strong>Phone / WhatsApp:</strong> <a href="https://wa.me/923224204456" className="underline underline-offset-4">0322 4204456</a></p>
+      <p><strong>Phone / WhatsApp:</strong> <Link href="https://wa.me/923224204456" className="underline underline-offset-4">0322 4204456</Link></p>
     </div>
   </section>
 

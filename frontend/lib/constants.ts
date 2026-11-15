@@ -27,7 +27,7 @@ export const collections = [
     link: "/collections/men-clothing",
   },
   {
-    image: "/clothing.webp",
+    image: "/women-clothing.webp",
     title: "Women Clothing",
     description:
       "Discover stylish women's clothing with elegant designs, quality fabrics, and versatile pieces for every occasion.",

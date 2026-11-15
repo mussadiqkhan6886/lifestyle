@@ -60,7 +60,7 @@ export const productSchema = z.object({
     .min(1, "Description is required"),
 
   hotSeller: z.boolean(),
-
+  preOrder: z.boolean(),
   variants: z
     .array(variantSchema)
     .min(1, "At least one variant is required"),

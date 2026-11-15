@@ -3,10 +3,11 @@ import { Router } from "express"
 import { verifyJWT } from "../middleware/verifyJWT"
 import { createOrder, getAllOrders, getSingleOrder, updateOrder } from "../controllers/orderControllers"
 import { apiLimiter } from "../middleware/apiLimiter"
+import { upload } from "../middleware/upload";
 
 const router = Router()
 
-router.post("/", createOrder)
+router.post("/", upload.any() ,createOrder)
 
 router.get("/", verifyJWT ,getAllOrders)
 router.get("/:id" ,apiLimiter, getSingleOrder)

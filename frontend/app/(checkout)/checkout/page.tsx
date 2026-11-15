@@ -1,7 +1,7 @@
 
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -33,6 +33,46 @@ const FieldError = ({ message }: { message?: string }) => {
 const CheckoutPage = () => {
   const router = useRouter()
 
+  const [paymentProof, setPaymentProof] = useState<File | null>(null);
+const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+const handlePaymentProof = (
+  event: React.ChangeEvent<HTMLInputElement>
+) => {
+  const file = event.target.files?.[0];
+
+  if (!file) return;
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    toast.error("Please upload a JPG, PNG or WEBP image");
+    event.target.value = "";
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    toast.error("Image size must be below 5MB");
+    event.target.value = "";
+    return;
+  }
+
+  setPaymentProof(file);
+
+  setPreviewUrl(URL.createObjectURL(file));
+};
+
+useEffect(() => {
+  return () => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+  };
+}, [previewUrl]);
   const {
     cart,
     totalPrice,
@@ -47,6 +87,7 @@ const CheckoutPage = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -64,10 +105,20 @@ const CheckoutPage = () => {
     },
   })
 
-  const city = watch('city')
-const shippingFee = city.trim().toLowerCase() === 'lahore' ? 400 : 450
-const grandTotal = totalPrice + shippingFee
+  const selectedPaymentMethod = watch("paymentMethod");
 
+  const city = watch('city')
+  const shippingFee = city.trim().toLowerCase() === 'lahore' ? 400 : 450
+  const grandTotal = totalPrice + shippingFee
+  const requiresOnlinePayment = grandTotal  > 30000
+  
+  useEffect(() => {
+    if (requiresOnlinePayment && selectedPaymentMethod === "CASH_ON_DELIVERY") {
+      setValue("paymentMethod", "BANK_TRANSFER", {
+        shouldValidate: true,
+      });
+    }
+  }, [requiresOnlinePayment, selectedPaymentMethod, setValue]);
   const placeOrder = useMutation({
     mutationFn: async (values: CheckoutFormValues) => {
       if (cart.length === 0) {
@@ -79,18 +130,28 @@ const grandTotal = totalPrice + shippingFee
       }
 
       const payload = {
-        ...values,
-        checkoutToken: checkoutToken.current,
+            ...values,
+            checkoutToken: checkoutToken.current,
 
-        // Send only SKU and quantity.
-        // Backend calculates prices and checks stock.
-        items: cart.map((item) => ({
-          sku: item.variant.variantId,
-          quantity: item.quantity,
-        })),
-      }
+            items: cart.map((item) => ({
+              sku: item.variant.variantId,
+              quantity: item.quantity,
+            })),
 
-      return createNewOrder(payload)
+            paymentProof: values.paymentMethod === "CASH_ON_DELIVERY"
+              ? undefined
+              : paymentProof ?? undefined,
+          };
+
+          if (
+            values.paymentMethod !== "CASH_ON_DELIVERY" &&
+            !paymentProof
+          ) {
+            throw new Error("Please upload your payment screenshot");
+          }
+
+          return createNewOrder(payload);
+
     },
 
     onSuccess: (order) => {
@@ -362,34 +423,126 @@ const grandTotal = totalPrice + shippingFee
               {/* Payment Method */}
 
               <div>
-                <h2 className={`${aire.className} text-2xl mb-6`}>
-                  Payment Method
-                </h2>
+  <h2 className={`${aire.className} text-2xl mb-6`}>
+    Payment Method
+  </h2>
 
-                <div className="border border-neutral-900 p-5 flex items-center gap-4">
-                  <input
-                    type="radio"
-                    checked
-                    readOnly
-                    aria-label="Cash on Delivery"
-                    className="accent-black"
-                  />
+  {requiresOnlinePayment && (
+    <div className="mb-5 border border-amber-300 bg-amber-50 p-4 text-sm">
+      Orders above PKR 30,000 require online payment.
+      Cash on Delivery is unavailable.
+    </div>
+  )}
 
-                  <div>
-                    <p className="font-semibold text-sm">
-                      Cash on Delivery
-                    </p>
+  <div className="space-y-3">
 
-                    <p className="text-xs text-neutral-500 mt-1">
-                      Pay when your order arrives.
-                    </p>
-                  </div>
-                </div>
+    {[
+      {
+        value: "CASH_ON_DELIVERY",
+        label: "Cash on Delivery",
+      },
+      {
+        value: "BANK_TRANSFER",
+        label: "Bank Transfer",
+      },
+    ].map((method) => {
+      const disabled =
+        requiresOnlinePayment &&
+        method.value === "CASH_ON_DELIVERY";
 
-                <p className="mt-3 text-xs text-neutral-500">
-                  Currently, we accept Cash on Delivery only.
-                </p>
-              </div>
+      return (
+        <label
+          key={method.value}
+          className={`flex items-center gap-3 border p-4 ${
+            selectedPaymentMethod === method.value
+              ? "border-black"
+              : "border-neutral-300"
+          } ${disabled ? "opacity-40" : "cursor-pointer"}`}
+        >
+          <input
+            type="radio"
+            value={method.value}
+            disabled={disabled}
+            {...register("paymentMethod")}
+          />
+
+          <span className="text-sm font-medium">
+            {method.label}
+          </span>
+        </label>
+      );
+    })}
+
+  </div>
+</div>
+
+{selectedPaymentMethod === "BANK_TRANSFER" && (
+  <div className="mt-6 space-y-5 border border-neutral-200 p-5">
+
+    <h3 className="font-semibold">
+      Payment Instructions
+    </h3>
+
+    {selectedPaymentMethod === "BANK_TRANSFER" && (
+      <>
+      <div className="space-y-2 text-sm">
+        <p className="font-semibold">Bank: Allied Bank</p>
+        <p>Account Title: Lifestyleshopping.uk</p>
+        <p>Account Number: 51550020159905650025</p>
+        <p>IBAN: PK64ABPA0020159905650025</p>
+      </div>
+      <div className="space-y-2 text-sm">
+        <p className="font-semibold">Bank: United Bank</p>
+        <p>Account Title: Lifestyleshopping.uk</p>
+        <p>Account Number: 2134393755279</p>
+        <p>IBAN: PK72UNIL0109000393755279</p>
+      </div>
+      </>
+    )}
+
+    <div>
+      <label className="mb-2 block text-sm font-medium">
+        Upload Payment Screenshot *
+      </label>
+
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        onChange={handlePaymentProof}
+        className="w-full border border-neutral-300 p-3 text-sm"
+      />
+
+      {previewUrl && (
+        <div className="mt-4">
+          <Image
+            src={previewUrl}
+            alt="Payment screenshot preview"
+            width={400}
+            height={300}
+            unoptimized
+            className="max-h-64 w-auto object-contain border"
+          />
+
+          <button
+            type="button"
+            onClick={() => {
+              setPaymentProof(null);
+              setPreviewUrl(null);
+            }}
+            className="mt-2 text-sm text-red-600"
+          >
+            Remove screenshot
+          </button>
+        </div>
+      )}
+
+      <p className="mt-2 text-xs text-neutral-500">
+        JPG, PNG or WEBP. Maximum size 5MB.
+      </p>
+    </div>
+
+  </div>
+)}
 
               {/* Server Error */}
 

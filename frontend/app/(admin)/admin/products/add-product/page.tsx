@@ -48,6 +48,7 @@ const defaultValues: ProductFormValues = {
   category: "",
   description: "",
   hotSeller: false,
+  preOrder: false,
   variants: [createEmptyVariant()],
 };
 
@@ -246,7 +247,7 @@ function CreateProductForm() {
     formData.append("category", values.category);
     formData.append("description", values.description);
     formData.append("hotSeller", String(values.hotSeller));
-
+    formData.append("preOrder", String(values.preOrder));
     // Remove image File objects from variant JSON.
     // Files will be sent separately.
     const variantsForBackend = values.variants.map(
@@ -476,6 +477,25 @@ return (
                 />
               </label>
             </div>
+            {/* PRE-ORDER */}
+              <div className="sm:col-span-2">
+                <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-amber-200 bg-amber-50/50 p-4 transition hover:border-amber-300 hover:bg-amber-50">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">
+                      Enable Pre-Order
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      Allow customers to order this product before it becomes available.
+                    </p>
+                  </div>
+
+                  <input
+                    type="checkbox"
+                    {...register("preOrder")}
+                    className="h-5 w-5 cursor-pointer accent-amber-600"
+                  />
+                </label>
+              </div>
 
           </div>
         </section>
