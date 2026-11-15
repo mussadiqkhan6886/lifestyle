@@ -83,12 +83,6 @@ const getVariants = (v: Variant[]) => {
   ))
 }
 
-interface ProductsResponse {
-  products: productType[]
-  hasMore: boolean
-  currentPage: number
-  success: boolean
-}
 
 /* ───────── page ───────── */
 
@@ -97,7 +91,6 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
   const [toDelete, setToDelete] = useState<productType | null>(null)
-
   
     const {
       data,
@@ -241,6 +234,7 @@ export default function AdminProductsPage() {
                       <th className="px-5 py-3.5 font-medium">Category</th>
                       <th className="px-5 py-3.5 font-medium">Price</th>
                       <th className="px-5 py-3.5 font-medium">Stock</th>
+                      <th className="px-5 py-3.5 font-medium">preOrder</th>
                       <th className="px-5 py-3.5 font-medium">Variants</th>
                       <th className="px-5 py-3.5 text-right font-medium">Actions</th>
                     </tr>
@@ -275,6 +269,9 @@ export default function AdminProductsPage() {
                         </td>
                         <td className="px-5 py-4">
                           <StockBadge stock={getTotalStock(p)} />
+                        </td>
+                        <td className='px-4 py-4'>
+                          <p>{p.preOrder}</p>
                         </td>
                         <td className="px-5 py-4 text-gray-700">{getVariants(p.variants)}</td>
                         <td className="px-5 py-4">

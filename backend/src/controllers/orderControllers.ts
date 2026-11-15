@@ -21,7 +21,19 @@ class CheckoutError extends Error {
 
 
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
-  const parsed = createOrderSchema.safeParse(req.body)
+  let orderData;
+
+    try {
+      orderData = JSON.parse(req.body.data);
+    } catch {
+      res.status(400).json({
+        success: false,
+        message: "Invalid order data",
+      });
+      return
+    }
+
+    const parsed = createOrderSchema.safeParse(orderData);
 
   if (!parsed.success) {
     console.log(
