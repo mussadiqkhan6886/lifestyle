@@ -25,7 +25,7 @@ const Hero = () => {
         </h1>
 
         <p className="text-white text-[14px] sm:text-[17px] sm:font-light leading-relaxed sm:mr-10">
-          Authentic, quality-checked finds imported from the UK, USA and UAE, delivered to your door.
+          Bringing you authentic finds from the world's favorite brands, with quality you can trust.
         </p>
 
         <div className="pt-2">

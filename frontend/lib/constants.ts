@@ -72,7 +72,7 @@ export const navbarData = [
 
 export const loopData = [
   { title: "3-4 days delivery for Instock products" },
-  { title: "Out-of-stock items delivered in 1 week" },
+  { title: "Preorder items delivered in 2-3 weeks" },
   { title: "UK, USA & UAE import products",  },
 ];
 
