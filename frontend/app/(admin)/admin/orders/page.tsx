@@ -14,8 +14,8 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 
-import { getAllOrders, PaymentStatus, updateOrder } from "@/server/order"
-import type { Order, OrderStatus } from "@/types"
+import { getAllOrders, updateOrder } from "@/server/order"
+import type { Order, OrderStatus, PaymentStatus } from "@/types"
 import StatCard from "@/components/admin/StatCard"
 import OrderDetails from "@/components/admin/OrderDetails"
 
@@ -31,6 +31,8 @@ const statuses: OrderStatus[] = [
 const paymentStatuses : PaymentStatus[] = [
   "UNPAID",
   "PAID",
+  "PENDING_VERIFICATION",
+  "REJECTED"
 ]
 
 const statusStyles: Record<OrderStatus, string> = {
@@ -45,6 +47,8 @@ const statusStyles: Record<OrderStatus, string> = {
 const paymentStyles: Record<PaymentStatus, string> = {
   UNPAID: "bg-yellow-100 text-yellow-700",
   PAID: "bg-green-100 text-green-700",
+  PENDING_VERIFICATION: "bg-blue-100 text-blue-800",
+  REJECTED: "bg-red-700 text-white",
 }
 
 export const formatPrice = (price: number) =>

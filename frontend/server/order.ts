@@ -1,6 +1,6 @@
 import { fetchHelper } from "@/lib/helpers/fetchHelper"
 import { fetchHelperNoCookies } from "@/lib/helpers/fetchHelperNoCookies"
-import { CreateOrderInput, Order, OrderStatus } from "@/types"
+import { CreateOrderInput, Order, OrderStatus, PaymentStatus } from "@/types"
 
 export const getAllOrders = async () : Promise<Order[]> => {
     const res = await fetchHelper<{ success: boolean, orders: Order[]}>("orders", {
@@ -53,8 +53,6 @@ export const getSingleOrder = async (id: number) => {
     const res = await fetchHelperNoCookies<{success:boolean, order:Order}>(`orders/${id}`, {method: "GET"})
     return res.order
 }
-
-export type PaymentStatus = "UNPAID" | "PAID"
 
 type UpdateOrderPayload = {
   status?: OrderStatus
