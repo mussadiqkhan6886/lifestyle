@@ -271,7 +271,7 @@ export default function AdminProductsPage() {
                           <StockBadge stock={getTotalStock(p)} />
                         </td>
                         <td className='px-4 py-4'>
-                          <p>{p.preOrder}</p>
+                          <p>{p.preOrder ? "Yes" : "No"}</p>
                         </td>
                         <td className="px-5 py-4 text-gray-700">{getVariants(p.variants)}</td>
                         <td className="px-5 py-4">

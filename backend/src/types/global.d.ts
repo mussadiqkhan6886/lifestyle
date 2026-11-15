@@ -17,6 +17,7 @@ export interface orderVariantMap extends VariantInput {
           id: number,
           name: string,
           slug: string
+          preOrder: boolean
         }
       }
 

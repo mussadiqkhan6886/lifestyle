@@ -1,6 +1,7 @@
 import { formatDate, formatPrice, InfoRow, TotalRow } from "@/app/(admin)/admin/orders/page"
 import { Order } from "@/types"
 import { CalendarDays, Mail, MapPin, Package, Phone, ShoppingBag } from "lucide-react"
+import Link from "next/link"
 
 const OrderDetails = ({ order }: { order: Order }) => {
   return (
@@ -80,11 +81,13 @@ const OrderDetails = ({ order }: { order: Order }) => {
                 </div>
               )}
               {order.paymentProofUrl && (
-                <img
-                src={order.paymentProofUrl}
-                alt={"payment proof"}
-                className="h-20 w-20 shrink-0 rounded-md border border-neutral-200 object-cover"
-                />
+                <Link href={order.paymentProofUrl} target="_blank">
+                  <img
+                  src={order.paymentProofUrl}
+                  alt={"payment proof"}
+                  className="h-20 w-20 shrink-0 rounded-md border border-neutral-200 object-cover"
+                  />
+                </Link>
               )}
                 </div>
 
@@ -128,9 +131,6 @@ const OrderDetails = ({ order }: { order: Order }) => {
             <span>{formatPrice(order.total)}</span>
           </div>
 
-          <p className="pt-1 text-xs text-neutral-400">
-            Currency: {order.currency}
-          </p>
         </div>
       </section>
     </div>

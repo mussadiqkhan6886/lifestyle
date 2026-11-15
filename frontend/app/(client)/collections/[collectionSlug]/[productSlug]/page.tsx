@@ -94,7 +94,6 @@ type Params = Promise<{ productSlug: string }>
 const ProductPage = async ({ params }: { params: Params }) => {
   const { productSlug } = await params
   const product = await getProductBySlug(productSlug)
-
   if (!product || !product.variants || product.variants.length === 0) notFound()
 
   const recommendation = await getAllProducts(4, undefined, product.category)

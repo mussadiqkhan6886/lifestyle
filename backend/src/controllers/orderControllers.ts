@@ -124,6 +124,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
               id: true,
               name: true,
               slug: true,
+              preOrder: true,
             },
           },
         },
@@ -182,6 +183,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     productName: variant.product.name,
     productSlug: variant.product.slug,
     variantSku: variant.sku,
+    isPreOrder: variant.product.preOrder,
     variantLabel: variant.label,
     image: variant.images[0] ?? null,
     unitPrice,
@@ -245,7 +247,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
           province: data.province,
           postalCode: data.postalCode || null,
           customerNotes: data.customerNotes || null,
-
+          
           paymentMethod: data.paymentMethod,
           paymentStatus:
             data.paymentMethod === "CASH_ON_DELIVERY"
