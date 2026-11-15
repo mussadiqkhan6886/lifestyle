@@ -7,7 +7,7 @@ import { upload } from "../middleware/upload";
 
 const router = Router()
 
-router.post("/", upload.any() ,createOrder)
+router.post("/", upload.single("paymentProof") ,createOrder)
 
 router.get("/", verifyJWT ,getAllOrders)
 router.get("/:id" ,apiLimiter, getSingleOrder)
