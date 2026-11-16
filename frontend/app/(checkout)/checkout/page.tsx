@@ -565,6 +565,15 @@ useEffect(() => {
     )}
 
     <div>
+      <p className='text-red-600 text-xs tracking-wide'>Please send picture of payment on whatsapp : <Link
+        href="https://wa.me/923224204456"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline"
+      >
+        +92 322 4204456
+      </Link>
+      </p>
       <label className="mb-2 block text-sm font-medium">
         Upload Payment Screenshot *
       </label>
