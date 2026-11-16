@@ -73,11 +73,11 @@ The project covers a decoupled Next.js and Express architecture, a relational da
 
 | HOMEPAGE | CART |
 | :---: | :---: |
-| ![HomePage](./public/homepage.png) | ![Collections](./public/cart.png) |
+| ![HomePage](./frontend/public/homepage.png) | ![Collections](./frontend/public/cart.png) |
 | PRODUCT | CHECKOUT |
-| ![product](./public/product.png) | ![checkout](./public/checkout.png) |
+| ![product](./frontend/public/product.png) | ![checkout](./frontend/public/checkout.png) |
 | ADMIN PRODUCTS | ADMIN ORDERS |
-| ![Admin Products](./public/admin-products.png) | ![Admin orders](./public/admin-order.png) |
+| ![Admin Products](./frontend/public/admin-products.png) | ![Admin orders](./frontend/public/admin-order.png) |
 
 ---
 
@@ -439,7 +439,7 @@ No Swagger/OpenAPI documentation is implemented.
 
 ## Database Design
 
-PostgreSQL schema managed with Prisma migrations (`init`, `add_review_model`, `add_checkout_model`).
+PostgreSQL schema managed with Prisma migrations.
 
 ```mermaid
 erDiagram
@@ -547,8 +547,8 @@ These measures reduce common risks but do not make the application invulnerable.
 - **Search Console.** A Google site verification tag is set in the root layout.
 - **Database.** Indexes on the order tables, and a single shared Prisma client.
 
-![desktop Pagespeed](./public/desktop.png)
-![mobile pagespeed](./public/mobile.png)
+![desktop Pagespeed](./frontend/public/desktop.png)
+![mobile pagespeed](./frontend/public/mobile.png)
 
 ---
 
