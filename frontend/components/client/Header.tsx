@@ -92,7 +92,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
       {/* Floating bar */}
       <div
-        className={`relative z-10 px-1.5 sm:px-5 pt-3 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`relative z-10 px-1 sm:px-5 pt-3 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           hidden && !keepVisible ? '-translate-y-[130%]' : 'translate-y-0'
         }`}
       >
@@ -200,8 +200,7 @@ const Header = () => {
             </span>
           </button>
 
-          {/* ── Center: logo ── */}
-          <Link href="/" className="flex items-center gap-2 justify-self-center" aria-label="Lifestyle Shopping UK home">
+          <Link href="/" className="flex items-center gap-1 justify-self-center" aria-label="Lifestyle Shopping UK home">
             <Image
               src="/logo.jpg"
               alt="Lifestyle Shopping logo"
@@ -217,7 +216,7 @@ const Header = () => {
           </Link>
 
           {/* ── Right: actions ── */}
-          <div className="flex items-center gap-1 sm:gap-2 md:justify-self-end">
+          <div className="flex items-center gap-0 sm:gap-2 md:justify-self-end">
             {/* Search (desktop) */}
             <button
               onClick={() => setSearchOpen(true)}
