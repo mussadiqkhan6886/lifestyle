@@ -125,6 +125,7 @@ const OrderDetails = ({ order }: { order: Order }) => {
         <div className="space-y-2 rounded-lg border border-neutral-200 bg-white p-4">
           <TotalRow label="Subtotal" value={formatPrice(order.subtotal)} />
           <TotalRow label="Shipping" value={formatPrice(order.shippingCost)} />
+          <TotalRow label="Discount" value={formatPrice(order.discount)} />
 
           <div className="flex justify-between border-t border-neutral-200 pt-3 font-semibold text-neutral-900">
             <span>Grand Total</span>
