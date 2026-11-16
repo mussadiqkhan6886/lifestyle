@@ -162,6 +162,7 @@ const createProduct = async (req, res) => {
         const validation = productSchema_1.createProductSchema.safeParse({
             ...req.body,
             hotSeller: req.body.hotSeller ?? false,
+            preOrder: req.body.preOrder ?? false,
             variants,
         });
         if (!validation.success) {
@@ -172,7 +173,7 @@ const createProduct = async (req, res) => {
             });
             return;
         }
-        const { name, category, description, slug: rawSlug, hotSeller, variants: validatedVariants, } = validation.data;
+        const { name, category, description, slug: rawSlug, hotSeller, preOrder, variants: validatedVariants, } = validation.data;
         const slug = rawSlug?.trim()
             ? (0, index_1.createSlug)(rawSlug)
             : (0, index_1.createSlug)(name);
@@ -190,7 +191,7 @@ const createProduct = async (req, res) => {
             return {
                 file,
                 index,
-                url: uploadRes.secure_url,
+                url: uploadRes.url,
             };
         }));
         // Distribute images to their target validatedVariants
@@ -211,6 +212,7 @@ const createProduct = async (req, res) => {
                     name: name.trim(),
                     slug,
                     hotSeller,
+                    preOrder,
                     category: category.trim(),
                     description: description.trim(),
                 }
@@ -313,7 +315,7 @@ const UpdateProduct = async (req, res) => {
             });
             return;
         }
-        const { name: updatedName, category, description, slug, hotSeller, variants: validatedVariants, } = validation.data;
+        const { name: updatedName, category, description, slug, hotSeller, preOrder, variants: validatedVariants, } = validation.data;
         const incomingVariants = validatedVariants ?? [];
         // Upload any newly uploaded files to Cloudinary
         const files = req.files || [];
@@ -322,7 +324,7 @@ const UpdateProduct = async (req, res) => {
             return {
                 file,
                 index,
-                url: uploadRes.secure_url,
+                url: uploadRes.url,
             };
         }));
         const variantImagesMap = incomingVariants.length > 0
@@ -345,6 +347,8 @@ const UpdateProduct = async (req, res) => {
                 productUpdateData.slug = slug;
             if (hotSeller !== undefined)
                 productUpdateData.hotSeller = hotSeller;
+            if (preOrder !== undefined)
+                productUpdateData.preOrder = preOrder;
             if (category !== undefined)
                 productUpdateData.category = category.trim();
             if (description !== undefined)

@@ -18,6 +18,7 @@ const navItems = [
   { name: "Orders", href: "/admin/orders" },
   { name: "Add Product", href: "/admin/products/add-product" },
   { name: "Reviews", href: "/admin/reviews" },
+  { name: "Promos", href: "/admin/promos" },
 ];
 
 export default function AdminHeader() {

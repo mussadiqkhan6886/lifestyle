@@ -10,6 +10,7 @@ import routerAI from "./routes/aiRoute"
 import routerReview from "./routes/reviewRoute"
 import orderRoutes from "./routes/orderRoute"
 import contactRoutes from "./routes/contactRoute"
+import promoRoutes from "./routes/promoRoute"
 
 const app : Express = express() 
 
@@ -31,9 +32,10 @@ app.use(["/api/auth", "/auth"], routerAuth)
 app.use(["/api/products", "/products"], routerProducts)
 app.use(["/api/ai", "/ai"], routerAI)
 app.use(["/api/review", "/review"], routerReview)
-
 app.use(["/api/orders", "/orders"], orderRoutes)
 app.use(["/api/contact", "/contact"], contactRoutes)
+app.use(["/api/promos", "/promos"], promoRoutes)
+
 app.use(ErrorHandler)
 
 export default app

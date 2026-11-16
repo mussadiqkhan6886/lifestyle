@@ -19,9 +19,12 @@ exports.OrderStatus = {
     CANCELLED: 'CANCELLED'
 };
 exports.PaymentMethod = {
-    CASH_ON_DELIVERY: 'CASH_ON_DELIVERY'
+    CASH_ON_DELIVERY: 'CASH_ON_DELIVERY',
+    BANK_TRANSFER: 'BANK_TRANSFER'
 };
 exports.PaymentStatus = {
     UNPAID: 'UNPAID',
-    PAID: 'PAID'
+    PAID: 'PAID',
+    PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+    REJECTED: 'REJECTED'
 };

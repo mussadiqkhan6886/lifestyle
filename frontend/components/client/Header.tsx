@@ -21,10 +21,10 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
-const [cartOpen, setCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false)
   const toggleDropdown = (index: number) => setActiveDropdown((prev) => (prev === index ? null : index))
 
-  // Scroll behaviour: glass bar gets solid after a little scroll, hides on scroll down, returns on scroll up
+  // Scroll behaviour: bar turns solid white after a little scroll, hides on scroll down, returns on scroll up
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
@@ -60,8 +60,36 @@ const [cartOpen, setCartOpen] = useState(false);
 
   const keepVisible = mobileMenuOpen || searchOpen || activeDropdown !== null
 
+  // Single source of truth for the header look.
+  //  solid = false -> transparent glass (blur) bar with white text, over the home hero
+  //  solid = true  -> white bar with black text (scrolled, menu open, or any non-home page)
+  const solid = scrolled || mobileMenuOpen || pathname !== '/'
+
+  // Shared colour classes, so every element switches together
+  const navText = (active: boolean) =>
+    solid
+      ? active
+        ? 'text-black'
+        : 'text-black/70 group-hover:text-black'
+      : active
+        ? 'text-white'
+        : 'text-white/75 group-hover:text-white'
+
+  const pillBtn = solid
+    ? 'sm:bg-black/5 hover:bg-black/10'
+    : 'sm:bg-white/10 hover:bg-white/20'
+  const pillLabel = solid
+    ? 'text-black/50 group-hover:text-black/80'
+    : 'text-white/60 group-hover:text-white'
+  const kbdStyle = solid
+    ? 'border-black/15 text-black/40'
+    : 'border-white/25 text-white/60'
+  const iconBtn = solid ? 'hover:bg-black/5' : 'hover:bg-white/10'
+  const burgerBtn = solid ? 'bg-black/5 hover:bg-black/10' : 'bg-white/10 hover:bg-white/20'
+  const burgerLine = solid ? 'bg-black' : 'bg-white'
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 text-white pointer-events-none">
+    <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
       {/* Floating bar */}
       <div
         className={`relative z-10 px-1.5 sm:px-5 pt-3 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${
@@ -70,9 +98,9 @@ const [cartOpen, setCartOpen] = useState(false);
       >
         <div
           className={`pointer-events-auto max-w-7xl mx-auto h-16 rounded-xl border px-2 sm:px-4 lg:px-6 flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between transition-all duration-500 backdrop-blur-xl ${
-            scrolled || mobileMenuOpen || pathname !== "/"
-              ? 'bg-neutral-950/85 border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)]'
-              : 'bg-white/5 border-white/15'
+            solid
+              ? 'bg-white border-black/10 text-black shadow-[0_10px_40px_-10px_rgba(0,0,0,0.25)]'
+              : 'bg-white/10 border-white/20 text-white'
           }`}
         >
           {/* ── Left: desktop navigation ── */}
@@ -80,9 +108,9 @@ const [cartOpen, setCartOpen] = useState(false);
             <ul className="flex items-center gap-1 lg:gap-2">
               {navbarData.map((item, index) => {
                 const isOpen = activeDropdown === index
-                const isActive = item.link
+                const isActive = !!(item.link
                   ? pathname === item.link
-                  : item.children?.some((c) => c.link === pathname)
+                  : item.children?.some((c) => c.link === pathname))
 
                 return (
                   <li
@@ -93,7 +121,7 @@ const [cartOpen, setCartOpen] = useState(false);
                   >
                     {item.link ? (
                       <Link href={item.link} className="group relative block px-3 lg:px-4 py-2 text-[13px] tracking-wide text-nowrap">
-                        <span className={isActive ? 'text-white' : 'text-white/75 group-hover:text-white transition-colors'}>
+                        <span className={`transition-colors ${navText(isActive)}`}>
                           {item.title}
                         </span>
                         <span
@@ -107,9 +135,7 @@ const [cartOpen, setCartOpen] = useState(false);
                         <button
                           onClick={() => toggleDropdown(index)}
                           aria-expanded={isOpen}
-                          className={`group flex items-center gap-1 px-3 lg:px-4 py-2 text-[13px] tracking-wide focus:outline-none transition-colors ${
-                            isOpen || isActive ? 'text-white' : 'text-white/75 hover:text-white'
-                          }`}
+                          className={`group flex items-center gap-1 px-3 lg:px-4 py-2 text-[13px] tracking-wide focus:outline-none transition-colors ${navText(isOpen || isActive)}`}
                         >
                           {item.title}
                           <ChevronDown
@@ -126,14 +152,22 @@ const [cartOpen, setCartOpen] = useState(false);
                                 : 'opacity-0 translate-y-2 invisible pointer-events-none'
                             }`}
                           >
-                            <div className="w-64 rounded-xl border border-white/10 bg-neutral-950/95 backdrop-blur-xl p-2 shadow-2xl">
+                            <div
+                              className={`w-64 rounded-xl border backdrop-blur-xl p-2 shadow-2xl transition-colors duration-500 ${
+                                solid
+                                  ? 'bg-white border-black/10 text-black'
+                                  : 'bg-black/40 border-white/20 text-white'
+                              }`}
+                            >
                               <ul className="flex flex-col">
                                 {item.children.map((child, childIndex) => (
                                   <li key={childIndex}>
                                     <Link
                                       href={child.link || '#'}
                                       onClick={() => setActiveDropdown(null)}
-                                      className="group/item flex items-center justify-between rounded-lg px-4 py-3 text-sm font-light text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                                      className={`group/item flex items-center justify-between rounded-lg px-4 py-3 text-sm font-light transition-colors ${
+                                        solid ? 'hover:bg-black/5' : 'hover:bg-white/10'
+                                      }`}
                                     >
                                       <span className="transition-transform duration-300 group-hover/item:translate-x-1">
                                         {child.title}
@@ -154,19 +188,17 @@ const [cartOpen, setCartOpen] = useState(false);
             </ul>
           </nav>
 
-            <button
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search"
-              className="group lg:hidden flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
-            >
-              <Search className="w-[18px] h-[18px]" />
-              <span className="hidden sm:block text-xs text-white/50 group-hover:text-white/80 transition-colors">
-                Search
-              </span>
-              <kbd className="hidden lg:block rounded-md border border-white/15 px-1.5 py-0.5 text-[10px] text-white/40">
-                Ctrl K
-              </kbd>
-            </button>
+          {/* Search (mobile / tablet: left side) */}
+          <button
+            onClick={() => setSearchOpen(true)}
+            aria-label="Search"
+            className={`group lg:hidden flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 transition-colors cursor-pointer ${pillBtn}`}
+          >
+            <Search className="w-[18px] h-[18px]" />
+            <span className={`hidden sm:block text-xs transition-colors ${pillLabel}`}>
+              Search
+            </span>
+          </button>
 
           {/* ── Center: logo ── */}
           <Link href="/" className="flex items-center gap-2 justify-self-center" aria-label="Lifestyle Shopping UK home">
@@ -178,7 +210,7 @@ const [cartOpen, setCartOpen] = useState(false);
               className="block sm:hidden h-10 w-10 rounded-lg object-cover object-center"
             />
             <span
-              className={`inline-block uppercase tracking-[0.25em] text-[11px] sm:text-sm lg:text-base whitespace-nowrap ${aire.className}`}
+              className={`inline-block uppercase tracking-[0.25em] text-[11px] sm:text-sm lg:text-base whitespace-nowrap transition-colors duration-100 ${aire.className} font-semibold sm:font-normal`}
             >
               Lifestyle Shopping.uk
             </span>
@@ -186,26 +218,27 @@ const [cartOpen, setCartOpen] = useState(false);
 
           {/* ── Right: actions ── */}
           <div className="flex items-center gap-1 sm:gap-2 md:justify-self-end">
+            {/* Search (desktop) */}
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
-              className="group hidden lg:flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 sm:bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+              className={`group hidden lg:flex items-center gap-3 h-10 rounded-lg px-3 sm:pl-4 sm:pr-3 transition-colors cursor-pointer ${pillBtn}`}
             >
               <Search className="w-[18px] h-[18px]" />
-              <span className="hidden sm:block text-xs text-white/50 group-hover:text-white/80 transition-colors">
+              <span className={`hidden sm:block text-xs transition-colors ${pillLabel}`}>
                 Search
               </span>
-              <kbd className="hidden lg:block rounded-md border border-white/15 px-1.5 py-0.5 text-[10px] text-white/40">
+              <kbd className={`hidden lg:block rounded-md border px-1.5 py-0.5 text-[10px] transition-colors ${kbdStyle}`}>
                 Ctrl K
               </kbd>
             </button>
 
-           <button
-                onClick={() => setCartOpen(true)}
-                aria-label="Shopping cart"
-                className="relative h-10 w-10 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none"
-                >
-                <ShoppingBag className="w-[16px] sm:w-[19px] h-[16px] sm:h-[19px]" />
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label="Shopping cart"
+              className={`relative h-10 w-10 rounded-lg flex items-center justify-center transition-colors focus:outline-none ${iconBtn}`}
+            >
+              <ShoppingBag className="w-[16px] sm:w-[19px] h-[16px] sm:h-[19px]" />
             </button>
 
             {/* Animated hamburger (mobile) */}
@@ -213,15 +246,15 @@ const [cartOpen, setCartOpen] = useState(false);
               onClick={() => setMobileMenuOpen((o) => !o)}
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
-              className="lg:hidden relative h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none"
+              className={`lg:hidden relative h-10 w-10 rounded-full transition-colors focus:outline-none ${burgerBtn}`}
             >
               <span
-                className={`absolute left-1/2 top-1/2 h-px w-4 sm:w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
+                className={`absolute left-1/2 top-1/2 h-px w-4 sm:w-5 -translate-x-1/2 ${burgerLine} transition-all duration-500 ${
                   mobileMenuOpen ? 'rotate-45 translate-y-0' : '-translate-y-[4px]'
                 }`}
               />
               <span
-                className={`absolute left-1/2 top-1/2 h-px w-4 sm:w-5 -translate-x-1/2 bg-white transition-all duration-500 ${
+                className={`absolute left-1/2 top-1/2 h-px w-4 sm:w-5 -translate-x-1/2 ${burgerLine} transition-all duration-500 ${
                   mobileMenuOpen ? '-rotate-45 translate-y-0' : 'translate-y-[4px]'
                 }`}
               />

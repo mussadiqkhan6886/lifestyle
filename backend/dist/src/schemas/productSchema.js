@@ -59,6 +59,7 @@ const productFields = {
     category: zod_1.default.string().trim().min(1, "Category is required"),
     description: zod_1.default.string().trim().min(1, "Description is required"),
     hotSeller: booleanFromForm,
+    preOrder: booleanFromForm,
 };
 exports.createProductSchema = zod_1.default.object({
     ...productFields,
@@ -71,6 +72,7 @@ exports.updateProductSchema = zod_1.default.object({
     category: productFields.category.optional(),
     description: productFields.description.optional(),
     hotSeller: booleanFromForm.optional(),
+    preOrder: booleanFromForm.optional(),
     variants: zod_1.default.array(variantSchema)
         .min(1, "At least one variant is required")
         .optional(),

@@ -134,3 +134,13 @@ model OrderItem {
   @@index([orderId])
   @@index([variantSku])
 }
+
+
+model PromoCode {
+  id             Int               @id @default(autoincrement())
+  code           String            @unique
+  discount       Int
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+}

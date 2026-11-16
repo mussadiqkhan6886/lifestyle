@@ -137,7 +137,8 @@ export type CreateOrderInput = {
     quantity: number
   }[]
   paymentMethod: PaymentMethod;
-paymentReference?: string;
+  paymentReference?: string;
+  promoCode?: string;
 }
 
 export type ContactPayload = {

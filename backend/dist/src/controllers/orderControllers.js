@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateOrder = exports.getSingleOrder = exports.getAllOrders = exports.createOrder = void 0;
 const prisma_1 = require("../config/prisma");
@@ -6,6 +9,8 @@ const orderSchema_1 = require("../schemas/orderSchema");
 const index_1 = require("../lib/helpers/index");
 const nodemailer_1 = require("../config/nodemailer");
 const orderEmail_1 = require("../lib/helpers/orderEmail");
+const cloudinary_1 = __importDefault(require("../config/cloudinary"));
+const uploadToCloudinary_1 = require("./../lib/helpers/uploadToCloudinary");
 class CheckoutError extends Error {
     constructor(statusCode, message) {
         super(message);
@@ -14,7 +19,18 @@ class CheckoutError extends Error {
     }
 }
 const createOrder = async (req, res) => {
-    const parsed = orderSchema_1.createOrderSchema.safeParse(req.body);
+    let orderData;
+    try {
+        orderData = JSON.parse(req.body.data);
+    }
+    catch {
+        res.status(400).json({
+            success: false,
+            message: "Invalid order data",
+        });
+        return;
+    }
+    const parsed = orderSchema_1.createOrderSchema.safeParse(orderData);
     if (!parsed.success) {
         console.log("Checkout validation errors:", parsed.error.flatten());
         res.status(400).json({
@@ -25,6 +41,23 @@ const createOrder = async (req, res) => {
         return;
     }
     const data = parsed.data;
+    const file = req.file;
+    const isOnlinePayment = data.paymentMethod !== "CASH_ON_DELIVERY";
+    if (isOnlinePayment && !file) {
+        res.status(400).json({
+            success: false,
+            message: "Please upload your payment screenshot",
+        });
+        return;
+    }
+    if (!isOnlinePayment && file) {
+        res.status(400).json({
+            success: false,
+            message: "Payment screenshot is not required for COD",
+        });
+        return;
+    }
+    let uploadedProof = null;
     try {
         // Return the existing order if the same checkout request is retried.
         const existingOrder = await prisma_1.prisma.order.findUnique({
@@ -48,6 +81,9 @@ const createOrder = async (req, res) => {
             sku,
             quantity,
         }));
+        if (file) {
+            uploadedProof = await (0, uploadToCloudinary_1.uploadToCloudinary)(file.buffer);
+        }
         const order = await prisma_1.prisma.$transaction(async (tx) => {
             const variants = await tx.variant.findMany({
                 where: {
@@ -61,6 +97,7 @@ const createOrder = async (req, res) => {
                             id: true,
                             name: true,
                             slug: true,
+                            preOrder: true,
                         },
                     },
                 },
@@ -95,6 +132,7 @@ const createOrder = async (req, res) => {
                     productName: variant.product.name,
                     productSlug: variant.product.slug,
                     variantSku: variant.sku,
+                    isPreOrder: variant.product.preOrder,
                     variantLabel: variant.label,
                     image: variant.images[0] ?? null,
                     unitPrice,
@@ -105,9 +143,22 @@ const createOrder = async (req, res) => {
             if (!Number.isSafeInteger(subtotal)) {
                 throw new CheckoutError(400, "Order amount is too large");
             }
-            // Free delivery is determined by the backend, never by the client.
-            const shippingCost = 0;
-            const total = subtotal + shippingCost;
+            const shippingCost = data.city.toLowerCase() === "lahore" ? 400 : 450;
+            let discount = 0;
+            if (data.promoCode && typeof data.promoCode === "string" && data.promoCode.trim()) {
+                const promo = await tx.promoCode.findUnique({
+                    where: { code: data.promoCode.trim().toUpperCase() },
+                });
+                if (promo) {
+                    discount = Math.round((subtotal * promo.discount) / 100);
+                }
+            }
+            const total = Math.max(0, subtotal - discount + shippingCost);
+            const ONLINE_PAYMENT_THRESHOLD = 30000;
+            if (total > ONLINE_PAYMENT_THRESHOLD &&
+                data.paymentMethod === "CASH_ON_DELIVERY") {
+                throw new CheckoutError(400, "Cash on Delivery is unavailable for orders above PKR 30,000. Please select online payment.");
+            }
             for (const item of requestedItems) {
                 const stockUpdate = await tx.variant.updateMany({
                     where: {
@@ -139,11 +190,15 @@ const createOrder = async (req, res) => {
                     province: data.province,
                     postalCode: data.postalCode || null,
                     customerNotes: data.customerNotes || null,
-                    paymentMethod: "CASH_ON_DELIVERY",
-                    paymentStatus: "UNPAID",
+                    paymentMethod: data.paymentMethod,
+                    paymentStatus: data.paymentMethod === "CASH_ON_DELIVERY"
+                        ? "UNPAID"
+                        : "PENDING_VERIFICATION",
+                    paymentProofUrl: uploadedProof?.url ?? null,
                     status: "PENDING",
                     subtotal,
                     shippingCost,
+                    discount,
                     total,
                     items: {
                         create: orderItems,
@@ -201,6 +256,11 @@ const createOrder = async (req, res) => {
                 });
                 return;
             }
+        }
+        if (uploadedProof) {
+            await cloudinary_1.default.uploader.destroy(uploadedProof.public_id).catch((cleanupError) => {
+                console.error("Payment proof cleanup failed:", cleanupError);
+            });
         }
         if (error instanceof Error) {
             res.status(500).json({

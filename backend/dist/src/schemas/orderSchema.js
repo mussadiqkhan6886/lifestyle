@@ -18,54 +18,35 @@ const pakistanPhoneSchema = zod_1.z
 });
 exports.createOrderSchema = zod_1.z.object({
     checkoutToken: zod_1.z.string().uuid(),
-    customerName: zod_1.z
-        .string()
-        .trim()
-        .min(2, "Name must contain at least 2 characters")
-        .max(100),
-    email: zod_1.z
-        .string()
+    customerName: zod_1.z.string().trim().min(2).max(100),
+    email: zod_1.z.string()
         .trim()
         .email("Enter a valid email address")
         .max(254)
         .optional()
         .or(zod_1.z.literal("")),
     phone: pakistanPhoneSchema,
-    addressLine1: zod_1.z
-        .string()
+    addressLine1: zod_1.z.string().trim().min(5).max(200),
+    addressLine2: zod_1.z.string().trim().max(200).optional().or(zod_1.z.literal("")),
+    city: zod_1.z.string().trim().min(2).max(80),
+    province: zod_1.z.string().trim().min(2).max(80),
+    postalCode: zod_1.z.string().trim().max(20).optional().or(zod_1.z.literal("")),
+    customerNotes: zod_1.z.string().trim().max(500).optional().or(zod_1.z.literal("")),
+    paymentMethod: zod_1.z.enum([
+        "CASH_ON_DELIVERY",
+        "BANK_TRANSFER",
+    ]),
+    paymentReference: zod_1.z.string()
         .trim()
-        .min(5, "Please enter a complete address")
-        .max(200),
-    addressLine2: zod_1.z
-        .string()
-        .trim()
-        .max(200)
+        .max(100)
         .optional()
         .or(zod_1.z.literal("")),
-    city: zod_1.z
-        .string()
+    promoCode: zod_1.z.string()
         .trim()
-        .min(2)
-        .max(80),
-    province: zod_1.z
-        .string()
-        .trim()
-        .min(2)
-        .max(80),
-    postalCode: zod_1.z
-        .string()
-        .trim()
-        .max(20)
+        .max(50)
         .optional()
         .or(zod_1.z.literal("")),
-    customerNotes: zod_1.z
-        .string()
-        .trim()
-        .max(500)
-        .optional()
-        .or(zod_1.z.literal("")),
-    items: zod_1.z
-        .array(zod_1.z.object({
+    items: zod_1.z.array(zod_1.z.object({
         sku: zod_1.z.string().trim().min(1).max(100),
         quantity: zod_1.z.number().int().min(1).max(20),
     }).strict())
@@ -96,6 +77,8 @@ exports.updateOrderSchema = zod_1.z.object({
     ]).optional(),
     paymentStatus: zod_1.z.enum([
         "UNPAID",
+        "PENDING_VERIFICATION",
         "PAID",
+        "REJECTED",
     ]).optional(),
 }).refine(data => data.status !== undefined || data.paymentStatus !== undefined, { message: "At least one field must be provided" });

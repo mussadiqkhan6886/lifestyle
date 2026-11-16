@@ -53,6 +53,12 @@ export const createOrderSchema = z.object({
     .optional()
     .or(z.literal("")),
 
+  promoCode: z.string()
+    .trim()
+    .max(50)
+    .optional()
+    .or(z.literal("")),
+
   items: z.array(
     z.object({
       sku: z.string().trim().min(1).max(100),

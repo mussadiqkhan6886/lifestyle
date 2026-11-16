@@ -48,7 +48,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defineExtension = exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.OrderItemScalarFieldEnum = exports.OrderScalarFieldEnum = exports.ReviewScalarFieldEnum = exports.VariantScalarFieldEnum = exports.ProductScalarFieldEnum = exports.AdminScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.prismaVersion = exports.getExtensionContext = exports.Decimal = exports.Sql = exports.raw = exports.join = exports.empty = exports.sql = exports.PrismaClientValidationError = exports.PrismaClientInitializationError = exports.PrismaClientRustPanicError = exports.PrismaClientUnknownRequestError = exports.PrismaClientKnownRequestError = void 0;
+exports.defineExtension = exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.PromoCodeScalarFieldEnum = exports.OrderItemScalarFieldEnum = exports.OrderScalarFieldEnum = exports.ReviewScalarFieldEnum = exports.VariantScalarFieldEnum = exports.ProductScalarFieldEnum = exports.AdminScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.prismaVersion = exports.getExtensionContext = exports.Decimal = exports.Sql = exports.raw = exports.join = exports.empty = exports.sql = exports.PrismaClientValidationError = exports.PrismaClientInitializationError = exports.PrismaClientRustPanicError = exports.PrismaClientUnknownRequestError = exports.PrismaClientKnownRequestError = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/client"));
 /**
  * Prisma Errors
@@ -108,7 +108,8 @@ exports.ModelName = {
     Variant: 'Variant',
     Review: 'Review',
     Order: 'Order',
-    OrderItem: 'OrderItem'
+    OrderItem: 'OrderItem',
+    PromoCode: 'PromoCode'
 };
 /**
  * Enums
@@ -132,7 +133,8 @@ exports.ProductScalarFieldEnum = {
     category: 'category',
     description: 'description',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    preOrder: 'preOrder'
 };
 exports.VariantScalarFieldEnum = {
     id: 'id',
@@ -167,6 +169,7 @@ exports.OrderScalarFieldEnum = {
     customerNotes: 'customerNotes',
     paymentMethod: 'paymentMethod',
     paymentStatus: 'paymentStatus',
+    paymentProofUrl: 'paymentProofUrl',
     status: 'status',
     subtotal: 'subtotal',
     shippingCost: 'shippingCost',
@@ -184,10 +187,18 @@ exports.OrderItemScalarFieldEnum = {
     variantSku: 'variantSku',
     variantLabel: 'variantLabel',
     image: 'image',
+    isPreOrder: 'isPreOrder',
     unitPrice: 'unitPrice',
     quantity: 'quantity',
     lineTotal: 'lineTotal',
     createdAt: 'createdAt'
+};
+exports.PromoCodeScalarFieldEnum = {
+    id: 'id',
+    code: 'code',
+    discount: 'discount',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.SortOrder = {
     asc: 'asc',

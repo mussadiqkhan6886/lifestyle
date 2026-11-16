@@ -80,6 +80,17 @@ useEffect(() => {
     clearCart,
   } = useCart()
 
+  const [promoInput, setPromoInput] = useState('')
+  const [appliedPromo, setAppliedPromo] = useState<{
+    code: string
+    discount: number
+  } | null>(null)
+  const [promoLoading, setPromoLoading] = useState(false)
+  const [promoMessage, setPromoMessage] = useState<{
+    type: 'success' | 'error'
+    text: string
+  } | null>(null)
+
   // Keep the same token if the user retries the same checkout.
   const checkoutToken = useRef<string | null>(null)
 
@@ -109,8 +120,60 @@ useEffect(() => {
 
   const city = watch('city')
   const shippingFee = city.trim().toLowerCase() === 'lahore' ? 400 : 450
-  const grandTotal = totalPrice + shippingFee
+  const discountAmount = appliedPromo
+    ? Math.round((totalPrice * appliedPromo.discount) / 100)
+    : 0
+  const grandTotal = Math.max(0, totalPrice - discountAmount + shippingFee)
   const requiresOnlinePayment = grandTotal  > 30000
+
+  const handleApplyPromo = async () => {
+    if (!promoInput.trim()) {
+      setPromoMessage({ type: 'error', text: 'Please enter a promo code' })
+      return
+    }
+
+    try {
+      setPromoLoading(true)
+      setPromoMessage(null)
+
+      const res = await fetch('/api/promos/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: promoInput.trim() }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Invalid promo code')
+      }
+
+      setAppliedPromo({
+        code: data.promo.code,
+        discount: data.promo.discount,
+      })
+      setPromoMessage({
+        type: 'success',
+        text: `Promo code "${data.promo.code}" applied! (${data.promo.discount}% off)`,
+      })
+      toast.success(`Promo code applied: ${data.promo.discount}% off!`)
+    } catch (err: any) {
+      setPromoMessage({
+        type: 'error',
+        text: err.message || 'Failed to apply promo code',
+      })
+      toast.error(err.message || 'Invalid promo code')
+    } finally {
+      setPromoLoading(false)
+    }
+  }
+
+  const handleRemovePromo = () => {
+    setAppliedPromo(null)
+    setPromoInput('')
+    setPromoMessage(null)
+    toast.info('Promo code removed')
+  }
   
   useEffect(() => {
     if (requiresOnlinePayment && selectedPaymentMethod === "CASH_ON_DELIVERY") {
@@ -132,6 +195,7 @@ useEffect(() => {
       const payload = {
             ...values,
             checkoutToken: checkoutToken.current,
+            promoCode: appliedPromo?.code,
 
             items: cart.map((item) => ({
               sku: item.variant.variantId,
@@ -662,6 +726,69 @@ useEffect(() => {
 
             <div className="my-7 border-t border-neutral-200" />
 
+            {/* Promo Code */}
+            <div className="space-y-2">
+              <label className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+                Promo Code
+              </label>
+              {appliedPromo ? (
+                <div className="flex items-center justify-between rounded border border-green-200 bg-green-50 p-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-green-900 tracking-wide">
+                      {appliedPromo.code}
+                    </span>
+                    <span className="text-xs text-green-700">
+                      ({appliedPromo.discount}% OFF)
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemovePromo}
+                    className="text-xs font-medium text-red-600 hover:text-red-800 underline"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Enter code"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault()
+                        handleApplyPromo()
+                      }
+                    }}
+                    className="flex-1 border border-neutral-300 px-3 py-2 text-sm uppercase placeholder:normal-case focus:border-neutral-900 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleApplyPromo}
+                    disabled={promoLoading || !promoInput.trim()}
+                    className="bg-neutral-900 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white hover:bg-neutral-800 disabled:opacity-50"
+                  >
+                    {promoLoading ? '...' : 'Apply'}
+                  </button>
+                </div>
+              )}
+              {promoMessage && (
+                <p
+                  className={`text-xs ${
+                    promoMessage.type === 'success'
+                      ? 'text-green-700'
+                      : 'text-red-600'
+                  }`}
+                >
+                  {promoMessage.text}
+                </p>
+              )}
+            </div>
+
+            <div className="my-6 border-t border-neutral-200" />
+
             <div className="space-y-4 text-sm">
 
               <div className="flex justify-between">
@@ -673,6 +800,13 @@ useEffect(() => {
                 <span className="text-neutral-500">Subtotal</span>
                 <span>PKR {totalPrice.toLocaleString()}</span>
               </div>
+
+              {appliedPromo && discountAmount > 0 && (
+                <div className="flex justify-between text-green-700 font-medium">
+                  <span>Discount ({appliedPromo.discount}%)</span>
+                  <span>-PKR {discountAmount.toLocaleString()}</span>
+                </div>
+              )}
 
               <div className="flex justify-between">
                 <span className="text-neutral-500">Shipping</span>

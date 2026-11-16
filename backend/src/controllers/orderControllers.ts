@@ -196,7 +196,18 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
         }
 
       const shippingCost = data.city.toLowerCase() === "lahore" ? 400 : 450
-      const total = subtotal + shippingCost
+
+      let discount = 0
+      if (data.promoCode && typeof data.promoCode === "string" && data.promoCode.trim()) {
+        const promo = await tx.promoCode.findUnique({
+          where: { code: data.promoCode.trim().toUpperCase() },
+        })
+        if (promo) {
+          discount = Math.round((subtotal * promo.discount) / 100)
+        }
+      }
+
+      const total = Math.max(0, subtotal - discount + shippingCost)
       const ONLINE_PAYMENT_THRESHOLD = 30000;
 
         if (
@@ -260,6 +271,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 
           subtotal,
           shippingCost,
+          discount,
           total,
 
           items: {

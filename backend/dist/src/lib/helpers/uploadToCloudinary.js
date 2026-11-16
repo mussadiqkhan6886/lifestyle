@@ -19,7 +19,10 @@ const uploadToCloudinary = (buffer) => {
                 reject(new Error("Cloudinary upload failed"));
                 return;
             }
-            resolve(result);
+            resolve({
+                url: result.secure_url,
+                public_id: result.public_id
+            });
         });
         stream.end(buffer);
     });
