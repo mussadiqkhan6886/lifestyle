@@ -96,7 +96,7 @@ const CollectionComp = ({ sort = "featured", collectionSlug }: CollectionProps) 
           </p>
         </section>
 
-        <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <section className="flex flex-row sm:items-center justify-between gap-4">
           <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">
             {isLoading
               ? "Loading..."
@@ -107,13 +107,13 @@ const CollectionComp = ({ sort = "featured", collectionSlug }: CollectionProps) 
         </section>
 
         {isLoading ? (
-          <section className="grid grid-cols-2 md:grid-cols-3 gap-y-8 md:gap-x-6 md:gap-y-12">
+          <section className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-1 md:gap-x-6 md:gap-y-12">
             {/* optional skeletons */}
           </section>
         ) : products.length > 0 ? (
-          <section className="grid grid-cols-2 md:grid-cols-3 gap-y-8 md:gap-x-6 md:gap-y-12">
+          <section className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-1 md:gap-x-6 md:gap-y-12">
             {products.map((item) => (
-              <ProductCard key={item.id} tag="row" {...item} />
+              <ProductCard key={item.id} tag="col" {...item} />
             ))}
           </section>
         ) : (
