@@ -107,11 +107,11 @@ const CollectionComp = ({ sort = "featured", collectionSlug }: CollectionProps) 
         </section>
 
         {isLoading ? (
-          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12">
+          <section className="grid grid-cols-2 md:grid-cols-3 gap-y-8 md:gap-x-6 md:gap-y-12">
             {/* optional skeletons */}
           </section>
         ) : products.length > 0 ? (
-          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-12">
+          <section className="grid grid-cols-2 md:grid-cols-3 gap-y-8 md:gap-x-6 md:gap-y-12">
             {products.map((item) => (
               <ProductCard key={item.id} tag="row" {...item} />
             ))}

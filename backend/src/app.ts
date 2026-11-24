@@ -13,7 +13,7 @@ import contactRoutes from "./routes/contactRoute"
 import promoRoutes from "./routes/promoRoute"
 
 const app : Express = express() 
-
+app.set("trust proxy", 1);
 app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(helmet())
