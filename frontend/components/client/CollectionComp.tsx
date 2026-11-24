@@ -96,7 +96,7 @@ const CollectionComp = ({ sort = "featured", collectionSlug }: CollectionProps) 
           </p>
         </section>
 
-        <section className="flex flex-row sm:items-center justify-between gap-4">
+        <section className="flex flex-row items-center justify-between gap-4">
           <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">
             {isLoading
               ? "Loading..."
